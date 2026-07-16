@@ -6,9 +6,11 @@ import { useRouter } from "next/navigation";
 import type {
   AdminMeal,
   AdminMealCreatePayload,
+  AdminIngredientConversionProfileOption,
   AdminMealMetadata,
   AdminMealPayload,
   AdminMealRecipeStep,
+  AdminMeasurementUnitOption,
   AdminMealUploadResponse,
   MealEstimatedCost,
   MealIngredient,
@@ -40,14 +42,70 @@ function createIngredientId() {
   return `ingredient_${crypto.randomUUID().replaceAll("-", "").slice(0, 10)}`;
 }
 
-function emptyIngredient(): MealIngredient {
+function fallbackMeasurementUnit(metadata?: AdminMealMetadata): AdminMeasurementUnitOption {
+  return (
+    metadata?.measurement_units[0] ?? {
+      code: "g",
+      display_name: "Gram (g)",
+      measurement_type: "weight",
+      canonical_unit: "g",
+      multiplier_to_canonical: 1,
+      is_fractional_allowed: true,
+      default_rounding_rule: "nearest_1",
+      aliases: ["g"],
+    }
+  );
+}
+
+function resolveIngredientMeasurementState(
+  ingredient: MealIngredient,
+  metadata: AdminMealMetadata,
+): MealIngredient {
+  const unitDefinition =
+    metadata.measurement_units.find(
+      (item) => item.code === ingredient.unit_code || item.code === ingredient.unit,
+    ) ?? fallbackMeasurementUnit(metadata);
+  const conversionProfile =
+    metadata.ingredient_conversion_profiles.find(
+      (item) => item.id === ingredient.conversion_profile_id && item.unit_code === unitDefinition.code,
+    ) ?? null;
+  const canonicalQuantity =
+    ingredient.quantity > 0
+      ? conversionProfile
+        ? ingredient.quantity * conversionProfile.canonical_quantity
+        : ingredient.quantity * unitDefinition.multiplier_to_canonical
+      : 0;
+
+  return {
+    ...ingredient,
+    unit: ingredient.unit?.trim() || unitDefinition.code,
+    measurement_type: ingredient.measurement_type ?? unitDefinition.measurement_type,
+    unit_code: unitDefinition.code,
+    canonical_quantity: canonicalQuantity,
+    canonical_unit: conversionProfile?.canonical_unit ?? unitDefinition.canonical_unit,
+    conversion_profile_id: conversionProfile?.id ?? null,
+    scaling_behavior:
+      ingredient.scaling_behavior ?? (unitDefinition.is_fractional_allowed ? "linear" : "discrete"),
+    rounding_rule: ingredient.rounding_rule ?? unitDefinition.default_rounding_rule,
+  };
+}
+
+function emptyIngredient(metadata?: AdminMealMetadata): MealIngredient {
+  const defaultUnit = fallbackMeasurementUnit(metadata);
   return {
     id: createIngredientId(),
     name: "",
     quantity: 0,
-    unit: "g",
+    unit: defaultUnit.code,
     optional: false,
     linked_product_ids: [],
+    measurement_type: defaultUnit.measurement_type,
+    unit_code: defaultUnit.code,
+    canonical_quantity: 0,
+    canonical_unit: defaultUnit.canonical_unit,
+    conversion_profile_id: null,
+    scaling_behavior: defaultUnit.is_fractional_allowed ? "linear" : "discrete",
+    rounding_rule: defaultUnit.default_rounding_rule,
   };
 }
 
@@ -261,7 +319,9 @@ export function MealForm({ metadata, role, mode, initialMeal }: MealFormProps) {
     initialMeal?.recipe_step_items.length ? initialMeal.recipe_step_items : [emptyRecipeStep()],
   );
   const [ingredientItems, setIngredientItems] = useState<MealIngredient[]>(
-    initialMeal?.ingredient_items.length ? initialMeal.ingredient_items : [emptyIngredient()],
+    initialMeal?.ingredient_items.length
+      ? initialMeal.ingredient_items.map((ingredient) => resolveIngredientMeasurementState(ingredient, metadata))
+      : [emptyIngredient(metadata)],
   );
   const [imageUrls, setImageUrls] = useState<string[]>(
     initialMeal?.image_urls?.length
@@ -297,6 +357,15 @@ export function MealForm({ metadata, role, mode, initialMeal }: MealFormProps) {
     () => new Map(Object.values(knownProducts).map((product) => [product.id, product.name])),
     [knownProducts],
   );
+  const conversionProfilesByUnit = useMemo(() => {
+    const mapping = new Map<string, AdminIngredientConversionProfileOption[]>();
+    metadata.ingredient_conversion_profiles.forEach((profile) => {
+      const current = mapping.get(profile.unit_code) ?? [];
+      current.push(profile);
+      mapping.set(profile.unit_code, current);
+    });
+    return mapping;
+  }, [metadata.ingredient_conversion_profiles]);
 
   function toggleSelection(value: string, setter: Dispatch<SetStateAction<string[]>>) {
     setter((current) =>
@@ -338,9 +407,38 @@ export function MealForm({ metadata, role, mode, initialMeal }: MealFormProps) {
     value: string | number | boolean | string[],
   ) {
     setIngredientItems((current) =>
-      current.map((entry, entryIndex) =>
-        entryIndex === index ? ({ ...entry, [key]: value } as MealIngredient) : entry,
-      ),
+      current.map((entry, entryIndex) => {
+        if (entryIndex !== index) {
+          return entry;
+        }
+        const next = { ...entry, [key]: value } as MealIngredient;
+        return resolveIngredientMeasurementState(next, metadata);
+      }),
+    );
+  }
+
+  function updateIngredientUnit(index: number, unitCode: string) {
+    const unitDefinition =
+      metadata.measurement_units.find((item) => item.code === unitCode) ?? fallbackMeasurementUnit(metadata);
+    setIngredientItems((current) =>
+      current.map((entry, entryIndex) => {
+        if (entryIndex !== index) {
+          return entry;
+        }
+        return resolveIngredientMeasurementState(
+          {
+            ...entry,
+            unit: unitDefinition.code,
+            unit_code: unitDefinition.code,
+            measurement_type: unitDefinition.measurement_type,
+            canonical_unit: unitDefinition.canonical_unit,
+            conversion_profile_id: null,
+            rounding_rule: unitDefinition.default_rounding_rule,
+            scaling_behavior: unitDefinition.is_fractional_allowed ? "linear" : "discrete",
+          },
+          metadata,
+        );
+      }),
     );
   }
 
@@ -423,11 +521,16 @@ export function MealForm({ metadata, role, mode, initialMeal }: MealFormProps) {
         }))
         .filter((step) => step.instruction),
       ingredient_items: ingredientItems.map((ingredient) => ({
-        ...ingredient,
-        id: ingredient.id.trim(),
-        name: ingredient.name.trim(),
-        unit: ingredient.unit.trim(),
-        linked_product_ids: ingredient.linked_product_ids.filter(Boolean),
+        ...resolveIngredientMeasurementState(
+          {
+            ...ingredient,
+            id: ingredient.id.trim(),
+            name: ingredient.name.trim(),
+            unit: ingredient.unit.trim(),
+            linked_product_ids: ingredient.linked_product_ids.filter(Boolean),
+          },
+          metadata,
+        ),
       })),
       chef_available: chefAvailable,
       is_active: isActive,
@@ -712,58 +815,73 @@ export function MealForm({ metadata, role, mode, initialMeal }: MealFormProps) {
           </div>
         </div>
 
-        <div className="app__admin-inlineGrid app__admin-inlineGrid--mealNutrition">
-          <label className="app__admin-field">
-            <span>Calories</span>
-            <input
-              className="app__admin-input"
-              type="number"
-              min="0"
-              value={nutritionSummary.calories}
-              onChange={(event) =>
-                setNutritionSummary((current) => ({ ...current, calories: Number(event.target.value) }))
-              }
-            />
-          </label>
-          <label className="app__admin-field">
-            <span>Protein (g)</span>
-            <input
-              className="app__admin-input"
-              type="number"
-              min="0"
-              step="0.1"
-              value={nutritionSummary.protein_g}
-              onChange={(event) =>
-                setNutritionSummary((current) => ({ ...current, protein_g: Number(event.target.value) }))
-              }
-            />
-          </label>
-          <label className="app__admin-field">
-            <span>Carbs (g)</span>
-            <input
-              className="app__admin-input"
-              type="number"
-              min="0"
-              step="0.1"
-              value={nutritionSummary.carbs_g}
-              onChange={(event) =>
-                setNutritionSummary((current) => ({ ...current, carbs_g: Number(event.target.value) }))
-              }
-            />
-          </label>
-          <label className="app__admin-field">
-            <span>Fat (g)</span>
-            <input
-              className="app__admin-input"
-              type="number"
-              min="0"
-              step="0.1"
-              value={nutritionSummary.fat_g}
-              onChange={(event) =>
-                setNutritionSummary((current) => ({ ...current, fat_g: Number(event.target.value) }))
-              }
-            />
-          </label>
+        <div className="app__admin-stack">
+          <div className="app__admin-inlineGrid app__admin-inlineGrid--mealNutrition">
+            <label className="app__admin-field">
+              <span>Calories</span>
+              <input
+                className="app__admin-input"
+                type="number"
+                min="0"
+                value={nutritionSummary.calories}
+                onChange={(event) =>
+                  setNutritionSummary((current) => ({
+                    ...current,
+                    calories: Number(event.target.value),
+                  }))
+                }
+              />
+            </label>
+            <label className="app__admin-field">
+              <span>Protein (g)</span>
+              <input
+                className="app__admin-input"
+                type="number"
+                min="0"
+                step="0.1"
+                value={nutritionSummary.protein_g}
+                onChange={(event) =>
+                  setNutritionSummary((current) => ({
+                    ...current,
+                    protein_g: Number(event.target.value),
+                  }))
+                }
+              />
+            </label>
+            <label className="app__admin-field">
+              <span>Carbs (g)</span>
+              <input
+                className="app__admin-input"
+                type="number"
+                min="0"
+                step="0.1"
+                value={nutritionSummary.carbs_g}
+                onChange={(event) =>
+                  setNutritionSummary((current) => ({
+                    ...current,
+                    carbs_g: Number(event.target.value),
+                  }))
+                }
+              />
+            </label>
+            <label className="app__admin-field">
+              <span>Fat (g)</span>
+              <input
+                className="app__admin-input"
+                type="number"
+                min="0"
+                step="0.1"
+                value={nutritionSummary.fat_g}
+                onChange={(event) =>
+                  setNutritionSummary((current) => ({
+                    ...current,
+                    fat_g: Number(event.target.value),
+                  }))
+                }
+              />
+            </label>
+          </div>
+          <p className="app__admin-inlineMeta">Meals are limited to calories, protein, carbs, and fat.</p>
         </div>
       </section>
 
@@ -835,7 +953,7 @@ export function MealForm({ metadata, role, mode, initialMeal }: MealFormProps) {
             <p className="app__admin-eyebrow">Ingredients</p>
             <h2>Ingredients and linked groceries</h2>
           </div>
-          <button type="button" className="app__admin-secondaryButton" onClick={() => setIngredientItems((current) => [...current, emptyIngredient()])}>
+          <button type="button" className="app__admin-secondaryButton" onClick={() => setIngredientItems((current) => [...current, emptyIngredient(metadata)])}>
             Add ingredient
           </button>
         </div>
@@ -855,12 +973,17 @@ export function MealForm({ metadata, role, mode, initialMeal }: MealFormProps) {
                 </label>
                 <label className="app__admin-field">
                   <span>Unit</span>
-                  <input
-                    className="app__admin-input"
-                    value={ingredient.unit}
-                    onChange={(event) => updateIngredient(index, "unit", event.target.value)}
-                    placeholder="g"
-                  />
+                  <select
+                    className="app__admin-select"
+                    value={ingredient.unit_code ?? ingredient.unit}
+                    onChange={(event) => updateIngredientUnit(index, event.target.value)}
+                  >
+                    {metadata.measurement_units.map((unit) => (
+                      <option key={unit.code} value={unit.code}>
+                        {unit.display_name}
+                      </option>
+                    ))}
+                  </select>
                 </label>
                 <label className="app__admin-field">
                   <span>Quantity</span>
@@ -872,6 +995,27 @@ export function MealForm({ metadata, role, mode, initialMeal }: MealFormProps) {
                     value={ingredient.quantity}
                     onChange={(event) => updateIngredient(index, "quantity", Number(event.target.value))}
                   />
+                </label>
+                <label className="app__admin-field">
+                  <span>Conversion profile</span>
+                  <select
+                    className="app__admin-select"
+                    value={ingredient.conversion_profile_id ?? ""}
+                    onChange={(event) =>
+                      updateIngredient(
+                        index,
+                        "conversion_profile_id",
+                        event.target.value || "",
+                      )
+                    }
+                  >
+                    <option value="">Use unit default</option>
+                    {(conversionProfilesByUnit.get(ingredient.unit_code ?? ingredient.unit) ?? []).map((profile) => (
+                      <option key={profile.id} value={profile.id}>
+                        {profile.name}
+                      </option>
+                    ))}
+                  </select>
                 </label>
 
                 <IngredientProductPicker
@@ -891,6 +1035,10 @@ export function MealForm({ metadata, role, mode, initialMeal }: MealFormProps) {
               </div>
 
               <div className="app__admin-inlineMeta">
+                {ingredient.canonical_quantity && ingredient.canonical_unit
+                  ? `Canonical: ${ingredient.canonical_quantity.toFixed(2).replace(/\.00$/, "")} ${ingredient.canonical_unit} · `
+                  : ""}
+                {ingredient.measurement_type ? `${ingredient.measurement_type} · ` : ""}
                 {ingredient.linked_product_ids.length
                   ? ingredient.linked_product_ids.map((productId) => linkedProductNames.get(productId) ?? productId).join(", ")
                   : "No products linked yet"}
