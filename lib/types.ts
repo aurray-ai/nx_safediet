@@ -82,6 +82,28 @@ export type MealProductOption = {
   img_url: string;
 };
 
+export type AdminMeasurementUnitOption = {
+  code: string;
+  display_name: string;
+  measurement_type: string;
+  canonical_unit: string;
+  multiplier_to_canonical: number;
+  is_fractional_allowed: boolean;
+  default_rounding_rule: string;
+  aliases: string[];
+};
+
+export type AdminIngredientConversionProfileOption = {
+  id: string;
+  name: string;
+  ingredient_name: string;
+  linked_product_ids: string[];
+  unit_code: string;
+  canonical_quantity: number;
+  canonical_unit: string;
+  notes: string;
+};
+
 export type MealNutritionSummary = {
   calories: number;
   protein_g: number;
@@ -102,6 +124,13 @@ export type MealIngredient = {
   unit: string;
   optional: boolean;
   linked_product_ids: string[];
+  measurement_type?: string | null;
+  unit_code?: string | null;
+  canonical_quantity?: number | null;
+  canonical_unit?: string | null;
+  conversion_profile_id?: string | null;
+  scaling_behavior?: string | null;
+  rounding_rule?: string | null;
 };
 
 export type AdminMealRecipeStep = {
@@ -117,6 +146,8 @@ export type AdminMealMetadata = {
   difficulties: MealDifficultyOption[];
   supported_countries: SupportedCountry[];
   products: MealProductOption[];
+  measurement_units: AdminMeasurementUnitOption[];
+  ingredient_conversion_profiles: AdminIngredientConversionProfileOption[];
 };
 
 export type NutritionSpec = {
