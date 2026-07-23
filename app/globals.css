@@ -1277,6 +1277,11 @@ textarea {
   color: #63705f;
 }
 
+.survey-public__required {
+  margin-left: 0.35rem;
+  color: #d9a43d;
+}
+
 .survey-public__brandRow,
 .survey-public__stateBrand {
   font-family: var(--sp-serif);
