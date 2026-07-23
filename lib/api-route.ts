@@ -84,6 +84,51 @@ export async function proxyJsonRequest({
   }
 }
 
+type ProxyPublicJsonRequestOptions = {
+  request?: Request;
+  path: string;
+  method: "GET" | "POST";
+  successStatus: number;
+  errorMessage: string;
+};
+
+export async function proxyPublicJsonRequest({
+  request,
+  path,
+  method,
+  successStatus,
+  errorMessage,
+}: ProxyPublicJsonRequestOptions) {
+  try {
+    const session = await getSession();
+    const body = request ? await request.text() : undefined;
+    const upstreamResponse = await fetch(`${API_BASE_URL}${path}`, {
+      method,
+      headers: {
+        ...(body ? { "Content-Type": "application/json" } : {}),
+        ...(session ? { Authorization: `Bearer ${session.accessToken}` } : {}),
+      },
+      body,
+      cache: "no-store",
+    });
+
+    const data = await parseUpstreamResponse(upstreamResponse);
+    if (!upstreamResponse.ok) {
+      return NextResponse.json(
+        { detail: data?.detail ?? errorMessage },
+        { status: upstreamResponse.status },
+      );
+    }
+
+    return NextResponse.json(data, { status: successStatus });
+  } catch (error) {
+    return NextResponse.json(
+      { detail: error instanceof Error ? error.message : errorMessage },
+      { status: 500 },
+    );
+  }
+}
+
 type ProxyMultipartRequestOptions = {
   request: Request;
   path: string;

@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useMemo, useState } from "react";
+import { useMemo, useRef, useState } from "react";
 
 const STEP_LABELS = ["Planning", "Goals", "Coverage", "Preferences", "Account"];
 
@@ -26,14 +26,6 @@ const CUISINES = [
   "Italian",
   "Mexican",
 ] as const;
-
-const STEP_IMAGES = [
-  "/assets/assets_1.png",
-  "/assets/assets_2.png",
-  "/assets/assets_3.png",
-  "/assets/assets_4.png",
-  "/assets/assets_4.png",
-];
 
 const PASSWORD_RULE = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$/;
 
@@ -74,6 +66,8 @@ type RegisterPayload = {
 
 type OnboardingFlowProps = {
   initialStep?: number;
+  redirectTo?: string;
+  initialEmail?: string;
 };
 
 const initialFormState: OnboardingFormState = {
@@ -117,13 +111,16 @@ function buildRegisterPayload(form: OnboardingFormState): RegisterPayload {
   };
 }
 
-export function OnboardingFlow({ initialStep = 0 }: OnboardingFlowProps) {
+export function OnboardingFlow({ initialStep = 0, redirectTo, initialEmail = "" }: OnboardingFlowProps) {
   const [stepIndex, setStepIndex] = useState(() => Math.min(Math.max(initialStep, 0), STEP_LABELS.length - 1));
-  const [form, setForm] = useState<OnboardingFormState>(initialFormState);
-  const [imageOverlayVisible, setImageOverlayVisible] = useState(false);
+  const [form, setForm] = useState<OnboardingFormState>(() => ({
+    ...initialFormState,
+    email: initialEmail,
+  }));
   const [isTransitioningStep, setIsTransitioningStep] = useState(false);
   const [isSubmittingRegistration, setIsSubmittingRegistration] = useState(false);
   const [submitError, setSubmitError] = useState("");
+  const shellRef = useRef<HTMLDivElement | null>(null);
 
   const isLastStep = stepIndex === STEP_LABELS.length - 1;
   const passwordIsValid = PASSWORD_RULE.test(form.password);
@@ -156,21 +153,12 @@ export function OnboardingFlow({ initialStep = 0 }: OnboardingFlowProps) {
     }
 
     setIsTransitioningStep(true);
-    setImageOverlayVisible(true);
 
     window.setTimeout(() => {
       setStepIndex(nextStepIndex);
-
-      window.requestAnimationFrame(() => {
-        window.setTimeout(() => {
-          setImageOverlayVisible(false);
-
-          window.setTimeout(() => {
-            setIsTransitioningStep(false);
-          }, 860);
-        }, 120);
-      });
-    }, 430);
+      shellRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+      setIsTransitioningStep(false);
+    }, 200);
   }
 
   async function handleContinue() {
@@ -192,7 +180,10 @@ export function OnboardingFlow({ initialStep = 0 }: OnboardingFlowProps) {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(buildRegisterPayload(form)),
+        body: JSON.stringify({
+          ...buildRegisterPayload(form),
+          redirectTo,
+        }),
       });
 
       const payload = (await response.json()) as { detail?: string; redirectTo?: string };
@@ -218,7 +209,7 @@ export function OnboardingFlow({ initialStep = 0 }: OnboardingFlowProps) {
 
   return (
     <section className="app__onboarding">
-      <div className="app__onboarding-shell">
+      <div className="app__onboarding-shell" ref={shellRef}>
         <div className="app__onboarding-topbar">
           <Link href="/" className="app__onboarding-homeLink">
             Back to home
@@ -249,7 +240,7 @@ export function OnboardingFlow({ initialStep = 0 }: OnboardingFlowProps) {
         </div>
 
         <div className="app__onboarding-body">
-          <div className="app__onboarding-panel">
+          <div className={`app__onboarding-panel ${isTransitioningStep ? "is-transitioning" : ""}`}>
             {stepIndex === 0 ? (
               <>
                 <p className="app__onboarding-eyebrow">Start planning</p>
@@ -546,20 +537,6 @@ export function OnboardingFlow({ initialStep = 0 }: OnboardingFlowProps) {
               </button>
             </div>
           </div>
-
-          <aside className="app__onboarding-visual" aria-hidden="true">
-            <div className="app__onboarding-visualMedia">
-              <img
-                key={stepIndex}
-                src={STEP_IMAGES[stepIndex]}
-                alt=""
-                className="app__onboarding-mainImage app__onboarding-mainImage--animated"
-              />
-              <div
-                className={`app__onboarding-imageOverlay ${imageOverlayVisible ? "is-visible" : ""}`}
-              />
-            </div>
-          </aside>
         </div>
       </div>
     </section>

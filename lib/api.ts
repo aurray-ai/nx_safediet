@@ -15,8 +15,15 @@ import type {
   AdminProduct,
   AdminProductListResponse,
   AdminRefundListResponse,
+  AdminSurvey,
+  AdminSurveyListResponse,
+  AdminSurveyResponseListResponse,
+  AdminSurveyTemplateListResponse,
   DeliveryFeeRuleListResponse,
   LoginResponse,
+  PublicSurvey,
+  SurveyAnalytics,
+  SurveySubmission,
 } from "@/lib/types";
 
 class SessionExpiredError extends Error {}
@@ -45,6 +52,12 @@ type AdminOrderQuery = {
   status?: string;
   before?: string;
   limit?: number;
+};
+
+type AdminSurveyQuery = {
+  search?: string;
+  page?: number;
+  pageSize?: number;
 };
 
 function buildQueryString(entries: Array<[string, string | number | boolean | null | undefined]>) {
@@ -398,4 +411,125 @@ export async function fetchAdminOrderRefunds(orderId: string): Promise<AdminRefu
     }
     throw error;
   }
+}
+
+export async function fetchAdminSurveys(query: AdminSurveyQuery = {}): Promise<AdminSurveyListResponse> {
+  const session = await getSession();
+  if (!session) {
+    redirect("/login");
+  }
+
+  const queryString = buildQueryString([
+    ["search", query.search?.trim() || undefined],
+    ["page", query.page ?? 1],
+    ["page_size", query.pageSize ?? 24],
+  ]);
+
+  try {
+    return await apiRequest<AdminSurveyListResponse>(`/admin/surveys${queryString}`, {
+      token: session.accessToken,
+    });
+  } catch (error) {
+    if (error instanceof SessionExpiredError) {
+      redirect("/login");
+    }
+    throw error;
+  }
+}
+
+export async function fetchAdminSurvey(surveyId: string): Promise<AdminSurvey> {
+  const session = await getSession();
+  if (!session) {
+    redirect("/login");
+  }
+
+  try {
+    return await apiRequest<AdminSurvey>(`/admin/surveys/${surveyId}`, {
+      token: session.accessToken,
+    });
+  } catch (error) {
+    if (error instanceof SessionExpiredError) {
+      redirect("/login");
+    }
+    throw error;
+  }
+}
+
+export async function fetchAdminSurveyTemplates(): Promise<AdminSurveyTemplateListResponse> {
+  const session = await getSession();
+  if (!session) {
+    redirect("/login");
+  }
+
+  try {
+    return await apiRequest<AdminSurveyTemplateListResponse>("/admin/surveys/templates", {
+      token: session.accessToken,
+    });
+  } catch (error) {
+    if (error instanceof SessionExpiredError) {
+      redirect("/login");
+    }
+    throw error;
+  }
+}
+
+export async function fetchAdminSurveyResponses(surveyId: string): Promise<AdminSurveyResponseListResponse> {
+  const session = await getSession();
+  if (!session) {
+    redirect("/login");
+  }
+
+  try {
+    return await apiRequest<AdminSurveyResponseListResponse>(`/admin/surveys/${surveyId}/responses`, {
+      token: session.accessToken,
+    });
+  } catch (error) {
+    if (error instanceof SessionExpiredError) {
+      redirect("/login");
+    }
+    throw error;
+  }
+}
+
+export async function fetchAdminSurveyResponse(
+  surveyId: string,
+  responseId: string,
+): Promise<SurveySubmission> {
+  const session = await getSession();
+  if (!session) {
+    redirect("/login");
+  }
+
+  try {
+    return await apiRequest<SurveySubmission>(`/admin/surveys/${surveyId}/responses/${responseId}`, {
+      token: session.accessToken,
+    });
+  } catch (error) {
+    if (error instanceof SessionExpiredError) {
+      redirect("/login");
+    }
+    throw error;
+  }
+}
+
+export async function fetchAdminSurveyAnalytics(surveyId: string): Promise<SurveyAnalytics> {
+  const session = await getSession();
+  if (!session) {
+    redirect("/login");
+  }
+
+  try {
+    return await apiRequest<SurveyAnalytics>(`/admin/surveys/${surveyId}/analytics`, {
+      token: session.accessToken,
+    });
+  } catch (error) {
+    if (error instanceof SessionExpiredError) {
+      redirect("/login");
+    }
+    throw error;
+  }
+}
+
+export async function fetchPublicSurvey(slug: string): Promise<PublicSurvey> {
+  return apiRequest<PublicSurvey>(`/surveys/${slug}`);
 }

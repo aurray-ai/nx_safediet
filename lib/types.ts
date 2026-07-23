@@ -21,6 +21,31 @@ export type AdminSession = {
   defaultDashboardHref: string;
 };
 
+export type HouseholdInvitationResponse = {
+  id: string;
+  household_id: string;
+  invited_by_user_id: string;
+  invitee_email: string;
+  invitee_user_id?: string | null;
+  display_name: string;
+  role: string;
+  status: string;
+  share_weight: number;
+  expires_at: string;
+  accepted_at?: string | null;
+  accepted_by_user_id?: string | null;
+  created_at: string;
+  updated_at: string;
+};
+
+export type HouseholdInvitationDetailResponse = {
+  invitation: HouseholdInvitationResponse;
+  household_name: string;
+  inviter_name: string;
+  requires_registration: boolean;
+  is_existing_user: boolean;
+};
+
 export type GroceryCategory = {
   id: string;
   slug: string;
@@ -497,4 +522,185 @@ export type AdminUploadAsset = {
 
 export type AdminUploadResponse = {
   items: AdminUploadAsset[];
+};
+
+export type SurveyStatus = "draft" | "published" | "closed";
+
+export type SurveyQuestionType =
+  | "short_text"
+  | "paragraph"
+  | "single_choice"
+  | "multiple_choice"
+  | "dropdown"
+  | "linear_scale"
+  | "email"
+  | "number"
+  | "date"
+  | "time";
+
+export type SurveySettings = {
+  is_public: boolean;
+  collect_email: boolean;
+  require_auth: boolean;
+  limit_one_response_per_user: boolean;
+  limit_one_response_per_email: boolean;
+  show_progress_bar: boolean;
+  shuffle_question_order: boolean;
+  confirmation_message: string;
+  accepting_responses: boolean;
+};
+
+export type SurveyTheme = {
+  accent_color: string;
+  header_image_url: string;
+  font_family: string;
+};
+
+export type SurveySection = {
+  id: string;
+  title: string;
+  description: string;
+  position: number;
+};
+
+export type SurveyQuestionOption = {
+  id: string;
+  label: string;
+  value: string;
+  position: number;
+};
+
+export type SurveyQuestionValidation = {
+  min_length?: number | null;
+  max_length?: number | null;
+  min_value?: number | null;
+  max_value?: number | null;
+  max_selections?: number | null;
+  regex?: string | null;
+};
+
+export type SurveyQuestionConfig = {
+  placeholder?: string | null;
+  allow_other: boolean;
+  scale_min?: number | null;
+  scale_max?: number | null;
+  scale_min_label?: string | null;
+  scale_max_label?: string | null;
+};
+
+export type SurveyQuestion = {
+  id: string;
+  section_id: string;
+  position: number;
+  type: SurveyQuestionType;
+  title: string;
+  description: string;
+  required: boolean;
+  options: SurveyQuestionOption[];
+  validation: SurveyQuestionValidation;
+  config: SurveyQuestionConfig;
+};
+
+export type AdminSurvey = {
+  id: string;
+  owner_user_id: string;
+  slug: string;
+  title: string;
+  description: string;
+  status: SurveyStatus;
+  settings: SurveySettings;
+  theme: SurveyTheme;
+  sections: SurveySection[];
+  questions: SurveyQuestion[];
+  version: number;
+  response_count: number;
+  published_at?: string | null;
+  closed_at?: string | null;
+  last_response_at?: string | null;
+  created_at: string;
+  updated_at: string;
+};
+
+export type AdminSurveyListResponse = {
+  items: AdminSurvey[];
+  total: number;
+  page: number;
+  page_size: number;
+};
+
+export type PublicSurvey = Omit<AdminSurvey, "owner_user_id">;
+
+export type SurveyAnswerSubmission = {
+  question_id: string;
+  value: unknown;
+};
+
+export type SurveyResponseSubmissionPayload = {
+  respondent_email?: string | null;
+  respondent_name?: string | null;
+  answers: SurveyAnswerSubmission[];
+};
+
+export type SurveySubmissionAnswer = {
+  question_id: string;
+  type: SurveyQuestionType;
+  value: unknown;
+};
+
+export type SurveyRespondent = {
+  user_id?: string | null;
+  email?: string | null;
+  name?: string | null;
+  user_agent?: string | null;
+};
+
+export type SurveySubmission = {
+  id: string;
+  survey_id: string;
+  survey_slug: string;
+  survey_version: number;
+  respondent: SurveyRespondent;
+  answers: SurveySubmissionAnswer[];
+  submitted_at: string;
+  created_at: string;
+};
+
+export type AdminSurveyResponseListResponse = {
+  items: SurveySubmission[];
+  total: number;
+  survey_id: string;
+};
+
+export type SurveyQuestionAnalytics = {
+  question_id: string;
+  title: string;
+  type: SurveyQuestionType;
+  response_count: number;
+  choice_counts: Record<string, number>;
+};
+
+export type SurveyAnalytics = {
+  survey_id: string;
+  total_responses: number;
+  latest_response_at?: string | null;
+  question_stats: SurveyQuestionAnalytics[];
+};
+
+export type SurveyTemplate = {
+  template_id: string;
+  name: string;
+  description: string;
+  survey: {
+    title: string;
+    slug: string;
+    description: string;
+    settings: SurveySettings;
+    theme: SurveyTheme;
+    sections: SurveySection[];
+    questions: SurveyQuestion[];
+  };
+};
+
+export type AdminSurveyTemplateListResponse = {
+  items: SurveyTemplate[];
 };
