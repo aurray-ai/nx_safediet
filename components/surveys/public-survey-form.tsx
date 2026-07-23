@@ -22,6 +22,16 @@ function renderQuestionValue(value: unknown): string {
 
 const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
+function isAnswerFilled(question: SurveyQuestion, value: unknown): boolean {
+  if (question.type === "multiple_choice") {
+    return Array.isArray(value) && value.length > 0;
+  }
+  if (question.type === "linear_scale") {
+    return typeof value === "number";
+  }
+  return typeof value === "string" && value.trim().length > 0;
+}
+
 export function PublicSurveyForm({ survey }: PublicSurveyFormProps) {
   const router = useRouter();
   const [started, setStarted] = useState(false);
@@ -49,6 +59,7 @@ export function PublicSurveyForm({ survey }: PublicSurveyFormProps) {
   const progress = orderedQuestions.length > 0 ? Math.round(((stepIndex + 1) / orderedQuestions.length) * 100) : 0;
   const emailIsValid = EMAIL_PATTERN.test(respondentEmail.trim());
   const canStartSurvey = !survey.settings.collect_email || emailIsValid;
+  const currentAnswerIsFilled = activeQuestion ? isAnswerFilled(activeQuestion, answers[activeQuestion.id]) : false;
 
   function updateAnswer(questionId: string, value: unknown) {
     setAnswers((current) => ({ ...current, [questionId]: value }));
@@ -162,7 +173,12 @@ export function PublicSurveyForm({ survey }: PublicSurveyFormProps) {
         </div>
 
         <div className="survey-public__questionBlock">
-          <h2>{activeQuestion.title}</h2>
+          <h2>
+            {activeQuestion.title}
+            <span className="survey-public__required" aria-hidden="true">
+              *
+            </span>
+          </h2>
           <p>{activeQuestion.description || "Select the option that best represents you."}</p>
         </div>
 
@@ -295,11 +311,17 @@ export function PublicSurveyForm({ survey }: PublicSurveyFormProps) {
               type="button"
               className="survey-public__primaryButton"
               onClick={() => setStepIndex((current) => Math.min(orderedQuestions.length - 1, current + 1))}
+              disabled={!currentAnswerIsFilled}
             >
               Continue
             </button>
           ) : (
-            <button type="button" className="survey-public__primaryButton" onClick={handleSubmit} disabled={isSubmitting}>
+            <button
+              type="button"
+              className="survey-public__primaryButton"
+              onClick={handleSubmit}
+              disabled={isSubmitting || !currentAnswerIsFilled}
+            >
               {isSubmitting ? "Submitting..." : "Submit"}
             </button>
           )}
