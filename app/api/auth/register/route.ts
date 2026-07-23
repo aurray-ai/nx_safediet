@@ -6,6 +6,17 @@ import { registerCustomer } from "@/lib/api";
 import { getDashboardHrefForRole, resolveDashboardRole } from "@/lib/roles";
 import type { AdminSession } from "@/lib/types";
 
+function normalizeRedirectTo(value: string | undefined): string | null {
+  if (!value) {
+    return null;
+  }
+  const normalized = value.trim();
+  if (!normalized.startsWith("/") || normalized.startsWith("//")) {
+    return null;
+  }
+  return normalized;
+}
+
 export async function POST(request: Request) {
   try {
     const payload = (await request.json()) as {
@@ -14,6 +25,7 @@ export async function POST(request: Request) {
       password?: string;
       user_types?: string[];
       user_configuration?: Record<string, unknown>;
+      redirectTo?: string;
     };
 
     if (!payload.name || !payload.email || !payload.password) {
@@ -55,6 +67,7 @@ export async function POST(request: Request) {
     }
 
     const defaultDashboardHref = getDashboardHrefForRole(activeRole);
+    const redirectTo = normalizeRedirectTo(payload.redirectTo) ?? "/account-setup";
     const session: AdminSession = {
       accessToken: result.access_token,
       tokenType: result.token_type,
@@ -71,7 +84,7 @@ export async function POST(request: Request) {
       maxAge: 60 * 60 * 24 * 7,
     });
 
-    return NextResponse.json({ ok: true, redirectTo: "/account-setup" });
+    return NextResponse.json({ ok: true, redirectTo });
   } catch (error) {
     return NextResponse.json(
       { detail: error instanceof Error ? error.message : "Unable to create account." },

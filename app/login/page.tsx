@@ -2,7 +2,14 @@ import Link from "next/link";
 
 import { LoginForm } from "@/components/auth/login-form";
 
-export default function LoginPage() {
+type LoginPageProps = {
+  searchParams?: {
+    redirectTo?: string;
+    email?: string;
+  };
+};
+
+export default function LoginPage({ searchParams }: LoginPageProps) {
   return (
     <section className="app__auth section__padding">
       <Link href="/" className="app__auth-homeLink">
@@ -22,7 +29,10 @@ export default function LoginPage() {
               Use the same customer account you created during onboarding.
             </p> */}
 
-            <LoginForm />
+            <LoginForm
+              redirectTo={searchParams?.redirectTo}
+              initialEmail={searchParams?.email}
+            />
 
             <div className="app__auth-meta">
               <p className="app__auth-helper">

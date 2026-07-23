@@ -43,6 +43,7 @@ const ROLE_CONFIGS: Record<DashboardRole, DashboardRoleConfig> = {
       { href: "/dashboard/admin/delivery-fees", label: "Delivery fees" },
       { href: "/dashboard/admin/meals", label: "Meals" },
       { href: "/dashboard/admin/promotions", label: "Promotions" },
+      { href: "/dashboard/admin/surveys", label: "Surveys" },
     ],
   },
   user: {

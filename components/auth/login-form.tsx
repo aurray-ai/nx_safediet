@@ -4,9 +4,14 @@ import { useState } from "react";
 import type { Route } from "next";
 import { useRouter } from "next/navigation";
 
-export function LoginForm() {
+type LoginFormProps = {
+  redirectTo?: string;
+  initialEmail?: string;
+};
+
+export function LoginForm({ redirectTo, initialEmail = "" }: LoginFormProps) {
   const router = useRouter();
-  const [email, setEmail] = useState("");
+  const [email, setEmail] = useState(initialEmail);
   const [password, setPassword] = useState("");
   const [error, setError] = useState<string | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -22,7 +27,7 @@ export function LoginForm() {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ email, password }),
+        body: JSON.stringify({ email, password, redirectTo }),
       });
 
       const payload = (await response.json()) as { detail?: string; redirectTo?: string };

@@ -6,9 +6,20 @@ import { loginAdmin } from "@/lib/api";
 import { getDashboardHrefForRole, resolveDashboardRole } from "@/lib/roles";
 import type { AdminSession } from "@/lib/types";
 
+function normalizeRedirectTo(value: string | undefined): string | null {
+  if (!value) {
+    return null;
+  }
+  const normalized = value.trim();
+  if (!normalized.startsWith("/") || normalized.startsWith("//")) {
+    return null;
+  }
+  return normalized;
+}
+
 export async function POST(request: Request) {
   try {
-    const payload = (await request.json()) as { email?: string; password?: string };
+    const payload = (await request.json()) as { email?: string; password?: string; redirectTo?: string };
 
     if (!payload.email || !payload.password) {
       return NextResponse.json(
@@ -27,6 +38,7 @@ export async function POST(request: Request) {
     }
 
     const defaultDashboardHref = getDashboardHrefForRole(activeRole);
+    const redirectTo = normalizeRedirectTo(payload.redirectTo) ?? defaultDashboardHref;
     const session: AdminSession = {
       accessToken: result.access_token,
       tokenType: result.token_type,
@@ -43,7 +55,7 @@ export async function POST(request: Request) {
       maxAge: 60 * 60 * 24 * 7,
     });
 
-    return NextResponse.json({ ok: true, redirectTo: defaultDashboardHref, role: activeRole });
+    return NextResponse.json({ ok: true, redirectTo, role: activeRole });
   } catch (error) {
     return NextResponse.json(
       { detail: error instanceof Error ? error.message : "Unable to sign in." },
