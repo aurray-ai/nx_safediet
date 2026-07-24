@@ -3496,6 +3496,27 @@ a {
   padding: 1rem 1.1rem;
 }
 
+.app__admin-pagination {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.85rem;
+  padding: 0 1.1rem;
+}
+
+.app__admin-paginationActions {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  flex-wrap: wrap;
+}
+
+.app__admin-paginationButton.is-disabled {
+  cursor: default;
+  pointer-events: none;
+  opacity: 0.55;
+}
+
 .app__admin-groceriesSearch {
   display: grid;
   grid-template-columns: minmax(0, 1fr) 220px auto;
