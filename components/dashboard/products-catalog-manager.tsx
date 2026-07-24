@@ -13,6 +13,8 @@ type ProductsCatalogManagerProps = {
   activeCount: number;
   role: string;
   search: string;
+  page: number;
+  pageSize: number;
 };
 
 export function ProductsCatalogManager({
@@ -21,16 +23,34 @@ export function ProductsCatalogManager({
   activeCount,
   role,
   search,
+  page,
+  pageSize,
 }: ProductsCatalogManagerProps) {
   const router = useRouter();
   const [selectedProductIds, setSelectedProductIds] = useState<string[]>([]);
   const [isDeletingSelected, setIsDeletingSelected] = useState(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const totalPages = Math.max(1, Math.ceil(total / pageSize));
+  const currentPage = Math.min(page, totalPages);
+  const pageStart = total === 0 ? 0 : (currentPage - 1) * pageSize + 1;
+  const pageEnd = total === 0 ? 0 : Math.min(currentPage * pageSize, total);
 
   const allVisibleSelected = useMemo(
     () => items.length > 0 && items.every((product) => selectedProductIds.includes(product.id)),
     [items, selectedProductIds]
   );
+
+  function buildPageHref(nextPage: number): Route {
+    const params = new URLSearchParams();
+    if (search) {
+      params.set("search", search);
+    }
+    if (nextPage > 1) {
+      params.set("page", String(nextPage));
+    }
+    const query = params.toString();
+    return `/dashboard/${role}/products${query ? `?${query}` : ""}` as Route;
+  }
 
   function toggleSelection(productId: string) {
     setErrorMessage(null);
@@ -117,7 +137,9 @@ export function ProductsCatalogManager({
         </div>
 
         <div className="app__admin-groceriesActions">
-          <span className="app__admin-inlineMeta">{total} items</span>
+          <span className="app__admin-inlineMeta">
+            {total} items · Showing {pageStart}-{pageEnd}
+          </span>
           {selectedProductIds.length > 0 ? (
             <>
               <button
@@ -262,6 +284,34 @@ export function ProductsCatalogManager({
           })}
         </section>
       )}
+
+      {totalPages > 1 ? (
+        <section className="app__admin-pagination">
+          <span className="app__admin-inlineMeta">
+            Page {currentPage} of {totalPages}
+          </span>
+          <div className="app__admin-paginationActions">
+            {currentPage > 1 ? (
+              <Link href={buildPageHref(currentPage - 1)} className="app__admin-secondaryButton">
+                Previous
+              </Link>
+            ) : (
+              <span className="app__admin-secondaryButton app__admin-paginationButton is-disabled">
+                Previous
+              </span>
+            )}
+            {currentPage < totalPages ? (
+              <Link href={buildPageHref(currentPage + 1)} className="app__admin-primaryButton">
+                Next
+              </Link>
+            ) : (
+              <span className="app__admin-primaryButton app__admin-paginationButton is-disabled">
+                Next
+              </span>
+            )}
+          </div>
+        </section>
+      ) : null}
     </>
   );
 }
