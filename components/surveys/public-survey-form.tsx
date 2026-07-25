@@ -62,10 +62,33 @@ export function PublicSurveyForm({ survey }: PublicSurveyFormProps) {
   const currentAnswerIsFilled = activeQuestion ? isAnswerFilled(activeQuestion, answers[activeQuestion.id]) : false;
 
   function updateAnswer(questionId: string, value: unknown) {
+    setError(null);
     setAnswers((current) => ({ ...current, [questionId]: value }));
   }
 
+  function goToStep(nextIndex: number) {
+    setError(null);
+    setStepIndex(nextIndex);
+  }
+
+  function handleBack() {
+    goToStep(Math.max(0, stepIndex - 1));
+  }
+
+  function handleContinue() {
+    if (!currentAnswerIsFilled) {
+      setError("Please answer this question before continuing.");
+      return;
+    }
+    goToStep(Math.min(orderedQuestions.length - 1, stepIndex + 1));
+  }
+
   async function handleSubmit() {
+    if (!currentAnswerIsFilled) {
+      setError("Please answer this question before submitting.");
+      return;
+    }
+
     setIsSubmitting(true);
     setError(null);
 
@@ -301,18 +324,13 @@ export function PublicSurveyForm({ survey }: PublicSurveyFormProps) {
           <button
             type="button"
             className="survey-public__secondaryButton"
-            onClick={() => setStepIndex((current) => Math.max(0, current - 1))}
+            onClick={handleBack}
             disabled={stepIndex === 0 || isSubmitting}
           >
             Back
           </button>
           {stepIndex < orderedQuestions.length - 1 ? (
-            <button
-              type="button"
-              className="survey-public__primaryButton"
-              onClick={() => setStepIndex((current) => Math.min(orderedQuestions.length - 1, current + 1))}
-              disabled={!currentAnswerIsFilled}
-            >
+            <button type="button" className="survey-public__primaryButton" onClick={handleContinue}>
               Continue
             </button>
           ) : (
@@ -320,7 +338,7 @@ export function PublicSurveyForm({ survey }: PublicSurveyFormProps) {
               type="button"
               className="survey-public__primaryButton"
               onClick={handleSubmit}
-              disabled={isSubmitting || !currentAnswerIsFilled}
+              disabled={isSubmitting}
             >
               {isSubmitting ? "Submitting..." : "Submit"}
             </button>

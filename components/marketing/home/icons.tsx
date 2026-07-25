@@ -167,3 +167,59 @@ export function IconClose({ className, style }: IconProps) {
     </svg>
   );
 }
+
+export function IconHousehold({ className, style }: IconProps) {
+  return (
+    <svg className={className} style={style} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6">
+      <circle cx="8.5" cy="8" r="2.6" />
+      <path d="M3 19c0-2.8 2.5-4.8 5.5-4.8s5.5 2 5.5 4.8" strokeLinecap="round" />
+      <circle cx="16.5" cy="7" r="2.1" />
+      <path d="M15 12.6c2.4.2 4.5 2 4.5 4.4" strokeLinecap="round" />
+    </svg>
+  );
+}
+
+export function IconHouse({ className, style }: IconProps) {
+  return (
+    <svg className={className} style={style} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6">
+      <path d="M4 11.5 12 4l8 7.5" strokeLinecap="round" strokeLinejoin="round" />
+      <path d="M6 10v9h12v-9" strokeLinecap="round" strokeLinejoin="round" />
+      <path d="M10 19v-5h4v5" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+  );
+}
+
+export function IconPersonPlus({ className, style }: IconProps) {
+  return (
+    <svg className={className} style={style} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6">
+      <circle cx="9" cy="8" r="3.2" />
+      <path d="M2.5 19c0-3.5 3-6 6.5-6s6.5 2.5 6.5 6" strokeLinecap="round" />
+      <path d="M18.5 8v5.5M15.75 10.75h5.5" strokeLinecap="round" />
+    </svg>
+  );
+}
+
+export function IconBarChart({ className, style }: IconProps) {
+  return (
+    <svg className={className} style={style} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6">
+      <path d="M5 19V11M12 19V5M19 19v-6" strokeLinecap="round" />
+    </svg>
+  );
+}
+
+export function IconArrowRight({ className, style }: IconProps) {
+  return (
+    <svg className={className} style={style} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8">
+      <path d="M4 12h15.5M13.5 5.5 20 12l-6.5 6.5" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+  );
+}
+
+export function IconCircleArrow({ className, style }: IconProps) {
+  return (
+    <svg className={className} style={style} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6">
+      <circle cx="12" cy="12" r="9" />
+      <path d="M10 8.5 13.5 12 10 15.5" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+  );
+}

@@ -5,7 +5,7 @@ import { HomeHero } from "@/components/marketing/home/home-hero";
 import { HomeHowItWorks } from "@/components/marketing/home/home-how-it-works";
 import styles from "@/components/marketing/home/home.module.css";
 import { HomeNavbar } from "@/components/marketing/home/home-navbar";
-import { HomePress } from "@/components/marketing/home/home-press";
+import { HomeSharedBudget } from "@/components/marketing/home/home-shared-budget";
 import { HomeWeeklyPlan } from "@/components/marketing/home/home-weekly-plan";
 
 export default function HomePage() {
@@ -14,9 +14,9 @@ export default function HomePage() {
       <HomeNavbar />
       <main>
         <HomeHero />
-        <HomePress />
         <HomeHowItWorks />
         <HomeWeeklyPlan />
+        <HomeSharedBudget />
         <HomeFeaturedMeals />
         <HomeFinalCta />
       </main>

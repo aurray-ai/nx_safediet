@@ -1,5 +1,7 @@
+import Image from "next/image";
 import Link from "next/link";
 
+import { LeafBranch, SwirlRing } from "./decor";
 import styles from "./home.module.css";
 import {
   IconBasket,
@@ -12,7 +14,6 @@ import {
   IconSparkle,
   IconWallet,
 } from "./icons";
-import { PlateIcon } from "./plate-icon";
 import { weekPlan } from "./plan-data";
 
 const STARS = [0, 1, 2, 3, 4];
@@ -20,7 +21,13 @@ const STARS = [0, 1, 2, 3, 4];
 export function HomeHero() {
   return (
     <section className={styles.hero} id="home">
-      <div className={`${styles.wrap} ${styles.heroGrid}`}>
+      <div className={styles.wrap}>
+        <div className={styles.heroDecor} aria-hidden="true">
+          <SwirlRing style={{ position: "absolute", right: "2%", top: "-160px", width: 440, height: 440, opacity: 0.5 }} />
+          <LeafBranch style={{ position: "absolute", right: "-6px", top: "20px", width: 84, height: 320, opacity: 0.55 }} />
+        </div>
+
+        <div className={styles.heroGrid}>
         <div>
           <span className={styles.eyebrowPill}>AI Meal Planner</span>
           <h1 className={styles.heroTitle}>
@@ -130,12 +137,14 @@ export function HomeHero() {
 
           <div className={styles.miniGrid}>
             <div className={styles.miniGridInner}>
-              {weekPlan.map((day, dayIndex) => (
+              {weekPlan.map((day) => (
                 <div className={styles.miniDayCol} key={day.day}>
                   <div className={styles.miniDayLabel}>{day.day}</div>
-                  {[day.breakfast, day.lunch, day.dinner].map((meal, mealIndex) => (
+                  {[day.breakfast, day.lunch, day.dinner].map((meal) => (
                     <div className={styles.miniMealCell} key={meal.name}>
-                      <PlateIcon seed={dayIndex * 3 + mealIndex} className={styles.miniPlate} />
+                      <div className={styles.miniPlate}>
+                        <Image src={meal.image} alt={meal.name} fill sizes="34px" style={{ objectFit: "cover" }} />
+                      </div>
                       <span className={styles.miniMealName}>{meal.name}</span>
                       <span className={styles.miniMealKcal}>{meal.kcal} kcal</span>
                     </div>
@@ -151,6 +160,7 @@ export function HomeHero() {
               Great job! You&apos;re hitting your goals and staying within budget.
             </span>
           </div>
+        </div>
         </div>
       </div>
     </section>

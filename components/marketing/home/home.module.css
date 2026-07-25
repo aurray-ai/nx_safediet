@@ -38,6 +38,7 @@
 }
 
 .wrap {
+  position: relative;
   max-width: 1240px;
   margin: 0 auto;
   padding: 0 32px;
@@ -227,7 +228,18 @@
   padding: 64px 0 88px;
 }
 
+.heroDecor {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  color: var(--forest);
+  overflow: hidden;
+}
+
 .heroGrid {
+  position: relative;
+  z-index: 1;
   display: grid;
   grid-template-columns: minmax(320px, 460px) 1fr;
   gap: 56px;
@@ -558,33 +570,6 @@
   text-underline-offset: 3px;
 }
 
-/* ---------- press strip ---------- */
-.pressStrip {
-  padding: 8px 0 56px;
-}
-
-.pressRow {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 26px;
-  flex-wrap: wrap;
-  padding-top: 28px;
-  border-top: 1px solid var(--line);
-}
-
-.pressLogos {
-  display: flex;
-  gap: 38px;
-  flex-wrap: wrap;
-}
-
-.pressLogos span {
-  font-family: var(--serif);
-  font-size: 1.05rem;
-  color: var(--ink-faint);
-}
-
 /* ---------- sections ---------- */
 .section {
   padding: 80px 0;
@@ -810,8 +795,8 @@
 }
 
 .planPlate {
-  width: 46px;
-  height: 46px;
+  width: 62px;
+  height: 62px;
   border-radius: 50%;
   position: relative;
   background: var(--cream);
@@ -825,14 +810,14 @@
 }
 
 .planMealName {
-  font-size: 0.72rem;
+  font-size: 0.78rem;
   font-weight: 600;
   line-height: 1.2;
-  max-width: 88px;
+  max-width: 104px;
 }
 
 .planMealKcal {
-  font-size: 0.66rem;
+  font-size: 0.7rem;
   color: var(--ink-faint);
 }
 
@@ -932,20 +917,17 @@
 }
 
 .mealCardPlate {
-  height: 160px;
-  display: grid;
-  place-items: center;
+  height: 190px;
   position: relative;
   background: var(--cream);
+  overflow: hidden;
 }
 
 .mealCardPlateIcon {
-  width: 96px;
-  height: 96px;
-  border-radius: 50%;
+  width: 100%;
+  height: 100%;
   position: relative;
-  background: var(--surface);
-  border: 1px solid var(--line);
+  background: var(--icon-bg);
   overflow: hidden;
 }
 
@@ -1175,4 +1157,596 @@
   color: var(--ink-faint);
   flex-wrap: wrap;
   gap: 10px;
+}
+
+/* ---------- shared budget ---------- */
+.sharedBudget {
+  position: relative;
+  overflow: hidden;
+}
+
+.sharedBudgetDecor {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  color: var(--forest);
+  opacity: 0.35;
+}
+
+.sharedBudgetGrid {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: minmax(320px, 480px) 1fr;
+  gap: 56px;
+  align-items: center;
+}
+
+@media (max-width: 980px) {
+  .sharedBudgetGrid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.sharedBudgetEyebrowRow {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.sharedBudgetEyebrowRow svg {
+  width: 18px;
+  height: 18px;
+  color: var(--gold);
+}
+
+.sharedBudgetTitle {
+  font-family: var(--serif);
+  font-weight: 500;
+  font-size: clamp(2.2rem, 3.6vw, 3.1rem);
+  line-height: 1.06;
+  letter-spacing: -0.01em;
+  margin-top: 14px;
+  color: var(--ink);
+  text-wrap: balance;
+}
+
+.sharedBudgetTitle em {
+  font-style: normal;
+  color: var(--forest-deep);
+  display: block;
+}
+
+.sharedBudgetSub {
+  margin-top: 18px;
+  max-width: 46ch;
+  color: var(--ink-soft);
+  font-size: 1.02rem;
+}
+
+.featureList {
+  margin-top: 30px;
+  border-top: 1px solid var(--line);
+}
+
+.featureItem {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  padding: 18px 0;
+  border-bottom: 1px solid var(--line);
+}
+
+.featureIconWrap {
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  background: var(--icon-bg);
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+}
+
+.featureIconWrap svg {
+  width: 22px;
+  height: 22px;
+  color: var(--forest-deep);
+}
+
+.featureItem h3 {
+  font-family: var(--serif);
+  font-weight: 500;
+  font-size: 1.04rem;
+  margin: 0 0 4px;
+  color: var(--ink);
+}
+
+.featureItem p {
+  font-size: 0.9rem;
+  color: var(--ink-soft);
+  margin: 0;
+}
+
+.sharedBudgetCtas {
+  display: flex;
+  align-items: center;
+  gap: 22px;
+  margin-top: 30px;
+  flex-wrap: wrap;
+}
+
+.secondaryLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--forest-deep);
+  font-weight: 600;
+  font-size: 0.95rem;
+}
+
+.secondaryLink svg {
+  width: 18px;
+  height: 18px;
+}
+
+/* household card */
+.householdCard {
+  position: relative;
+  z-index: 1;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-lg);
+  box-shadow: 0 30px 60px -32px rgba(var(--shadow), 0.4);
+  overflow: hidden;
+}
+
+.householdHead {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 22px 24px;
+  border-bottom: 1px solid var(--line);
+}
+
+.householdIcon {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: var(--forest);
+  color: var(--surface);
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+}
+
+.householdIcon svg {
+  width: 22px;
+  height: 22px;
+}
+
+.householdHeadText {
+  flex: 1;
+}
+
+.householdHeadText h3 {
+  font-family: var(--serif);
+  font-weight: 500;
+  font-size: 1.08rem;
+  margin: 0;
+  color: var(--ink);
+}
+
+.householdHeadText span {
+  font-size: 0.8rem;
+  color: var(--ink-soft);
+}
+
+.householdStats {
+  display: flex;
+  align-items: center;
+  gap: 22px;
+  padding: 20px 24px;
+  border-bottom: 1px solid var(--line);
+}
+
+.statBlock .label {
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--ink-soft);
+}
+
+.statBlock .value {
+  font-family: var(--sans, inherit);
+  font-weight: 700;
+  font-size: 1.4rem;
+  margin-top: 4px;
+  font-variant-numeric: tabular-nums;
+  color: var(--ink);
+}
+
+.statBlock .value.accent {
+  color: var(--forest);
+}
+
+.statBlock .meta {
+  font-size: 0.78rem;
+  color: var(--ink-faint);
+  margin-top: 1px;
+}
+
+.statDivider {
+  width: 1px;
+  align-self: stretch;
+  background: var(--line);
+}
+
+.walletCircle {
+  margin-left: auto;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: var(--icon-bg);
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+}
+
+.walletCircle svg {
+  width: 20px;
+  height: 20px;
+  color: var(--forest-deep);
+}
+
+.progressWrap {
+  padding: 18px 24px 6px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.progressTrackLg {
+  flex: 1;
+  height: 10px;
+  border-radius: 999px;
+  background: var(--line);
+  overflow: hidden;
+}
+
+.progressFillLg {
+  height: 100%;
+  border-radius: 999px;
+  background: var(--forest);
+}
+
+.progressPercent {
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--ink-soft);
+  font-variant-numeric: tabular-nums;
+  width: 34px;
+  text-align: right;
+}
+
+.membersLabel,
+.contributionsHead {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 18px 24px 10px;
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: var(--ink);
+}
+
+.contributionsHead a {
+  font-weight: 600;
+  color: var(--forest-deep);
+  font-size: 0.82rem;
+}
+
+.membersRow {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 0 24px 20px;
+  flex-wrap: wrap;
+}
+
+.memberAvatar {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  color: var(--surface);
+  font-weight: 700;
+  font-size: 0.9rem;
+  border: 2px solid var(--surface);
+  box-shadow: 0 0 0 1px var(--line);
+}
+
+.memberAvatarRing {
+  box-shadow: 0 0 0 2px var(--forest);
+}
+
+.inviteMember {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+}
+
+.inviteMemberCircle {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  border: 1.5px dashed var(--line);
+  display: grid;
+  place-items: center;
+  color: var(--ink-soft);
+  flex-shrink: 0;
+}
+
+.inviteMemberCircle svg {
+  width: 18px;
+  height: 18px;
+}
+
+.inviteMember span {
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--ink-soft);
+  line-height: 1.2;
+}
+
+.contributionRow {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 12px 24px;
+  border-top: 1px solid var(--line);
+}
+
+.contributionAvatar {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  color: var(--surface);
+  font-weight: 700;
+  font-size: 0.8rem;
+  flex-shrink: 0;
+}
+
+.contributionInfo {
+  flex: 1;
+  min-width: 0;
+}
+
+.contributionInfo strong {
+  display: block;
+  font-size: 0.9rem;
+  color: var(--ink);
+}
+
+.contributionInfo span {
+  font-size: 0.78rem;
+  color: var(--ink-faint);
+}
+
+.contributionRight {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-shrink: 0;
+}
+
+.contributionAmountWrap {
+  text-align: right;
+}
+
+.contributionAmount {
+  display: block;
+  font-weight: 700;
+  font-size: 0.9rem;
+  color: var(--ink);
+  font-variant-numeric: tabular-nums;
+}
+
+.paidPill {
+  display: inline-block;
+  margin-top: 2px;
+  font-size: 0.68rem;
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: 999px;
+  background: var(--forest-tint);
+  color: var(--forest-deep);
+}
+
+.contributionRow svg {
+  width: 16px;
+  height: 16px;
+  color: var(--ink-faint);
+}
+
+.householdBanner {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 18px;
+  padding: 16px 18px;
+  border-radius: var(--radius-md);
+  background: var(--forest-tint);
+  overflow: hidden;
+}
+
+.householdBanner .bannerIcon {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: var(--surface);
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+}
+
+.householdBanner .bannerIcon svg {
+  width: 16px;
+  height: 16px;
+  color: var(--forest-deep);
+}
+
+.householdBanner p {
+  font-size: 0.88rem;
+  color: var(--forest-deep);
+  font-weight: 600;
+  margin: 0;
+}
+
+/* ---------- install app ---------- */
+.installPage {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.installHeader {
+  padding: 24px 0;
+}
+
+.installMain {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px 0 64px;
+}
+
+.installCard {
+  width: min(640px, 100%);
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-lg);
+  box-shadow: 0 30px 60px -32px rgba(var(--shadow), 0.4);
+  padding: 48px;
+  text-align: center;
+}
+
+.installIconWrap {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background: var(--icon-bg);
+  display: grid;
+  place-items: center;
+  margin: 0 auto 22px;
+}
+
+.installIconWrap svg {
+  width: 28px;
+  height: 28px;
+  color: var(--forest-deep);
+}
+
+.installTitle {
+  font-family: var(--serif);
+  font-weight: 500;
+  font-size: clamp(1.7rem, 3vw, 2.2rem);
+  color: var(--ink);
+  text-wrap: balance;
+}
+
+.installSub {
+  margin: 14px auto 0;
+  max-width: 44ch;
+  color: var(--ink-soft);
+  font-size: 1rem;
+}
+
+.storeRow {
+  display: flex;
+  justify-content: center;
+  gap: 14px;
+  margin-top: 32px;
+  flex-wrap: wrap;
+}
+
+.storeButton {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 20px;
+  border-radius: 14px;
+  border: 1px solid var(--line);
+  background: var(--ink);
+  color: var(--surface);
+  text-align: left;
+}
+
+.storeButton:hover {
+  background: var(--forest-deep);
+}
+
+.storeButton img {
+  width: 26px;
+  height: 26px;
+  flex-shrink: 0;
+}
+
+.storeButtonLabel {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.2;
+}
+
+.storeButtonLabel span:first-child {
+  font-size: 0.68rem;
+  color: color-mix(in srgb, var(--surface) 75%, transparent);
+}
+
+.storeButtonLabel span:last-child {
+  font-size: 0.94rem;
+  font-weight: 600;
+}
+
+.installSkip {
+  display: block;
+  margin-top: 26px;
+  font-size: 0.88rem;
+  color: var(--ink-faint);
+}
+
+.installSkip:hover {
+  color: var(--ink-soft);
+}
+
+/* ---------- meals catalog ---------- */
+.catalogHero {
+  padding: 56px 0 32px;
+  text-align: center;
+}
+
+.catalogFilters {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-top: 28px;
+}
+
+.catalogGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+  gap: 22px;
+}
+
+.catalogEmpty {
+  text-align: center;
+  color: var(--ink-soft);
+  padding: 40px 0;
 }

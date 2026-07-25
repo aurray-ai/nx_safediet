@@ -10,7 +10,7 @@ type RegisterPageProps = {
 export default function RegisterPage({ searchParams }: RegisterPageProps) {
   return (
     <OnboardingFlow
-      initialStep={4}
+      initialStep={0}
       redirectTo={searchParams?.redirectTo}
       initialEmail={searchParams?.email}
     />

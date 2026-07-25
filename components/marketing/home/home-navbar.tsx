@@ -11,8 +11,6 @@ const NAV_ITEMS = [
   { href: "/#how-it-works", label: "How It Works" },
   { href: "/meals", label: "Meals" },
   { href: "/#pricing", label: "Pricing" },
-  { href: "/#about", label: "About Us" },
-  { href: "/", label: "Blog" },
 ] as const;
 
 export function HomeNavbar() {
