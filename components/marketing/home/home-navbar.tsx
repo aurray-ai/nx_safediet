@@ -2,10 +2,15 @@
 
 import Image from "next/image";
 import Link from "next/link";
+import type { Route } from "next";
 import { useState } from "react";
 
 import styles from "./home.module.css";
 import { IconClose, IconMenu } from "./icons";
+
+type HomeNavbarProps = {
+  dashboardHref?: string | null;
+};
 
 const NAV_ITEMS = [
   { href: "/#how-it-works", label: "How It Works" },
@@ -13,15 +18,19 @@ const NAV_ITEMS = [
   { href: "/#pricing", label: "Pricing" },
 ] as const;
 
-export function HomeNavbar() {
+export function HomeNavbar({ dashboardHref = null }: HomeNavbarProps) {
   const [isOpen, setIsOpen] = useState(false);
+  const isAuthenticated = Boolean(dashboardHref);
+  const resolvedDashboardHref = (dashboardHref ?? "/dashboard") as Route;
 
   return (
     <header className={styles.header}>
       <div className={`${styles.wrap} ${styles.headerRow}`}>
         <Link href="/" className={styles.logo}>
-          <Image src="/brand/logo.png" alt="SafeDiet logo" width={30} height={30} />
-          SafeDiet
+          <span className={styles.logoMark}>
+            <Image src="/assets/logo.png" alt="SafeDiet logo" width={52} height={52} />
+          </span>
+          <span className={styles.logoWordmark}>SafeDiet</span>
         </Link>
 
         <ul className={styles.navLinks}>
@@ -33,12 +42,20 @@ export function HomeNavbar() {
         </ul>
 
         <div className={styles.headerActions}>
-          <Link href="/login" className={`${styles.btn} ${styles.btnGhost}`}>
-            Log in
-          </Link>
-          <Link href="/start-planning" className={`${styles.btn} ${styles.btnPrimary}`}>
-            Start Planning
-          </Link>
+          {isAuthenticated ? (
+            <Link href={resolvedDashboardHref} className={`${styles.btn} ${styles.btnPrimary}`}>
+              Dashboard
+            </Link>
+          ) : (
+            <>
+              <Link href="/login" className={`${styles.btn} ${styles.btnGhost}`}>
+                Log in
+              </Link>
+              <Link href="/start-planning" className={`${styles.btn} ${styles.btnPrimary}`}>
+                Start Planning
+              </Link>
+            </>
+          )}
           <button
             type="button"
             className={styles.navToggle}
@@ -58,9 +75,14 @@ export function HomeNavbar() {
               {item.label}
             </Link>
           ))}
-          <Link href="/login" onClick={() => setIsOpen(false)}>
-            Log in
+          <Link href={isAuthenticated ? resolvedDashboardHref : "/login"} onClick={() => setIsOpen(false)}>
+            {isAuthenticated ? "Dashboard" : "Log in"}
           </Link>
+          {!isAuthenticated ? (
+            <Link href="/start-planning" onClick={() => setIsOpen(false)}>
+              Start Planning
+            </Link>
+          ) : null}
         </div>
       ) : null}
     </header>

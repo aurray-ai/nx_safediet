@@ -1457,6 +1457,89 @@ textarea {
   background: #8fae7f;
 }
 
+/* Public survey layout alignment with homepage */
+.survey-public {
+  max-width: 1240px;
+  margin: 0 auto;
+  padding: 2rem 32px 4.5rem;
+  background:
+    radial-gradient(circle at top right, rgba(217, 164, 61, 0.14), transparent 28%),
+    radial-gradient(circle at top left, rgba(220, 202, 135, 0.14), transparent 30%);
+}
+
+.survey-public__landing,
+.survey-public__stepCard,
+.survey-public__stateCard,
+.survey-public__thankYouCard {
+  border: 1px solid rgba(141, 109, 73, 0.14);
+  background: rgba(255, 250, 242, 0.92);
+  box-shadow: 0 16px 40px rgba(111, 86, 54, 0.08);
+}
+
+.survey-public__brandRow,
+.survey-public__stateBrand {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.8rem;
+  text-decoration: none;
+}
+
+.survey-public__brandRow strong,
+.survey-public__stateBrand span {
+  font-family: "Iowan Old Style", "Palatino Linotype", Palatino, "Book Antiqua", Georgia, serif;
+  font-size: 1.45rem;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+}
+
+.survey-public__landing h1,
+.survey-public__thankYouCard h1,
+.survey-public__stateCard h1,
+.survey-public__questionBlock h2 {
+  line-height: 1.02;
+}
+
+.survey-public__landing p,
+.survey-public__stateCard p,
+.survey-public__thankYouCard p,
+.survey-public__questionBlock p,
+.survey-public__stateLink {
+  line-height: 1.7;
+}
+
+.survey-public__choiceCard,
+.survey-public__scaleButton,
+.survey-public__input,
+.survey-public__textarea {
+  border-radius: 16px;
+}
+
+.survey-public__choiceCard.is-selected {
+  background: rgba(232, 237, 228, 0.92);
+}
+
+.survey-public__primaryButton,
+.survey-public__secondaryButton {
+  min-height: 54px;
+  font-weight: 700;
+  box-shadow: 0 18px 32px -18px rgba(31, 58, 46, 0.38);
+}
+
+.survey-public__secondaryButton {
+  box-shadow: none;
+}
+
+@media (max-width: 720px) {
+  .survey-public {
+    padding: 1.25rem 20px 3rem;
+  }
+
+  .survey-public__brandRow strong,
+  .survey-public__stateBrand span {
+    font-size: 1.28rem;
+  }
+}
+
 .section-heading {
   max-width: 62rem;
 }

@@ -9,7 +9,7 @@ export function HomeFooter() {
       <div className={`${styles.wrap} ${styles.footerRow}`}>
         <div className={styles.footerBrand}>
           <Link href="/" className={styles.logo}>
-            <Image src="/brand/logo.png" alt="SafeDiet logo" width={30} height={30} />
+            <Image src="/assets/logo.png" alt="SafeDiet logo" width={42} height={42} />
             SafeDiet
           </Link>
           <p>AI meal planning that fits your goals, allergies, and budget — one week at a time.</p>

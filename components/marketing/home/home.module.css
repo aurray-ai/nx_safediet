@@ -91,6 +91,12 @@
   color: var(--surface);
 }
 
+.btnPrimary:visited,
+.btnPrimary:hover,
+.btnPrimary:active {
+  color: var(--surface);
+}
+
 .btnPrimary:hover {
   background: var(--forest-deep);
   box-shadow: 0 8px 20px -8px rgba(var(--shadow), 0.45);
@@ -146,16 +152,40 @@
 .logo {
   display: flex;
   align-items: center;
-  gap: 9px;
+  gap: 14px;
+  flex-shrink: 0;
   font-family: var(--serif);
   font-size: 1.35rem;
   color: var(--forest-deep);
   text-decoration: none;
 }
 
-.logo img {
-  width: 30px;
-  height: 30px;
+.logoMark {
+  display: grid;
+  place-items: center;
+  width: 60px;
+  height: 60px;
+  padding: 4px;
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.78);
+  box-shadow: 0 10px 24px -18px rgba(var(--shadow), 0.5);
+}
+
+.logoMark img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.logoWordmark {
+  display: inline-flex;
+  align-items: center;
+  font-family: var(--serif);
+  font-size: 1.56rem;
+  font-weight: 600;
+  line-height: 1;
+  letter-spacing: -0.02em;
+  color: var(--forest-deep);
 }
 
 .navLinks {
@@ -220,6 +250,27 @@
   }
   .navToggle {
     display: inline-flex;
+  }
+}
+
+@media (max-width: 720px) {
+  .headerRow {
+    gap: 16px;
+  }
+
+  .logo {
+    gap: 12px;
+  }
+
+  .logoMark {
+    width: 52px;
+    height: 52px;
+    padding: 4px;
+    border-radius: 14px;
+  }
+
+  .logoWordmark {
+    font-size: 1.4rem;
   }
 }
 
