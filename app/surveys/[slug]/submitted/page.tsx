@@ -21,7 +21,7 @@ export default function SurveySubmittedPage({
           Submit another response
         </Link>
         <Link href="/" className="survey-public__stateLink">
-          Share with a friend
+          Go to SafeDiet home
         </Link>
       </div>
     </section>

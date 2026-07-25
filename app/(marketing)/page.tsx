@@ -7,11 +7,14 @@ import styles from "@/components/marketing/home/home.module.css";
 import { HomeNavbar } from "@/components/marketing/home/home-navbar";
 import { HomeSharedBudget } from "@/components/marketing/home/home-shared-budget";
 import { HomeWeeklyPlan } from "@/components/marketing/home/home-weekly-plan";
+import { getSession } from "@/lib/session";
 
-export default function HomePage() {
+export default async function HomePage() {
+  const session = await getSession();
+
   return (
     <div className={styles.home}>
-      <HomeNavbar />
+      <HomeNavbar dashboardHref={session?.defaultDashboardHref ?? null} />
       <main>
         <HomeHero />
         <HomeHowItWorks />

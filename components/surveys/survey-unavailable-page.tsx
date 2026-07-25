@@ -40,10 +40,10 @@ export function SurveyUnavailablePage({ reason, slug }: SurveyUnavailablePagePro
   return (
     <section className="survey-public survey-public--state">
       <div className="survey-public__stateCard">
-        <div className="survey-public__stateBrand">
-          <Image src="/brand/logo.png" alt="SafeDiet logo" width={30} height={30} />
+        <Link href="/" className="survey-public__stateBrand">
+          <Image src="/assets/logo.png" alt="SafeDiet logo" width={42} height={42} />
           <span>SafeDiet</span>
-        </div>
+        </Link>
         <div className="survey-public__stateIcon">{reason === "not_found" ? ":(" : "⌛"}</div>
         <p className="survey-public__eyebrow">{copy.eyebrow}</p>
         <h1>{copy.title}</h1>

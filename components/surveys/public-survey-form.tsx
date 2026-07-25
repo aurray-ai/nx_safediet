@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
 import { useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
 
@@ -120,7 +121,10 @@ export function PublicSurveyForm({ survey }: PublicSurveyFormProps) {
     return (
       <section className="survey-public survey-public--state">
         <div className="survey-public__stateCard">
-          <div className="survey-public__stateBrand">SafeDiet</div>
+          <Link href="/" className="survey-public__stateBrand">
+            <Image src="/assets/logo.png" alt="SafeDiet logo" width={42} height={42} />
+            <span>SafeDiet</span>
+          </Link>
           <div className="survey-public__stateIcon">?</div>
           <h1>This survey has no questions yet</h1>
           <p>The survey exists, but it has not been configured with any questions.</p>
@@ -134,10 +138,10 @@ export function PublicSurveyForm({ survey }: PublicSurveyFormProps) {
       <section className="survey-public">
         <div className="survey-public__landing">
           <div className="survey-public__landingCopy">
-            <div className="survey-public__brandRow">
-              <Image src="/brand/logo.png" alt="SafeDiet logo" width={42} height={42} />
+            <Link href="/" className="survey-public__brandRow">
+              <Image src="/assets/logo.png" alt="SafeDiet logo" width={42} height={42} />
               <strong>SafeDiet</strong>
-            </div>
+            </Link>
             <h1>{survey.title || "Help us build a healthier future"}</h1>
             <p>
               {survey.description || "Your feedback helps us create better meal plans and experiences for everyone."}
