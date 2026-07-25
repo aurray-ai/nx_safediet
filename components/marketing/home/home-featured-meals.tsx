@@ -1,12 +1,34 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
-import { useRef } from "react";
+import { useRef, useState } from "react";
 
 import styles from "./home.module.css";
 import { IconChevronLeft, IconChevronRight, IconHeart } from "./icons";
 import { PlateIcon } from "./plate-icon";
-import { featuredMeals } from "./plan-data";
+import { featuredMeals, type FeaturedMeal } from "./plan-data";
+
+function MealPhoto({ meal, seed }: { meal: FeaturedMeal; seed: number }) {
+  const [failed, setFailed] = useState(false);
+
+  if (!meal.image || failed) {
+    return <PlateIcon seed={seed} className={styles.mealCardPlateIcon} />;
+  }
+
+  return (
+    <div className={styles.mealCardPlateIcon}>
+      <Image
+        src={meal.image}
+        alt={meal.name}
+        fill
+        sizes="250px"
+        style={{ objectFit: "cover" }}
+        onError={() => setFailed(true)}
+      />
+    </div>
+  );
+}
 
 export function HomeFeaturedMeals() {
   const scrollRef = useRef<HTMLDivElement | null>(null);
@@ -21,7 +43,7 @@ export function HomeFeaturedMeals() {
         <div className={styles.sectionHeadRow}>
           <div className={styles.sectionHead}>
             <span className={styles.eyebrow}>Featured meals</span>
-            <h2>Chef-curated. AI-approved.</h2>
+            <h2>Plan Once, Make it less expensive</h2>
             <p>Explore some of our most loved and nutritious meals.</p>
           </div>
           <div className={styles.carouselNav}>
@@ -38,7 +60,7 @@ export function HomeFeaturedMeals() {
           {featuredMeals.map((meal, index) => (
             <article className={styles.mealCard} key={meal.name}>
               <div className={styles.mealCardPlate}>
-                <PlateIcon seed={index} className={styles.mealCardPlateIcon} />
+                <MealPhoto meal={meal} seed={index} />
                 <span className={styles.mealCardTag}>{meal.tag}</span>
               </div>
               <div className={styles.mealCardBody}>

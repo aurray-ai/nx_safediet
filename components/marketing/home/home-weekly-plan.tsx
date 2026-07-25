@@ -1,11 +1,11 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { useRef, useState } from "react";
 
 import styles from "./home.module.css";
 import { IconFlame, IconDumbbell, IconMoon, IconSun, IconWallet } from "./icons";
-import { PlateIcon } from "./plate-icon";
 import { weekPlan } from "./plan-data";
 
 const MEAL_ROWS = [
@@ -90,15 +90,14 @@ export function HomeWeeklyPlan() {
                         </span>
                       </div>
                     </td>
-                    {weekPlan.map((day, dayIndex) => {
+                    {weekPlan.map((day) => {
                       const meal = day[row.key];
                       return (
                         <td key={day.day}>
                           <div className={styles.planCell}>
-                            <PlateIcon
-                              seed={dayIndex * 3 + MEAL_ROWS.findIndex((m) => m.key === row.key)}
-                              className={styles.planPlate}
-                            />
+                            <div className={styles.planPlate}>
+                              <Image src={meal.image} alt={meal.name} fill sizes="62px" style={{ objectFit: "cover" }} />
+                            </div>
                             <span className={styles.planMealName}>{meal.name}</span>
                             <span className={styles.planMealKcal}>{meal.kcal} kcal</span>
                           </div>
