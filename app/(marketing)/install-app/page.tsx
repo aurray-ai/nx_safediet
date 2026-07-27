@@ -15,8 +15,8 @@ export default function InstallAppPage() {
         <header className={styles.installHeader}>
           <div className={styles.wrap}>
             <Link href="/" className={styles.logo}>
-              <Image src="/brand/logo.png" alt="SafeDiet logo" width={30} height={30} />
-              SafeDiet
+              <Image src="/brand/logo.png" alt="SAFEDIET logo" width={30} height={30} />
+              SAFEDIET
             </Link>
           </div>
         </header>
@@ -28,9 +28,9 @@ export default function InstallAppPage() {
                 <IconCheckCircle />
               </div>
               <span className={styles.eyebrow}>You&apos;re all set</span>
-              <h1 className={styles.installTitle}>Get the SafeDiet app to start planning.</h1>
+              <h1 className={styles.installTitle}>Get the SAFEDIET app to start planning.</h1>
               <p className={styles.installSub}>
-                Your meal plans, grocery lists, and budget tracking all live in the SafeDiet app.
+                Your meal plans, grocery lists, and budget tracking all live in the SAFEDIET app.
                 Download it to pick up right where you left off.
               </p>
 

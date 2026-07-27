@@ -91,7 +91,7 @@ export function HomeSharedBudget() {
                 Start Planning Together
                 <IconArrowRight style={{ width: 16, height: 16 }} />
               </Link>
-              <Link href="/#how-it-works" className={styles.secondaryLink}>
+              <Link href="/how-it-works" className={styles.secondaryLink}>
                 Learn how it works
                 <IconCircleArrow />
               </Link>

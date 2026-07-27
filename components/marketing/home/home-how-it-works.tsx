@@ -9,8 +9,8 @@ const STEPS = [
   },
   {
     icon: IconWand,
-    title: "AI builds your plan",
-    body: "Our AI creates a personalized weekly meal plan that's healthy, balanced, and budget-friendly.",
+    title: "SAFEDIET agents build your plan",
+    body: "Our SAFEDIET agents create a personalized weekly meal plan that's healthy, balanced, and budget-friendly.",
   },
   {
     icon: IconSliders,

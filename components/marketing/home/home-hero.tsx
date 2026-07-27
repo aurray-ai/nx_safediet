@@ -36,7 +36,7 @@ export function HomeHero() {
             <em>Better you.</em>
           </h1>
           <p className={styles.heroSub}>
-            SafeDiet&apos;s AI automatically plans your weekly meals around your budget, health
+            SAFEDIET&apos;s AI automatically plans your weekly meals around your budget, health
             goals, allergies, and preferences.
           </p>
 
