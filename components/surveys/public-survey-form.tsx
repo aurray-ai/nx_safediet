@@ -122,8 +122,8 @@ export function PublicSurveyForm({ survey }: PublicSurveyFormProps) {
       <section className="survey-public survey-public--state">
         <div className="survey-public__stateCard">
           <Link href="/" className="survey-public__stateBrand">
-            <Image src="/assets/logo.png" alt="SafeDiet logo" width={42} height={42} />
-            <span>SafeDiet</span>
+            <Image src="/assets/logo.png" alt="SAFEDIET logo" width={42} height={42} />
+            <span>SAFEDIET</span>
           </Link>
           <div className="survey-public__stateIcon">?</div>
           <h1>This survey has no questions yet</h1>
@@ -139,8 +139,8 @@ export function PublicSurveyForm({ survey }: PublicSurveyFormProps) {
         <div className="survey-public__landing">
           <div className="survey-public__landingCopy">
             <Link href="/" className="survey-public__brandRow">
-              <Image src="/assets/logo.png" alt="SafeDiet logo" width={42} height={42} />
-              <strong>SafeDiet</strong>
+              <Image src="/assets/logo.png" alt="SAFEDIET logo" width={42} height={42} />
+              <strong>SAFEDIET</strong>
             </Link>
             <h1>{survey.title || "Help us build a healthier future"}</h1>
             <p>

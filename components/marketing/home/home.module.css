@@ -86,48 +86,48 @@
   }
 }
 
-.btnPrimary {
+.btn.btnPrimary {
   background: var(--forest);
   color: var(--surface);
 }
 
-.btnPrimary:visited,
-.btnPrimary:hover,
-.btnPrimary:active {
+.btn.btnPrimary:visited,
+.btn.btnPrimary:hover,
+.btn.btnPrimary:active {
   color: var(--surface);
 }
 
-.btnPrimary:hover {
+.btn.btnPrimary:hover {
   background: var(--forest-deep);
   box-shadow: 0 8px 20px -8px rgba(var(--shadow), 0.45);
 }
 
-.btnGhost {
+.btn.btnGhost {
   background: transparent;
   color: var(--ink);
   border-color: var(--line);
 }
 
-.btnGhost:hover {
+.btn.btnGhost:hover {
   border-color: var(--forest);
 }
 
-.btnGold {
+.btn.btnGold {
   background: var(--gold-cta);
   color: var(--forest-deep);
 }
 
-.btnGold:hover {
+.btn.btnGold:hover {
   background: #cfa25e;
 }
 
-.btnOutlineLight {
+.btn.btnOutlineLight {
   background: transparent;
   color: var(--surface);
   border-color: rgba(255, 255, 255, 0.35);
 }
 
-.btnOutlineLight:hover {
+.btn.btnOutlineLight:hover {
   border-color: var(--surface);
 }
 
@@ -1196,6 +1196,220 @@
 
 .footerCol a:hover {
   color: var(--forest);
+}
+
+.footerNewsletter {
+  max-width: 260px;
+}
+
+.footerNewsletter h4 {
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--ink-soft);
+  margin: 0 0 10px;
+  font-weight: 600;
+}
+
+.footerNewsletter p {
+  font-size: 0.88rem;
+  color: var(--ink-soft);
+  margin: 0 0 14px;
+}
+
+.footerNewsletterForm {
+  display: flex;
+  align-items: center;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  background: var(--surface);
+}
+
+.footerNewsletterForm input {
+  flex: 1;
+  border: none;
+  outline: none;
+  background: transparent;
+  padding: 11px 14px;
+  font-size: 0.86rem;
+  color: var(--ink);
+  font-family: inherit;
+}
+
+.footerNewsletterForm input::placeholder {
+  color: var(--ink-faint);
+}
+
+.footerNewsletterForm button {
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  margin: 4px;
+  border: none;
+  border-radius: 50%;
+  background: var(--forest-deep);
+  color: var(--surface);
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+.footerNewsletterForm button:hover {
+  background: var(--forest);
+}
+
+.stepsRailThree {
+  grid-template-columns: repeat(3, 1fr);
+}
+
+@media (max-width: 860px) {
+  .stepsRailThree {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 720px) {
+  .stepsRail {
+    grid-template-columns: 1fr;
+    gap: 0;
+    border: 1px solid var(--line);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+  }
+
+  .step {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    border: none;
+    border-radius: 0;
+    border-bottom: 1px solid var(--line);
+    padding: 16px 20px;
+  }
+
+  .step:last-child {
+    border-bottom: none;
+  }
+
+  .stepIconWrap {
+    width: 44px;
+    height: 44px;
+    margin-bottom: 0;
+    flex-shrink: 0;
+  }
+
+  .stepIcon {
+    width: 44px;
+    height: 44px;
+  }
+
+  .step h3 {
+    flex: 1;
+    font-size: 1rem;
+    margin: 0;
+  }
+
+  .step p {
+    display: none;
+  }
+
+  .stepChevron {
+    width: 16px;
+    height: 16px;
+    color: var(--ink-faint);
+    flex-shrink: 0;
+  }
+}
+
+.stepChevron {
+  display: none;
+}
+
+/* ---------- mechanism rows (why it works) ---------- */
+.mechanismList {
+  border-top: 1px solid var(--line);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+}
+
+.mechanismRow {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  padding: 20px 24px;
+  border-bottom: 1px solid var(--line);
+}
+
+.mechanismRow:last-child {
+  border-bottom: none;
+}
+
+.mechanismLead {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  flex: 0 0 260px;
+}
+
+.mechanismIconWrap {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: var(--icon-bg);
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+}
+
+.mechanismIconWrap svg {
+  width: 19px;
+  height: 19px;
+  color: var(--forest-deep);
+}
+
+.mechanismLead h3 {
+  font-family: var(--serif);
+  font-weight: 500;
+  font-size: 1rem;
+  margin: 0;
+  color: var(--ink);
+}
+
+.mechanismBody {
+  flex: 1;
+  font-size: 0.9rem;
+  color: var(--ink-soft);
+  margin: 0;
+}
+
+@media (max-width: 720px) {
+  .mechanismLead {
+    flex: 1 1 auto;
+  }
+
+  .mechanismBody {
+    display: none;
+  }
+
+  .mechanismRow {
+    justify-content: space-between;
+  }
+}
+
+.mechanismChevron {
+  width: 16px;
+  height: 16px;
+  color: var(--ink-faint);
+  flex-shrink: 0;
+  display: none;
+}
+
+@media (max-width: 720px) {
+  .mechanismChevron {
+    display: block;
+  }
 }
 
 .footerBottom {

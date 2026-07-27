@@ -14,7 +14,7 @@ export function HomeFinalCta() {
               <h2>Ready to eat better and feel your best?</h2>
               <p>
                 Join thousands of people who are saving time, eating healthy, and staying within
-                budget with SafeDiet.
+                budget with SAFEDIET.
               </p>
               <div className={styles.finalCtaCtas}>
                 <Link href="/start-planning" className={`${styles.btn} ${styles.btnGold}`}>
@@ -30,7 +30,7 @@ export function HomeFinalCta() {
             <div className={styles.finalCtaImageWrap}>
               <Image
                 src="/brand/grocery/fresh_picks_banner.png"
-                alt="Fresh produce used in SafeDiet meal plans"
+                alt="Fresh produce used in SAFEDIET meal plans"
                 fill
                 className={styles.finalCtaImage}
                 sizes="(max-width: 820px) 100vw, 40vw"

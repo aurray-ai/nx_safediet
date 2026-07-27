@@ -31,7 +31,7 @@ export default function MealsPage() {
               Every meal, planned around you.
             </h1>
             <p className={styles.heroSub} style={{ margin: "18px auto 0", textAlign: "center" }}>
-              Browse the meals SafeDiet plans into your week — filter by breakfast, lunch, or dinner,
+              Browse the meals SAFEDIET plans into your week — filter by breakfast, lunch, or dinner,
               or see the ones our members love most.
             </p>
 

@@ -41,15 +41,15 @@ export function SurveyUnavailablePage({ reason, slug }: SurveyUnavailablePagePro
     <section className="survey-public survey-public--state">
       <div className="survey-public__stateCard">
         <Link href="/" className="survey-public__stateBrand">
-          <Image src="/assets/logo.png" alt="SafeDiet logo" width={42} height={42} />
-          <span>SafeDiet</span>
+          <Image src="/assets/logo.png" alt="SAFEDIET logo" width={42} height={42} />
+          <span>SAFEDIET</span>
         </Link>
         <div className="survey-public__stateIcon">{reason === "not_found" ? ":(" : "⌛"}</div>
         <p className="survey-public__eyebrow">{copy.eyebrow}</p>
         <h1>{copy.title}</h1>
         <p>{copy.description}</p>
         <Link href="/" className="survey-public__primaryButton">
-          Go to SafeDiet
+          Go to SAFEDIET
         </Link>
         <span className="survey-public__stateLink">Survey link: /surveys/{slug}</span>
       </div>

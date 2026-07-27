@@ -13,7 +13,7 @@ type HomeNavbarProps = {
 };
 
 const NAV_ITEMS = [
-  { href: "/#how-it-works", label: "How It Works" },
+  { href: "/how-it-works", label: "How It Works" },
   { href: "/meals", label: "Meals" },
   { href: "/#pricing", label: "Pricing" },
 ] as const;
@@ -28,9 +28,9 @@ export function HomeNavbar({ dashboardHref = null }: HomeNavbarProps) {
       <div className={`${styles.wrap} ${styles.headerRow}`}>
         <Link href="/" className={styles.logo}>
           <span className={styles.logoMark}>
-            <Image src="/assets/logo.png" alt="SafeDiet logo" width={52} height={52} />
+            <Image src="/assets/logo.png" alt="SAFEDIET logo" width={52} height={52} />
           </span>
-          <span className={styles.logoWordmark}>SafeDiet</span>
+          <span className={styles.logoWordmark}>SAFEDIET</span>
         </Link>
 
         <ul className={styles.navLinks}>

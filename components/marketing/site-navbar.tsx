@@ -19,7 +19,7 @@ export function SiteNavbar() {
     <nav className="app__navbar">
       <div className="app__navbar-logo">
         <Link href="/">
-          <img src="/brand/logo.png" alt="SafeDiet logo" />
+          <img src="/brand/logo.png" alt="SAFEDIET logo" />
         </Link>
       </div>
 

@@ -1480,16 +1480,27 @@ textarea {
 .survey-public__stateBrand {
   display: inline-flex;
   align-items: center;
-  gap: 0.8rem;
+  gap: 0.9rem;
   text-decoration: none;
+}
+
+.survey-public__brandRow img,
+.survey-public__stateBrand img {
+  width: 54px;
+  height: 54px;
+  padding: 4px;
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.9);
+  box-shadow: 0 12px 28px -18px rgba(31, 58, 46, 0.5);
 }
 
 .survey-public__brandRow strong,
 .survey-public__stateBrand span {
   font-family: "Iowan Old Style", "Palatino Linotype", Palatino, "Book Antiqua", Georgia, serif;
-  font-size: 1.45rem;
+  font-size: 1.32rem;
   font-weight: 600;
-  letter-spacing: -0.02em;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
 }
 
 .survey-public__landing h1,
@@ -1536,7 +1547,13 @@ textarea {
 
   .survey-public__brandRow strong,
   .survey-public__stateBrand span {
-    font-size: 1.28rem;
+    font-size: 1.16rem;
+  }
+
+  .survey-public__brandRow img,
+  .survey-public__stateBrand img {
+    width: 48px;
+    height: 48px;
   }
 }
 

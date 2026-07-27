@@ -16,12 +16,12 @@ export default function SurveySubmittedPage({
         </div>
         <div className="survey-public__successIcon">✓</div>
         <h1>Thank you!</h1>
-        <p>Your response has been recorded. You&apos;re helping us build a better SafeDiet experience.</p>
+        <p>Your response has been recorded. You&apos;re helping us build a better SAFEDIET experience.</p>
         <Link href={`/surveys/${params.slug}` as Route} className="survey-public__primaryButton">
           Submit another response
         </Link>
         <Link href="/" className="survey-public__stateLink">
-          Go to SafeDiet home
+          Go to SAFEDIET home
         </Link>
       </div>
     </section>
