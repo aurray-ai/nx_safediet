@@ -2,6 +2,8 @@ import type { Route } from "next";
 import Link from "next/link";
 
 import { CopyPublicLinkButton } from "@/components/dashboard/surveys/copy-public-link-button";
+import { SurveyInsightsPreview } from "@/components/dashboard/surveys/survey-core-reports";
+import { SurveyWorkspaceNav } from "@/components/dashboard/surveys/survey-workspace-nav";
 import { formatDate } from "@/lib/admin-format";
 import type { AdminSurvey, SurveyAnalytics, SurveySubmission } from "@/lib/types";
 
@@ -19,6 +21,8 @@ export function SurveyOverview({
   responses,
 }: SurveyOverviewProps) {
   const publicPath = `/surveys/${survey.slug}`;
+  const exportPath = `/api/admin/surveys/${survey.id}/export`;
+  const reportsPath = `/dashboard/${role}/surveys/${survey.id}/reports`;
 
   return (
     <section className="survey-workspace">
@@ -43,17 +47,12 @@ export function SurveyOverview({
       </section>
 
       <section className="survey-workspace__grid">
-        <aside className="survey-workspace__settings">
-          <h3>Settings</h3>
-          <div className="survey-workspace__settingsNav">
-            <span className="is-active">General</span>
-            <span>Access & Visibility</span>
-            <span>Responses</span>
-            <span>Notifications</span>
-            <span>Thank You Page</span>
-            <span>Integrations</span>
-          </div>
-        </aside>
+        <SurveyWorkspaceNav
+          role={role}
+          surveyId={survey.id}
+          active="overview"
+          exportHref={exportPath}
+        />
 
         <section className="survey-workspace__card">
           <div className="survey-workspace__cardHeader">
@@ -132,7 +131,7 @@ export function SurveyOverview({
               <Link href={`/dashboard/${role}/surveys/${survey.id}/responses` as Route} className="app__admin-secondaryButton">
                 View All
               </Link>
-              <Link href={`/api/admin/surveys/${survey.id}/export` as Route} className="app__admin-primaryButton">
+              <Link href={exportPath as Route} className="app__admin-primaryButton">
                 Export
               </Link>
             </div>
@@ -147,58 +146,28 @@ export function SurveyOverview({
             </div>
             {responses.slice(0, 5).map((response) => (
               <div key={response.id} className="survey-workspace__tableRow">
-                <span>{response.respondent.email || response.respondent.name || "Anonymous"}</span>
-                <span className="survey-workspace__pill is-live">Completed</span>
-                <span>{formatDate(response.created_at)}</span>
-                <span>{formatDate(response.submitted_at)}</span>
+                <div className="survey-workspace__cell" data-label="Respondent">
+                  <span>{response.respondent.email || response.respondent.name || "Anonymous"}</span>
+                </div>
+                <div className="survey-workspace__cell" data-label="Status">
+                  <span className="survey-workspace__pill is-live">Completed</span>
+                </div>
+                <div className="survey-workspace__cell" data-label="Started">
+                  <span>{formatDate(response.created_at)}</span>
+                </div>
+                <div className="survey-workspace__cell" data-label="Completed">
+                  <span>{formatDate(response.submitted_at)}</span>
+                </div>
               </div>
             ))}
           </div>
         </section>
 
-        <section className="survey-workspace__card survey-workspace__analytics">
-          <div className="survey-workspace__cardHeader">
-            <h3>Analytics Overview</h3>
-            <span className="survey-workspace__muted">Last 30 days</span>
-          </div>
-
-          <div className="survey-workspace__metricGrid">
-            <article>
-              <strong>{analytics.total_responses}</strong>
-              <span>Responses</span>
-            </article>
-            <article>
-              <strong>{responses.length > 0 ? "74%" : "--"}</strong>
-              <span>Completion Rate</span>
-            </article>
-            <article>
-              <strong>{responses.length > 0 ? "06:24" : "--:--"}</strong>
-              <span>Avg. Time</span>
-            </article>
-            <article>
-              <strong>{responses.length > 0 ? "26%" : "--"}</strong>
-              <span>Drop-off</span>
-            </article>
-          </div>
-
-          <div className="survey-workspace__analyticsBody">
-            <div className="survey-workspace__bars">
-              {Array.from({ length: 18 }).map((_, index) => (
-                <span
-                  key={index}
-                  className="survey-workspace__bar"
-                  style={{ height: `${18 + ((index * 13) % 92)}px` }}
-                />
-              ))}
-            </div>
-            <div className="survey-workspace__donut">
-              <div>
-                <strong>74%</strong>
-                <span>Completed</span>
-              </div>
-            </div>
-          </div>
-        </section>
+        <SurveyInsightsPreview
+          analytics={analytics}
+          exportHref={exportPath}
+          reportsHref={reportsPath as Route}
+        />
       </section>
     </section>
   );

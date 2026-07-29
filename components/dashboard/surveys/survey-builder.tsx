@@ -9,6 +9,7 @@ import type {
   AdminSurvey,
   SurveyQuestion,
   SurveyQuestionOption,
+  SurveyReportKey,
   SurveyQuestionType,
   SurveyTemplate,
 } from "@/lib/types";
@@ -41,6 +42,19 @@ const QUESTION_TYPE_OPTIONS: Array<{ value: SurveyQuestionType; label: string }>
   { value: "number", label: "Number" },
   { value: "email", label: "Email" },
   { value: "date", label: "Date / Time" },
+];
+
+const REPORT_KEY_OPTIONS: Array<{ value: SurveyReportKey; label: string }> = [
+  { value: "planning_frequency", label: "Meal Planning Frequency" },
+  { value: "planning_difficulty", label: "Meal Planning Difficulty" },
+  { value: "planning_challenge", label: "Meal Planning Challenge" },
+  { value: "household_size", label: "Household Size" },
+  { value: "budget_cadence", label: "Budget Cadence" },
+  { value: "budget_overrun_frequency", label: "Budget Overrun Frequency" },
+  { value: "overspend_causes", label: "Overspend Causes" },
+  { value: "feature_demand", label: "Feature Demand" },
+  { value: "total_time_spent", label: "Total Time Spent" },
+  { value: "open_feedback", label: "Open Feedback" },
 ];
 
 function generateId(prefix: string) {
@@ -83,6 +97,7 @@ function buildDefaultDraft(): SurveyDraft {
         section_id: firstSectionId,
         position: 1,
         type: "single_choice",
+        report_key: null,
         title: "What is your age range?",
         description: "",
         required: true,
@@ -276,6 +291,7 @@ export function SurveyBuilder({ role, initialSurvey, templates = [] }: SurveyBui
         section_id: targetSectionId,
         position: current.questions.filter((question) => question.section_id === targetSectionId).length + 1,
         type,
+        report_key: null,
         title: "Untitled question",
         description: "",
         required: false,
@@ -532,7 +548,10 @@ export function SurveyBuilder({ role, initialSurvey, templates = [] }: SurveyBui
                 >
                   <div>
                     <strong>{question.position}. {question.title}</strong>
-                    <span>{QUESTION_TYPE_OPTIONS.find((item) => item.value === question.type)?.label}</span>
+                    <span>
+                      {QUESTION_TYPE_OPTIONS.find((item) => item.value === question.type)?.label}
+                      {question.report_key ? ` · ${REPORT_KEY_OPTIONS.find((item) => item.value === question.report_key)?.label}` : ""}
+                    </span>
                   </div>
                   <div className="survey-builder__questionActions">
                     <button type="button" onClick={(event) => { event.stopPropagation(); removeQuestion(question.id); }}>
@@ -578,6 +597,24 @@ export function SurveyBuilder({ role, initialSurvey, templates = [] }: SurveyBui
                   value={selectedQuestion.title}
                   onChange={(event) => updateQuestion(selectedQuestion.id, { title: event.target.value })}
                 />
+              </label>
+
+              <label className="app__admin-field">
+                <span>Report role (optional)</span>
+                <select
+                  className="app__admin-select"
+                  value={selectedQuestion.report_key ?? ""}
+                  onChange={(event) =>
+                    updateQuestion(selectedQuestion.id, {
+                      report_key: (event.target.value || null) as SurveyReportKey | null,
+                    })
+                  }
+                >
+                  <option value="">Not used in core reports</option>
+                  {REPORT_KEY_OPTIONS.map((option) => (
+                    <option key={option.value} value={option.value}>{option.label}</option>
+                  ))}
+                </select>
               </label>
 
               <label className="app__admin-field">

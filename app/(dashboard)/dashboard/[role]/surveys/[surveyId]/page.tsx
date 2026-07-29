@@ -30,6 +30,9 @@ export default async function SurveyDetailPage({
             <Link href={`/dashboard/${params.role}/surveys` as Route} className="app__admin-secondaryButton">
               Back to surveys
             </Link>
+            <Link href={`/dashboard/${params.role}/surveys/${survey.id}/reports` as Route} className="app__admin-secondaryButton">
+              Open reports
+            </Link>
             <Link href={`/dashboard/${params.role}/surveys/${survey.id}/builder` as Route} className="app__admin-primaryButton">
               Open builder
             </Link>

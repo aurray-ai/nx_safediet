@@ -2,10 +2,11 @@ import type { Route } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 
+import { GroceryOrderAssignForm } from "@/components/dashboard/grocery-order-assign-form";
 import { OrderStatusForm } from "@/components/dashboard/order-status-form";
 import { RefundForm } from "@/components/dashboard/refund-form";
 import { SubstitutionForm } from "@/components/dashboard/substitution-form";
-import { fetchAdminOrder, fetchAdminOrderRefunds, fetchAdminProductsPage } from "@/lib/api";
+import { fetchAdminOrder, fetchAdminOrderRefunds, fetchAdminProductsPage, fetchAdminShoppers } from "@/lib/api";
 import { formatCurrencyMinor, formatDate, formatLabel, formatNumber } from "@/lib/admin-format";
 
 export default async function OrderDetailPage({
@@ -14,10 +15,11 @@ export default async function OrderDetailPage({
   params: { role: string; orderId: string };
 }) {
   try {
-    const [order, refunds, products] = await Promise.all([
+    const [order, refunds, products, shoppers] = await Promise.all([
       fetchAdminOrder(params.orderId),
       fetchAdminOrderRefunds(params.orderId),
       fetchAdminProductsPage({ page: 1, pageSize: 100 }),
+      fetchAdminShoppers({ pageSize: 200 }),
     ]);
 
     return (
@@ -82,6 +84,35 @@ export default async function OrderDetailPage({
             </div>
 
             <OrderStatusForm orderId={order.id} currentStatus={order.status} />
+          </article>
+        </section>
+
+        <section className="app__admin-detailGrid">
+          <article className="app__admin-productSection">
+            <div className="app__admin-sectionHeader">
+              <div>
+                <p className="app__admin-eyebrow">Fulfillment</p>
+                <h2>Shopper status</h2>
+              </div>
+            </div>
+
+            <div className="app__admin-detailList">
+              <div className="app__admin-detailRow">
+                <span>Shopper status</span>
+                <strong>{order.assigned_worker_id ? formatLabel(order.fulfillment_status) : "Not started"}</strong>
+              </div>
+            </div>
+          </article>
+
+          <article className="app__admin-productSection">
+            <div className="app__admin-sectionHeader">
+              <div>
+                <p className="app__admin-eyebrow">Actions</p>
+                <h2>Assign to shopper</h2>
+              </div>
+            </div>
+
+            <GroceryOrderAssignForm orderId={order.id} currentWorkerId={order.assigned_worker_id} workers={shoppers.items} />
           </article>
         </section>
 

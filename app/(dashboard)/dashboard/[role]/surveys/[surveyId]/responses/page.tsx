@@ -30,6 +30,9 @@ export default async function SurveyResponsesPage({
             <Link href={`/dashboard/${params.role}/surveys/${survey.id}` as Route} className="app__admin-secondaryButton">
               Back to workspace
             </Link>
+            <Link href={`/dashboard/${params.role}/surveys/${survey.id}/reports` as Route} className="app__admin-secondaryButton">
+              Open reports
+            </Link>
             <Link href={`/api/admin/surveys/${survey.id}/export` as Route} className="app__admin-primaryButton">
               Export CSV
             </Link>

@@ -97,13 +97,21 @@ export function SurveyList({ items, total, role, search }: SurveyListProps) {
                 <strong>{survey.title}</strong>
                 <span>Created {formatDate(survey.created_at)}</span>
               </div>
-              <span className={`survey-workspace__status survey-workspace__status--${survey.status}`}>
-                {formatLabel(survey.status)}
-              </span>
-              <span>{survey.response_count}</span>
-              <span>{survey.response_count > 0 ? "74%" : "--"}</span>
-              <span>{formatDate(survey.updated_at)}</span>
-              <div className="survey-listPage__actions">
+              <div className="survey-listPage__cell" data-label="Status">
+                <span className={`survey-workspace__status survey-workspace__status--${survey.status}`}>
+                  {formatLabel(survey.status)}
+                </span>
+              </div>
+              <div className="survey-listPage__cell" data-label="Responses">
+                <span>{survey.response_count}</span>
+              </div>
+              <div className="survey-listPage__cell" data-label="Completion rate">
+                <span>{survey.response_count > 0 ? "74%" : "--"}</span>
+              </div>
+              <div className="survey-listPage__cell" data-label="Updated">
+                <span>{formatDate(survey.updated_at)}</span>
+              </div>
+              <div className="survey-listPage__actions survey-listPage__cell" data-label="Actions">
                 <Link href={`/dashboard/${role}/surveys/${survey.id}` as Route} className="app__admin-secondaryButton">
                   Workspace
                 </Link>
