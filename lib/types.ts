@@ -461,6 +461,17 @@ export type AdminOrder = {
   metadata: Record<string, unknown>;
   created_at: string;
   updated_at: string;
+  fulfillment_status: "unassigned" | "assigned" | "shopping" | "packed";
+  assigned_worker_id?: string | null;
+  assigned_by?: string | null;
+  assigned_at?: string | null;
+  assignment_history: Array<{
+    action: string;
+    worker_id?: string | null;
+    actor_user_id?: string | null;
+    note: string;
+    created_at: string;
+  }>;
 };
 
 export type AdminOrderListResponse = {
@@ -538,6 +549,18 @@ export type SurveyQuestionType =
   | "date"
   | "time";
 
+export type SurveyReportKey =
+  | "planning_frequency"
+  | "planning_difficulty"
+  | "planning_challenge"
+  | "household_size"
+  | "budget_cadence"
+  | "budget_overrun_frequency"
+  | "overspend_causes"
+  | "feature_demand"
+  | "total_time_spent"
+  | "open_feedback";
+
 export type SurveySettings = {
   is_public: boolean;
   collect_email: boolean;
@@ -593,6 +616,7 @@ export type SurveyQuestion = {
   section_id: string;
   position: number;
   type: SurveyQuestionType;
+  report_key?: SurveyReportKey | null;
   title: string;
   description: string;
   required: boolean;
@@ -679,11 +703,92 @@ export type SurveyQuestionAnalytics = {
   choice_counts: Record<string, number>;
 };
 
+export type SurveyReportMetric = {
+  label: string;
+  value: string;
+  detail: string;
+};
+
+export type SurveyRankedItem = {
+  label: string;
+  count: number;
+  percent: number;
+};
+
+export type SurveySegmentDemand = {
+  segment: string;
+  top_feature: string;
+  top_feature_percent: number;
+  response_count: number;
+};
+
+export type SurveyFeedbackSnippet = {
+  text: string;
+  tags: string[];
+  tone: string;
+  urgency: string;
+};
+
+export type SurveyThemeShare = {
+  label: string;
+  count: number;
+  percent: number;
+};
+
+export type SurveyCoreReportOverview = {
+  top_blocker: string;
+  top_feature: string;
+  dominant_theme: string;
+  top_issue_share: number;
+  feature_demand_share: number;
+  theme_share: number;
+};
+
+export type SurveyMealPlanningReport = {
+  metrics: SurveyReportMetric[];
+  frequency: SurveyRankedItem[];
+  challenges: SurveyRankedItem[];
+  segments: SurveyRankedItem[];
+};
+
+export type SurveyBudgetRiskReport = {
+  metrics: SurveyReportMetric[];
+  cadence: SurveyRankedItem[];
+  overspend_frequency: SurveyRankedItem[];
+  overspend_causes: SurveyRankedItem[];
+};
+
+export type SurveyFeatureDemandReport = {
+  metrics: SurveyReportMetric[];
+  features: SurveyRankedItem[];
+  time_bands: SurveyRankedItem[];
+  segment_demand: SurveySegmentDemand[];
+};
+
+export type SurveyOpenFeedbackReport = {
+  metrics: SurveyReportMetric[];
+  themes: SurveyThemeShare[];
+  sentiment: SurveyThemeShare[];
+  urgency: SurveyThemeShare[];
+  snippets: SurveyFeedbackSnippet[];
+};
+
+export type SurveyCoreReports = {
+  has_responses: boolean;
+  response_count: number;
+  overview: SurveyCoreReportOverview;
+  meal_planning: SurveyMealPlanningReport;
+  budget_risk: SurveyBudgetRiskReport;
+  feature_demand: SurveyFeatureDemandReport;
+  open_feedback: SurveyOpenFeedbackReport;
+};
+
 export type SurveyAnalytics = {
   survey_id: string;
   total_responses: number;
   latest_response_at?: string | null;
   question_stats: SurveyQuestionAnalytics[];
+  core_reports: SurveyCoreReports;
 };
 
 export type SurveyTemplate = {
@@ -703,4 +808,177 @@ export type SurveyTemplate = {
 
 export type AdminSurveyTemplateListResponse = {
   items: SurveyTemplate[];
+};
+
+// --- Order fulfillment (chef + shopper tracks) ---
+
+export type ChefFulfillmentStatus = "unassigned" | "assigned" | "preparing" | "ready_for_delivery";
+export type ShopperFulfillmentStatus = "unassigned" | "assigned" | "shopping" | "packed";
+
+export type FulfillmentAssignmentHistoryEntry = {
+  action: string;
+  worker_id?: string | null;
+  actor_user_id?: string | null;
+  note: string;
+  created_at: string;
+};
+
+export type WorkerSummary = {
+  id: string;
+  name: string;
+  email: string;
+};
+
+export type WorkerListResponse = {
+  items: WorkerSummary[];
+  total: number;
+};
+
+export type MealOrderFulfillmentItem = {
+  id: string;
+  meal_id: string;
+  meal_name: string;
+  img_url: string;
+  servings: number;
+  unit_price_minor: number;
+  line_total_minor: number;
+  currency: string;
+  delivery_date?: string | null;
+  slot: string;
+};
+
+export type MealOrderFulfillment = {
+  id: string;
+  order_number: string;
+  user_id: string;
+  status: string;
+  currency: string;
+  items: MealOrderFulfillmentItem[];
+  total_minor: number;
+  fulfillment_status: ChefFulfillmentStatus;
+  assigned_worker_id?: string | null;
+  assigned_by?: string | null;
+  assigned_at?: string | null;
+  assignment_history: FulfillmentAssignmentHistoryEntry[];
+  metadata: Record<string, unknown>;
+  created_at: string;
+  updated_at: string;
+};
+
+export type MealOrderFulfillmentListResponse = {
+  items: MealOrderFulfillment[];
+  next_cursor?: string | null;
+};
+
+export type GroceryOrderFulfillmentItem = {
+  id: string;
+  product_id: string;
+  product_name: string;
+  img_url: string;
+  quantity: number;
+  unit_label: string;
+  unit_price_minor: number;
+  line_total_minor: number;
+  currency: string;
+  source_meal_id?: string | null;
+};
+
+export type GroceryOrderFulfillment = {
+  id: string;
+  order_number: string;
+  user_id: string;
+  status: string;
+  currency: string;
+  items: GroceryOrderFulfillmentItem[];
+  total_minor: number;
+  fulfillment_status: ShopperFulfillmentStatus;
+  assigned_worker_id?: string | null;
+  assigned_by?: string | null;
+  assigned_at?: string | null;
+  assignment_history: FulfillmentAssignmentHistoryEntry[];
+  metadata: Record<string, unknown>;
+  created_at: string;
+  updated_at: string;
+};
+
+export type GroceryOrderFulfillmentListResponse = {
+  items: GroceryOrderFulfillment[];
+  next_cursor?: string | null;
+};
+
+export type AssignWorkerPayload = {
+  worker_id: string;
+  note?: string;
+};
+
+export type FulfillmentStatusUpdatePayload = {
+  status: string;
+  note?: string;
+};
+
+export type DeclineOrderPayload = {
+  reason_code: string;
+  note?: string;
+};
+
+export type RealtimeSessionResponse = {
+  accessToken: string;
+  wsUrl: string;
+  locations: string[];
+};
+
+export type WorkerRosterEntry = {
+  id: string;
+  name: string;
+  email: string;
+  active_count: number;
+  completed_this_week: number;
+};
+
+export type WorkerRosterListResponse = {
+  items: WorkerRosterEntry[];
+  total: number;
+};
+
+export type TrackOverview = {
+  unassigned: number;
+  in_progress: number;
+  completed_this_week: number;
+};
+
+export type FulfillmentOverviewResponse = {
+  chef: TrackOverview;
+  shopper: TrackOverview;
+};
+
+// --- Staff management ---
+
+export type StaffType = "contractor" | "full_time" | "part_time";
+
+export type StaffUser = {
+  id: string;
+  name: string;
+  email: string;
+  user_types: string[];
+  staff_type: StaffType | null;
+  created_at: string;
+};
+
+export type StaffListResponse = {
+  items: StaffUser[];
+  total: number;
+  page: number;
+  page_size: number;
+};
+
+export type CreateStaffPayload = {
+  name: string;
+  email: string;
+  user_types: string[];
+  staff_type?: StaffType | null;
+};
+
+export type UpdateStaffRolesPayload = {
+  user_types: string[];
+  staff_type?: StaffType | null;
 };

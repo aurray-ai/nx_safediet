@@ -1,5 +1,15 @@
+import type { Route } from "next";
+import Link from "next/link";
+
 import { getRoleConfig, getRoleFromSlug } from "@/lib/roles";
-import { fetchAdminInventory, fetchAdminOrders, fetchAdminProductsPage, fetchDeliveryFeeRules } from "@/lib/api";
+import {
+  fetchAdminInventory,
+  fetchAdminOrders,
+  fetchAdminProductsPage,
+  fetchChefMealOrders,
+  fetchDeliveryFeeRules,
+  fetchShopperGroceryOrders,
+} from "@/lib/api";
 import { formatCurrencyMinor, formatLabel, formatNumber } from "@/lib/admin-format";
 
 export default function DashboardRolePage({
@@ -85,6 +95,14 @@ export default function DashboardRolePage({
     eyebrow: "Dashboard home",
     description: "Start with the high-level workspace summary and the most important operating surfaces.",
   };
+
+  if (role === "chef") {
+    return <ChefDashboard configLabel={config.label} roleCopy={roleCopy.description} />;
+  }
+
+  if (role === "shopper") {
+    return <ShopperDashboard configLabel={config.label} roleCopy={roleCopy.description} />;
+  }
 
   if (role !== "admin") {
     return (
@@ -269,6 +287,156 @@ async function AdminDashboard({
             ))}
           </div>
         </article>
+      </section>
+    </>
+  );
+}
+
+async function ChefDashboard({
+  configLabel,
+  roleCopy,
+}: {
+  configLabel: string;
+  roleCopy: string;
+}) {
+  const orders = await fetchChefMealOrders({ limit: 20 });
+
+  const assignedCount = orders.items.filter((order) => order.fulfillment_status === "assigned").length;
+  const preparingCount = orders.items.filter((order) => order.fulfillment_status === "preparing").length;
+  const readyCount = orders.items.filter((order) => order.fulfillment_status === "ready_for_delivery").length;
+
+  return (
+    <>
+      <header className="app__admin-hero">
+        <div className="app__admin-heroCopy">
+          <p className="app__admin-eyebrow">Chef side</p>
+          <h1 className="app__admin-title">{configLabel} dashboard</h1>
+          <p className="app__admin-copy">Track prep, meal readiness, and handoff flow from one workspace.</p>
+          <p className="app__admin-supportingCopy">{roleCopy}</p>
+        </div>
+
+        <div className="app__admin-heroStats">
+          <article className="app__admin-statCard">
+            <span className="app__admin-userLabel">Assigned to me</span>
+            <strong>{formatNumber(assignedCount)}</strong>
+          </article>
+          <article className="app__admin-statCard">
+            <span className="app__admin-userLabel">Preparing now</span>
+            <strong>{formatNumber(preparingCount)}</strong>
+          </article>
+          <article className="app__admin-statCard">
+            <span className="app__admin-userLabel">Ready for delivery</span>
+            <strong>{formatNumber(readyCount)}</strong>
+          </article>
+        </div>
+      </header>
+
+      <section className="app__admin-productSection">
+        <div className="app__admin-sectionHeader">
+          <div>
+            <p className="app__admin-eyebrow">Today's queue</p>
+            <h2>My orders</h2>
+          </div>
+        </div>
+
+        {orders.items.length === 0 ? (
+          <p className="app__admin-inlineMeta">No orders assigned yet — check back soon.</p>
+        ) : (
+          <div className="app__admin-dataList">
+            {orders.items.slice(0, 5).map((order) => (
+              <article key={order.id} className="app__admin-dataRow">
+                <div className="app__admin-stack">
+                  <strong>{order.order_number}</strong>
+                  <span>{order.items.map((item) => item.meal_name).join(", ")}</span>
+                </div>
+                <div className="app__admin-inlineMetaList">
+                  <span>{formatLabel(order.fulfillment_status)}</span>
+                </div>
+              </article>
+            ))}
+          </div>
+        )}
+
+        <div className="app__admin-actionsWrap">
+          <Link href={"/dashboard/chef/my-orders" as Route} className="app__admin-secondaryButton">
+            View all my orders
+          </Link>
+        </div>
+      </section>
+    </>
+  );
+}
+
+async function ShopperDashboard({
+  configLabel,
+  roleCopy,
+}: {
+  configLabel: string;
+  roleCopy: string;
+}) {
+  const orders = await fetchShopperGroceryOrders({ limit: 20 });
+
+  const assignedCount = orders.items.filter((order) => order.fulfillment_status === "assigned").length;
+  const shoppingCount = orders.items.filter((order) => order.fulfillment_status === "shopping").length;
+  const packedCount = orders.items.filter((order) => order.fulfillment_status === "packed").length;
+
+  return (
+    <>
+      <header className="app__admin-hero">
+        <div className="app__admin-heroCopy">
+          <p className="app__admin-eyebrow">Shopper side</p>
+          <h1 className="app__admin-title">{configLabel} dashboard</h1>
+          <p className="app__admin-copy">Handle grocery runs, substitutions, and handoff status in one place.</p>
+          <p className="app__admin-supportingCopy">{roleCopy}</p>
+        </div>
+
+        <div className="app__admin-heroStats">
+          <article className="app__admin-statCard">
+            <span className="app__admin-userLabel">Assigned to me</span>
+            <strong>{formatNumber(assignedCount)}</strong>
+          </article>
+          <article className="app__admin-statCard">
+            <span className="app__admin-userLabel">Shopping now</span>
+            <strong>{formatNumber(shoppingCount)}</strong>
+          </article>
+          <article className="app__admin-statCard">
+            <span className="app__admin-userLabel">Packed / ready</span>
+            <strong>{formatNumber(packedCount)}</strong>
+          </article>
+        </div>
+      </header>
+
+      <section className="app__admin-productSection">
+        <div className="app__admin-sectionHeader">
+          <div>
+            <p className="app__admin-eyebrow">Today's runs</p>
+            <h2>My orders</h2>
+          </div>
+        </div>
+
+        {orders.items.length === 0 ? (
+          <p className="app__admin-inlineMeta">No runs assigned yet — check back soon.</p>
+        ) : (
+          <div className="app__admin-dataList">
+            {orders.items.slice(0, 5).map((order) => (
+              <article key={order.id} className="app__admin-dataRow">
+                <div className="app__admin-stack">
+                  <strong>{order.items.length} items to collect</strong>
+                  <span>{order.order_number}</span>
+                </div>
+                <div className="app__admin-inlineMetaList">
+                  <span>{formatLabel(order.fulfillment_status)}</span>
+                </div>
+              </article>
+            ))}
+          </div>
+        )}
+
+        <div className="app__admin-actionsWrap">
+          <Link href={"/dashboard/shopper/my-orders" as Route} className="app__admin-secondaryButton">
+            View all my orders
+          </Link>
+        </div>
       </section>
     </>
   );

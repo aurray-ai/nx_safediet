@@ -20,10 +20,18 @@ import type {
   AdminSurveyResponseListResponse,
   AdminSurveyTemplateListResponse,
   DeliveryFeeRuleListResponse,
+  FulfillmentOverviewResponse,
+  GroceryOrderFulfillment,
+  GroceryOrderFulfillmentListResponse,
   LoginResponse,
+  MealOrderFulfillment,
+  MealOrderFulfillmentListResponse,
   PublicSurvey,
+  StaffListResponse,
   SurveyAnalytics,
   SurveySubmission,
+  WorkerListResponse,
+  WorkerRosterListResponse,
 } from "@/lib/types";
 
 class SessionExpiredError extends Error {}
@@ -129,6 +137,13 @@ export async function registerCustomer(payload: Record<string, unknown>): Promis
   return apiRequest<LoginResponse>("/auth/register", {
     method: "POST",
     body: payload,
+  });
+}
+
+export async function acceptStaffInvitation(token: string, password: string): Promise<LoginResponse> {
+  return apiRequest<LoginResponse>(`/auth/staff-invitations/${encodeURIComponent(token)}/accept`, {
+    method: "POST",
+    body: { password },
   });
 }
 
@@ -403,6 +418,288 @@ export async function fetchAdminOrderRefunds(orderId: string): Promise<AdminRefu
 
   try {
     return await apiRequest<AdminRefundListResponse>(`/admin/grocery-orders/${orderId}/refunds`, {
+      token: session.accessToken,
+    });
+  } catch (error) {
+    if (error instanceof SessionExpiredError) {
+      redirect("/login");
+    }
+    throw error;
+  }
+}
+
+// --- Order fulfillment (chef + shopper tracks) ---
+
+type FulfillmentListQuery = {
+  before?: string;
+  limit?: number;
+};
+
+type WorkerListQuery = {
+  page?: number;
+  pageSize?: number;
+  search?: string;
+};
+
+export async function fetchAdminMealOrders(query: FulfillmentListQuery = {}): Promise<MealOrderFulfillmentListResponse> {
+  const session = await getSession();
+  if (!session) {
+    redirect("/login");
+  }
+
+  const queryString = buildQueryString([
+    ["before", query.before],
+    ["limit", query.limit ?? 20],
+  ]);
+
+  try {
+    return await apiRequest<MealOrderFulfillmentListResponse>(`/admin/meal-orders${queryString}`, {
+      token: session.accessToken,
+    });
+  } catch (error) {
+    if (error instanceof SessionExpiredError) {
+      redirect("/login");
+    }
+    throw error;
+  }
+}
+
+export async function fetchAdminMealOrder(orderId: string): Promise<MealOrderFulfillment> {
+  const session = await getSession();
+  if (!session) {
+    redirect("/login");
+  }
+
+  try {
+    return await apiRequest<MealOrderFulfillment>(`/admin/meal-orders/${orderId}`, {
+      token: session.accessToken,
+    });
+  } catch (error) {
+    if (error instanceof SessionExpiredError) {
+      redirect("/login");
+    }
+    throw error;
+  }
+}
+
+export async function fetchAdminChefs(query: WorkerListQuery = {}): Promise<WorkerListResponse> {
+  const session = await getSession();
+  if (!session) {
+    redirect("/login");
+  }
+
+  const queryString = buildQueryString([
+    ["page", query.page ?? 1],
+    ["page_size", query.pageSize ?? 50],
+    ["search", query.search?.trim() || undefined],
+  ]);
+
+  try {
+    return await apiRequest<WorkerListResponse>(`/admin/meal-orders/chefs${queryString}`, {
+      token: session.accessToken,
+    });
+  } catch (error) {
+    if (error instanceof SessionExpiredError) {
+      redirect("/login");
+    }
+    throw error;
+  }
+}
+
+export async function fetchAdminShoppers(query: WorkerListQuery = {}): Promise<WorkerListResponse> {
+  const session = await getSession();
+  if (!session) {
+    redirect("/login");
+  }
+
+  const queryString = buildQueryString([
+    ["page", query.page ?? 1],
+    ["page_size", query.pageSize ?? 50],
+    ["search", query.search?.trim() || undefined],
+  ]);
+
+  try {
+    return await apiRequest<WorkerListResponse>(`/admin/grocery-orders/shoppers${queryString}`, {
+      token: session.accessToken,
+    });
+  } catch (error) {
+    if (error instanceof SessionExpiredError) {
+      redirect("/login");
+    }
+    throw error;
+  }
+}
+
+export async function fetchAdminChefRoster(query: WorkerListQuery = {}): Promise<WorkerRosterListResponse> {
+  const session = await getSession();
+  if (!session) {
+    redirect("/login");
+  }
+
+  const queryString = buildQueryString([
+    ["page", query.page ?? 1],
+    ["page_size", query.pageSize ?? 50],
+    ["search", query.search?.trim() || undefined],
+  ]);
+
+  try {
+    return await apiRequest<WorkerRosterListResponse>(`/admin/meal-orders/chefs/roster${queryString}`, {
+      token: session.accessToken,
+    });
+  } catch (error) {
+    if (error instanceof SessionExpiredError) {
+      redirect("/login");
+    }
+    throw error;
+  }
+}
+
+export async function fetchAdminShopperRoster(query: WorkerListQuery = {}): Promise<WorkerRosterListResponse> {
+  const session = await getSession();
+  if (!session) {
+    redirect("/login");
+  }
+
+  const queryString = buildQueryString([
+    ["page", query.page ?? 1],
+    ["page_size", query.pageSize ?? 50],
+    ["search", query.search?.trim() || undefined],
+  ]);
+
+  try {
+    return await apiRequest<WorkerRosterListResponse>(`/admin/grocery-orders/shoppers/roster${queryString}`, {
+      token: session.accessToken,
+    });
+  } catch (error) {
+    if (error instanceof SessionExpiredError) {
+      redirect("/login");
+    }
+    throw error;
+  }
+}
+
+export async function fetchAdminFulfillmentOverview(): Promise<FulfillmentOverviewResponse> {
+  const session = await getSession();
+  if (!session) {
+    redirect("/login");
+  }
+
+  try {
+    return await apiRequest<FulfillmentOverviewResponse>("/admin/fulfillment/overview", {
+      token: session.accessToken,
+    });
+  } catch (error) {
+    if (error instanceof SessionExpiredError) {
+      redirect("/login");
+    }
+    throw error;
+  }
+}
+
+type StaffListQuery = {
+  page?: number;
+  pageSize?: number;
+  search?: string;
+  role?: string;
+};
+
+export async function fetchAdminStaff(query: StaffListQuery = {}): Promise<StaffListResponse> {
+  const session = await getSession();
+  if (!session) {
+    redirect("/login");
+  }
+
+  const queryString = buildQueryString([
+    ["page", query.page ?? 1],
+    ["page_size", query.pageSize ?? 20],
+    ["search", query.search?.trim() || undefined],
+    ["role", query.role],
+  ]);
+
+  try {
+    return await apiRequest<StaffListResponse>(`/admin/staff${queryString}`, {
+      token: session.accessToken,
+    });
+  } catch (error) {
+    if (error instanceof SessionExpiredError) {
+      redirect("/login");
+    }
+    throw error;
+  }
+}
+
+export async function fetchChefMealOrders(query: FulfillmentListQuery = {}): Promise<MealOrderFulfillmentListResponse> {
+  const session = await getSession();
+  if (!session) {
+    redirect("/login");
+  }
+
+  const queryString = buildQueryString([
+    ["before", query.before],
+    ["limit", query.limit ?? 20],
+  ]);
+
+  try {
+    return await apiRequest<MealOrderFulfillmentListResponse>(`/chef/orders${queryString}`, {
+      token: session.accessToken,
+    });
+  } catch (error) {
+    if (error instanceof SessionExpiredError) {
+      redirect("/login");
+    }
+    throw error;
+  }
+}
+
+export async function fetchChefMealOrder(orderId: string): Promise<MealOrderFulfillment> {
+  const session = await getSession();
+  if (!session) {
+    redirect("/login");
+  }
+
+  try {
+    return await apiRequest<MealOrderFulfillment>(`/chef/orders/${orderId}`, {
+      token: session.accessToken,
+    });
+  } catch (error) {
+    if (error instanceof SessionExpiredError) {
+      redirect("/login");
+    }
+    throw error;
+  }
+}
+
+export async function fetchShopperGroceryOrders(query: FulfillmentListQuery = {}): Promise<GroceryOrderFulfillmentListResponse> {
+  const session = await getSession();
+  if (!session) {
+    redirect("/login");
+  }
+
+  const queryString = buildQueryString([
+    ["before", query.before],
+    ["limit", query.limit ?? 20],
+  ]);
+
+  try {
+    return await apiRequest<GroceryOrderFulfillmentListResponse>(`/shopper/orders${queryString}`, {
+      token: session.accessToken,
+    });
+  } catch (error) {
+    if (error instanceof SessionExpiredError) {
+      redirect("/login");
+    }
+    throw error;
+  }
+}
+
+export async function fetchShopperGroceryOrder(orderId: string): Promise<GroceryOrderFulfillment> {
+  const session = await getSession();
+  if (!session) {
+    redirect("/login");
+  }
+
+  try {
+    return await apiRequest<GroceryOrderFulfillment>(`/shopper/orders/${orderId}`, {
       token: session.accessToken,
     });
   } catch (error) {

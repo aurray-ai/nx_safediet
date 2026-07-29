@@ -3,6 +3,7 @@ import Link from "next/link";
 import { redirect } from "next/navigation";
 
 import { LogoutButton } from "@/components/dashboard/logout-button";
+import { RealtimeProvider } from "@/components/dashboard/realtime-provider";
 import { SidebarNav } from "@/components/dashboard/sidebar-nav";
 import { getRoleConfig, getRoleFromSlug, getRoleSlug } from "@/lib/roles";
 import { getSession } from "@/lib/session";
@@ -52,7 +53,9 @@ export default async function DashboardRoleLayout({
           </div>
         </aside>
 
-        <main className="app__admin-main">{children}</main>
+        <main className="app__admin-main">
+          <RealtimeProvider>{children}</RealtimeProvider>
+        </main>
       </div>
     </main>
   );
