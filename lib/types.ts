@@ -982,3 +982,136 @@ export type UpdateStaffRolesPayload = {
   user_types: string[];
   staff_type?: StaffType | null;
 };
+
+// --- Product discounts (groceries) ---
+
+export type Discount = {
+  id: string;
+  label: string;
+  percent: number;
+  product_count: number;
+  created_at: string;
+  updated_at: string;
+};
+
+export type DiscountListResponse = {
+  items: Discount[];
+};
+
+export type CreateDiscountPayload = {
+  label: string;
+  percent: number;
+};
+
+export type UpdateDiscountPayload = {
+  label: string;
+  percent: number;
+};
+
+export type DiscountProduct = {
+  id: string;
+  product: string;
+  img_url: string;
+  category_id: string;
+};
+
+export type DiscountProductListResponse = {
+  items: DiscountProduct[];
+  total: number;
+  page: number;
+  page_size: number;
+};
+
+export type AssignProductsToDiscountPayload = {
+  product_ids: string[];
+};
+
+export type UnassignProductsFromDiscountPayload = {
+  product_ids: string[];
+};
+
+export type DiscountAuditEntry = {
+  action: string;
+  details: Record<string, unknown>;
+  actor_user_id: string;
+  actor_name: string;
+  created_at: string;
+};
+
+export type DiscountAuditListResponse = {
+  items: DiscountAuditEntry[];
+};
+
+// --- Customer management ---
+
+export type AdminCustomerSummary = {
+  id: string;
+  name: string;
+  email: string;
+  created_at: string;
+};
+
+export type AdminCustomerListResponse = {
+  items: AdminCustomerSummary[];
+  total: number;
+  page: number;
+  page_size: number;
+};
+
+export type AdminCustomerSubscription = {
+  plan_code: string;
+  plan_name: string;
+  status: string;
+  provider: string;
+  price_minor: number;
+  currency: string;
+  is_premium: boolean;
+  started_at: string | null;
+  expires_at: string | null;
+  renewal_at: string | null;
+};
+
+export type AdminCustomerWallet = {
+  currency: string;
+  status: string;
+  available_balance_minor: number;
+  held_balance_minor: number;
+  lifetime_credited_minor: number;
+  lifetime_debited_minor: number;
+};
+
+export type AdminCustomerOrderSummary = {
+  id: string;
+  order_number: string;
+  kind: "grocery" | "meal";
+  status: string;
+  total_minor: number;
+  currency: string;
+  created_at: string;
+};
+
+export type AdminCustomerDetail = {
+  id: string;
+  name: string;
+  email: string;
+  user_types: string[];
+  created_at: string;
+  subscription: AdminCustomerSubscription;
+  wallet: AdminCustomerWallet;
+  recent_orders: AdminCustomerOrderSummary[];
+};
+
+export type CancelCustomerSubscriptionPayload = {
+  reason: string;
+};
+
+export type AdminCustomerAuditEntry = {
+  action: string;
+  details: Record<string, unknown>;
+  actor_user_id: string;
+  created_at: string;
+};
+
+export type AdminCustomerAuditListResponse = {
+  items: AdminCustomerAuditEntry[];
+};

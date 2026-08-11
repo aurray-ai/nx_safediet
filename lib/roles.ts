@@ -3,6 +3,7 @@ export type DashboardRole = "admin" | "user" | "chef" | "shopper" | "delivery_ag
 export type DashboardNavItem = {
   href: string;
   label: string;
+  group?: string;
 };
 
 export type DashboardRoleConfig = {
@@ -37,18 +38,20 @@ const ROLE_CONFIGS: Record<DashboardRole, DashboardRoleConfig> = {
     dashboardHref: "/dashboard/admin",
     navItems: [
       { href: "/dashboard/admin", label: "Home" },
-      { href: "/dashboard/admin/products", label: "Groceries" },
-      { href: "/dashboard/admin/inventory", label: "Inventory" },
-      { href: "/dashboard/admin/orders", label: "Orders" },
-      { href: "/dashboard/admin/meal-orders", label: "Meal orders" },
-      { href: "/dashboard/admin/fulfillment", label: "Fulfillment" },
-      { href: "/dashboard/admin/chefs", label: "Chefs" },
-      { href: "/dashboard/admin/shoppers", label: "Shoppers" },
-      { href: "/dashboard/admin/staff", label: "Staff" },
-      { href: "/dashboard/admin/delivery-fees", label: "Delivery fees" },
-      { href: "/dashboard/admin/meals", label: "Meals" },
-      { href: "/dashboard/admin/promotions", label: "Promotions" },
-      { href: "/dashboard/admin/surveys", label: "Surveys" },
+      { href: "/dashboard/admin/products", label: "Groceries", group: "Catalog" },
+      { href: "/dashboard/admin/meals", label: "Meals", group: "Catalog" },
+      { href: "/dashboard/admin/inventory", label: "Inventory", group: "Catalog" },
+      { href: "/dashboard/admin/discounts", label: "Discounts", group: "Pricing" },
+      { href: "/dashboard/admin/delivery-fees", label: "Delivery fees", group: "Pricing" },
+      { href: "/dashboard/admin/customers", label: "Customers", group: "Customers" },
+      { href: "/dashboard/admin/orders", label: "Orders", group: "Orders & Fulfillment" },
+      { href: "/dashboard/admin/meal-orders", label: "Meal orders", group: "Orders & Fulfillment" },
+      { href: "/dashboard/admin/fulfillment", label: "Fulfillment", group: "Orders & Fulfillment" },
+      { href: "/dashboard/admin/chefs", label: "Chefs", group: "Team" },
+      { href: "/dashboard/admin/shoppers", label: "Shoppers", group: "Team" },
+      { href: "/dashboard/admin/staff", label: "Staff", group: "Team" },
+      { href: "/dashboard/admin/promotions", label: "Promotions", group: "Engagement" },
+      { href: "/dashboard/admin/surveys", label: "Surveys", group: "Engagement" },
     ],
   },
   user: {

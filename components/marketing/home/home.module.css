@@ -2015,3 +2015,397 @@
   color: var(--ink-soft);
   padding: 40px 0;
 }
+
+/* ---------- route comparison (see the difference) ---------- */
+.routePanel {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-lg);
+  padding: 32px;
+}
+
+.routeHeadStatic {
+  margin-bottom: 8px;
+}
+
+.routeTitle {
+  font-family: var(--serif);
+  font-weight: 500;
+  font-size: 1.25rem;
+  margin: 4px 0 0;
+  color: var(--ink);
+}
+
+.routeSubtitle {
+  margin: 12px 0 0;
+  max-width: 62ch;
+  color: var(--ink-soft);
+  font-size: 0.98rem;
+  line-height: 1.6;
+}
+
+.lane {
+  padding: 30px 0;
+}
+
+.lane + .lane {
+  border-top: 1px dashed var(--line);
+}
+
+.laneTag {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--forest);
+  background: var(--forest-tint);
+  padding: 6px 13px;
+  border-radius: 999px;
+  margin-bottom: 24px;
+}
+
+.laneTag svg {
+  width: 12px;
+  height: 12px;
+}
+
+.laneTagMuted {
+  color: var(--ink-soft);
+  background: var(--cream);
+}
+
+.laneRow {
+  display: flex;
+  align-items: stretch;
+  gap: 0;
+}
+
+@media (max-width: 760px) {
+  .laneRow {
+    flex-direction: column;
+    align-items: center;
+    gap: 18px;
+  }
+}
+
+.routeSources {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 14px;
+  flex-shrink: 0;
+  width: 178px;
+}
+
+@media (max-width: 760px) {
+  .routeSources {
+    width: 100%;
+  }
+}
+
+.routeSource {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.routeSourceIcon {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: var(--icon-bg);
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+}
+
+.routeSourceIcon svg {
+  width: 16px;
+  height: 16px;
+  color: var(--forest);
+}
+
+.routeSource strong {
+  display: block;
+  font-size: 0.82rem;
+}
+
+.routeSourceSub {
+  display: block;
+  font-size: 0.71rem;
+  color: var(--ink-soft);
+  margin-top: 1px;
+}
+
+.routeMerge {
+  width: 42px;
+  flex-shrink: 0;
+  color: var(--line);
+  align-self: stretch;
+}
+
+.routeMerge svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+@media (max-width: 760px) {
+  .routeMerge {
+    display: none;
+  }
+}
+
+.routeStops {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  flex: 1;
+  min-width: 0;
+  padding: 0 14px;
+}
+
+.flowStepGroup {
+  display: contents;
+}
+
+.flowStepCompact {
+  padding: 0;
+  text-align: center;
+  flex-shrink: 0;
+  width: 88px;
+}
+
+.flowIcon {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: var(--icon-bg);
+  display: grid;
+  place-items: center;
+  margin: 0 auto 10px;
+}
+
+.flowIcon svg {
+  width: 19px;
+  height: 19px;
+  color: var(--forest);
+}
+
+.flowLabel {
+  font-weight: 700;
+  font-size: 0.9rem;
+}
+
+.flowStepCompact .flowLabel {
+  font-size: 0.77rem;
+  font-weight: 700;
+}
+
+.flowArrow {
+  flex: 0 0 auto;
+  width: 34px;
+  height: 16px;
+  color: var(--line);
+  align-self: center;
+  margin: 0 4px;
+}
+
+.flowArrowSm {
+  flex: 0 0 auto;
+  width: 22px;
+  height: 14px;
+  color: var(--line);
+  align-self: center;
+}
+
+.laneSafediet .flowArrow {
+  color: var(--gold);
+}
+
+.hubNode {
+  text-align: center;
+  flex-shrink: 0;
+}
+
+.hubIcon {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: var(--forest);
+  display: grid;
+  place-items: center;
+  margin: 0 auto 10px;
+  box-shadow: 0 14px 26px -12px rgba(var(--shadow), 0.5);
+}
+
+.hubIcon svg {
+  width: 24px;
+  height: 24px;
+  color: var(--surface);
+}
+
+.routeDest {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  flex-shrink: 0;
+  width: 92px;
+}
+
+.flowIconDest {
+  width: 46px;
+  height: 46px;
+  background: var(--gold-cta);
+  margin: 0 auto;
+}
+
+.flowIconDest svg {
+  width: 19px;
+  height: 19px;
+  color: var(--forest-deep);
+}
+
+.routePrice {
+  display: block;
+  margin-top: 2px;
+  font-family: var(--serif);
+  font-size: 1.15rem;
+  color: var(--ink-soft);
+  font-variant-numeric: tabular-nums;
+}
+
+.routePriceBrand {
+  color: var(--forest);
+  font-weight: 700;
+}
+
+.routeCaption {
+  margin-top: 24px;
+  padding-top: 20px;
+  border-top: 1px dashed var(--line);
+  font-size: 0.82rem;
+  color: var(--ink-soft);
+}
+
+/* ---------- week plan modal (meals screen) ---------- */
+.weekPlanFab {
+  position: fixed;
+  right: 24px;
+  bottom: 24px;
+  z-index: 60;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 15px 22px;
+  border-radius: 999px;
+  border: none;
+  background: var(--forest);
+  color: var(--surface);
+  font-weight: 600;
+  font-size: 0.92rem;
+  cursor: pointer;
+  box-shadow: 0 14px 30px -10px rgba(var(--shadow), 0.55);
+  transition: transform 0.15s ease, background 0.15s ease, box-shadow 0.15s ease;
+}
+
+.weekPlanFab:hover {
+  background: var(--forest-deep);
+  transform: translateY(-2px);
+  box-shadow: 0 18px 34px -10px rgba(var(--shadow), 0.6);
+}
+
+.weekPlanFab:focus-visible {
+  outline: 2px solid var(--gold);
+  outline-offset: 3px;
+}
+
+@media (max-width: 640px) {
+  .weekPlanFab {
+    left: 16px;
+    right: 16px;
+    bottom: 16px;
+    justify-content: center;
+    text-align: center;
+  }
+}
+
+.weekPlanOverlay {
+  position: fixed;
+  inset: 0;
+  z-index: 70;
+  background: rgba(20, 21, 15, 0.55);
+  backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  overflow-y: auto;
+}
+
+.weekPlanModal {
+  position: relative;
+  width: 100%;
+  max-width: 880px;
+  max-height: calc(100vh - 48px);
+  overflow-y: auto;
+  background: var(--cream);
+  border-radius: var(--radius-lg);
+  padding: 36px;
+  box-shadow: 0 40px 80px -20px rgba(var(--shadow), 0.55);
+}
+
+@media (max-width: 640px) {
+  .weekPlanModal {
+    padding: 24px 18px;
+    border-radius: var(--radius-md);
+  }
+}
+
+.weekPlanModalClose {
+  position: absolute;
+  top: 18px;
+  right: 18px;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: 1px solid var(--line);
+  background: var(--surface);
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+}
+
+.weekPlanModalClose svg {
+  width: 16px;
+  height: 16px;
+  color: var(--ink);
+}
+
+.weekPlanModalClose:hover {
+  border-color: var(--forest);
+}
+
+.weekPlanModalHead {
+  max-width: 640px;
+  margin: 0 44px 28px 0;
+}
+
+.weekPlanModalHead h2 {
+  font-family: var(--serif);
+  font-weight: 500;
+  font-size: clamp(1.6rem, 3vw, 2rem);
+  margin: 10px 0 0;
+  color: var(--ink);
+}
+
+.weekPlanModalHead p {
+  margin-top: 10px;
+  color: var(--ink-soft);
+}
