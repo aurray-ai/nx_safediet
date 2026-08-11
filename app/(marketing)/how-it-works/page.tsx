@@ -8,9 +8,12 @@ import { HowItWorksSteps } from "./how-it-works-steps";
 import { WhyItWorks } from "./why-it-works";
 
 export const metadata = {
-  title: "How It Works | SAFEDIET",
+  title: "How It Works",
   description:
     "SAFEDIET agents plan your meals around your budget, you shop them at wholesale prices, and your household tracks the spend together.",
+  alternates: {
+    canonical: "/how-it-works",
+  },
 };
 
 export default async function HowItWorksPage() {

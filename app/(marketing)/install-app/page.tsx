@@ -1,8 +1,18 @@
+import type { Metadata } from "next";
+
 import Image from "next/image";
 import Link from "next/link";
 
 import { IconCheckCircle } from "@/components/marketing/home/icons";
 import styles from "@/components/marketing/home/home.module.css";
+
+export const metadata: Metadata = {
+  title: "Get the App",
+  description: "Install the SAFEDIET app on iOS or Android to plan, shop and track your weekly meals on the go.",
+  alternates: {
+    canonical: "/install-app",
+  },
+};
 
 // TODO: replace with the real numeric App Store ID once provided (apps.apple.com/app/id<ID>).
 const IOS_APP_STORE_URL = "https://apps.apple.com/app/id0000000000";
