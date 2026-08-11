@@ -3,6 +3,9 @@ import { redirect } from "next/navigation";
 import { API_BASE_URL } from "@/lib/config";
 import { getSession } from "@/lib/session";
 import type {
+  AdminCustomerAuditListResponse,
+  AdminCustomerDetail,
+  AdminCustomerListResponse,
   AdminMeal,
   AdminMealListResponse,
   AdminMealMetadata,
@@ -20,6 +23,10 @@ import type {
   AdminSurveyResponseListResponse,
   AdminSurveyTemplateListResponse,
   DeliveryFeeRuleListResponse,
+  Discount,
+  DiscountAuditListResponse,
+  DiscountListResponse,
+  DiscountProductListResponse,
   FulfillmentOverviewResponse,
   GroceryOrderFulfillment,
   GroceryOrderFulfillmentListResponse,
@@ -603,6 +610,12 @@ type StaffListQuery = {
   role?: string;
 };
 
+type AdminCustomerListQuery = {
+  page?: number;
+  pageSize?: number;
+  search?: string;
+};
+
 export async function fetchAdminStaff(query: StaffListQuery = {}): Promise<StaffListResponse> {
   const session = await getSession();
   if (!session) {
@@ -618,6 +631,153 @@ export async function fetchAdminStaff(query: StaffListQuery = {}): Promise<Staff
 
   try {
     return await apiRequest<StaffListResponse>(`/admin/staff${queryString}`, {
+      token: session.accessToken,
+    });
+  } catch (error) {
+    if (error instanceof SessionExpiredError) {
+      redirect("/login");
+    }
+    throw error;
+  }
+}
+
+export async function fetchAdminCustomers(query: AdminCustomerListQuery = {}): Promise<AdminCustomerListResponse> {
+  const session = await getSession();
+  if (!session) {
+    redirect("/login");
+  }
+
+  const queryString = buildQueryString([
+    ["page", query.page ?? 1],
+    ["page_size", query.pageSize ?? 20],
+    ["search", query.search?.trim() || undefined],
+  ]);
+
+  try {
+    return await apiRequest<AdminCustomerListResponse>(`/admin/customers${queryString}`, {
+      token: session.accessToken,
+    });
+  } catch (error) {
+    if (error instanceof SessionExpiredError) {
+      redirect("/login");
+    }
+    throw error;
+  }
+}
+
+export async function fetchAdminCustomer(userId: string): Promise<AdminCustomerDetail> {
+  const session = await getSession();
+  if (!session) {
+    redirect("/login");
+  }
+
+  try {
+    return await apiRequest<AdminCustomerDetail>(`/admin/customers/${userId}`, {
+      token: session.accessToken,
+    });
+  } catch (error) {
+    if (error instanceof SessionExpiredError) {
+      redirect("/login");
+    }
+    throw error;
+  }
+}
+
+export async function fetchAdminCustomerAuditLog(userId: string): Promise<AdminCustomerAuditListResponse> {
+  const session = await getSession();
+  if (!session) {
+    redirect("/login");
+  }
+
+  try {
+    return await apiRequest<AdminCustomerAuditListResponse>(`/admin/customers/${userId}/audit-log`, {
+      token: session.accessToken,
+    });
+  } catch (error) {
+    if (error instanceof SessionExpiredError) {
+      redirect("/login");
+    }
+    throw error;
+  }
+}
+
+export async function fetchAdminDiscounts(): Promise<DiscountListResponse> {
+  const session = await getSession();
+  if (!session) {
+    redirect("/login");
+  }
+
+  try {
+    return await apiRequest<DiscountListResponse>("/admin/discounts", {
+      token: session.accessToken,
+    });
+  } catch (error) {
+    if (error instanceof SessionExpiredError) {
+      redirect("/login");
+    }
+    throw error;
+  }
+}
+
+export async function fetchAdminDiscount(discountId: string): Promise<Discount> {
+  const session = await getSession();
+  if (!session) {
+    redirect("/login");
+  }
+
+  try {
+    return await apiRequest<Discount>(`/admin/discounts/${discountId}`, {
+      token: session.accessToken,
+    });
+  } catch (error) {
+    if (error instanceof SessionExpiredError) {
+      redirect("/login");
+    }
+    throw error;
+  }
+}
+
+type DiscountProductListQuery = {
+  page?: number;
+  pageSize?: number;
+  search?: string;
+};
+
+export async function fetchAdminDiscountProducts(
+  discountId: string,
+  query: DiscountProductListQuery = {},
+): Promise<DiscountProductListResponse> {
+  const session = await getSession();
+  if (!session) {
+    redirect("/login");
+  }
+
+  const queryString = buildQueryString([
+    ["page", query.page ?? 1],
+    ["page_size", query.pageSize ?? 20],
+    ["search", query.search?.trim() || undefined],
+  ]);
+
+  try {
+    return await apiRequest<DiscountProductListResponse>(`/admin/discounts/${discountId}/products${queryString}`, {
+      token: session.accessToken,
+    });
+  } catch (error) {
+    if (error instanceof SessionExpiredError) {
+      redirect("/login");
+    }
+    throw error;
+  }
+}
+
+export async function fetchAdminDiscountAuditLog(discountId: string): Promise<DiscountAuditListResponse> {
+  const session = await getSession();
+  if (!session) {
+    redirect("/login");
+  }
+
+  try {
+    return await apiRequest<DiscountAuditListResponse>(`/admin/discounts/${discountId}/audit-log`, {
       token: session.accessToken,
     });
   } catch (error) {

@@ -3570,6 +3570,76 @@ a {
   font-weight: 700;
 }
 
+.app__admin-navGroup {
+  display: grid;
+  gap: 0.2rem;
+}
+
+.app__admin-navGroupToggle {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  width: 100%;
+  margin: 0.5rem 0 0.15rem;
+  padding: 0.3rem 0.7rem;
+  background: none;
+  border: 1px solid transparent;
+  cursor: pointer;
+  text-align: left;
+  transition: background 0.2s ease, border-color 0.2s ease;
+}
+
+.app__admin-navGroupToggle:hover {
+  background: #f6f1e8;
+  border-color: #e0d6ca;
+}
+
+.app__admin-navGroupToggle:focus-visible {
+  outline: 2px solid #b98a52;
+  outline-offset: 2px;
+}
+
+.app__admin-navGroup:first-child .app__admin-navGroupToggle {
+  margin-top: 0;
+}
+
+.app__admin-navGroupLabel {
+  color: #7a6a59;
+  font-family: var(--font-alt);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.app__admin-navGroupChevron {
+  flex-shrink: 0;
+  color: #a8967f;
+  transition: transform 0.25s ease;
+}
+
+.app__admin-navGroupChevron.is-open {
+  transform: rotate(180deg);
+}
+
+.app__admin-navGroupContent {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 0.25s ease;
+}
+
+.app__admin-navGroupContent.is-open {
+  grid-template-rows: 1fr;
+}
+
+.app__admin-navGroupItems {
+  display: grid;
+  gap: 0.35rem;
+  overflow: hidden;
+  min-height: 0;
+}
+
 .app__admin-sidebarCard {
   display: grid;
   gap: 0.35rem;
@@ -4160,6 +4230,56 @@ a {
 .app__admin-dataRow--stacked {
   grid-template-columns: minmax(0, 1fr);
   align-items: start;
+}
+
+.app__admin-dataRow--withChevron {
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+}
+
+.app__admin-dataRowChevron {
+  color: #8e6a44;
+  flex-shrink: 0;
+}
+
+.app__admin-dataRow--selected {
+  border-color: #c9b08e;
+  background: #f6ecd9;
+}
+
+.app__admin-linkButton {
+  justify-self: start;
+  border: none;
+  background: none;
+  padding: 0;
+  color: #8e6a44;
+  font-family: var(--font-alt);
+  font-size: 0.9rem;
+  font-weight: 700;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.app__admin-linkButton:disabled {
+  cursor: default;
+  opacity: 0.6;
+}
+
+.app__admin-searchField {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.app__admin-searchField svg {
+  position: absolute;
+  left: 0.75rem;
+  color: #8e6a44;
+  pointer-events: none;
+}
+
+.app__admin-searchField .app__admin-input {
+  padding-left: 2.35rem;
 }
 
 .app__admin-dataLead {

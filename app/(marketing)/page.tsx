@@ -2,11 +2,10 @@ import { HomeFeaturedMeals } from "@/components/marketing/home/home-featured-mea
 import { HomeFinalCta } from "@/components/marketing/home/home-final-cta";
 import { HomeFooter } from "@/components/marketing/home/home-footer";
 import { HomeHero } from "@/components/marketing/home/home-hero";
-import { HomeHowItWorks } from "@/components/marketing/home/home-how-it-works";
 import styles from "@/components/marketing/home/home.module.css";
 import { HomeNavbar } from "@/components/marketing/home/home-navbar";
+import { HomeRouteCompare } from "@/components/marketing/home/home-route-compare";
 import { HomeSharedBudget } from "@/components/marketing/home/home-shared-budget";
-import { HomeWeeklyPlan } from "@/components/marketing/home/home-weekly-plan";
 import { getSession } from "@/lib/session";
 
 export default async function HomePage() {
@@ -17,8 +16,7 @@ export default async function HomePage() {
       <HomeNavbar dashboardHref={session?.defaultDashboardHref ?? null} />
       <main>
         <HomeHero />
-        <HomeHowItWorks />
-        <HomeWeeklyPlan />
+        <HomeRouteCompare />
         <HomeSharedBudget />
         <HomeFeaturedMeals />
         <HomeFinalCta />

@@ -9,6 +9,7 @@ import { HomeNavbar } from "@/components/marketing/home/home-navbar";
 import styles from "@/components/marketing/home/home.module.css";
 import { IconHeart } from "@/components/marketing/home/icons";
 import { catalogMeals } from "@/components/marketing/home/plan-data";
+import { WeekPlanModal } from "@/components/marketing/home/week-plan-modal";
 
 const FILTERS = ["All", "Breakfast", "Lunch", "Dinner", "Featured"] as const;
 
@@ -90,6 +91,7 @@ export default function MealsPage() {
         </section>
       </main>
       <HomeFooter />
+      <WeekPlanModal />
     </div>
   );
 }

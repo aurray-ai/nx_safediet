@@ -223,3 +223,71 @@ export function IconCircleArrow({ className, style }: IconProps) {
     </svg>
   );
 }
+
+export function IconFarm({ className, style }: IconProps) {
+  return (
+    <svg className={className} style={style} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6">
+      <path d="M3 21h18M5 21V10l7-6 7 6v11M9 21v-6h6v6" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+  );
+}
+
+export function IconFactory({ className, style }: IconProps) {
+  return (
+    <svg className={className} style={style} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6">
+      <path d="M3 21V10l6 3V10l6 3V10l6 3v8H3Z" strokeLinejoin="round" />
+      <path d="M7 21v-4M12 21v-4M17 21v-4" strokeLinecap="round" />
+    </svg>
+  );
+}
+
+export function IconPallet({ className, style }: IconProps) {
+  return (
+    <svg className={className} style={style} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6">
+      <rect x="3" y="10" width="8" height="8" rx="1" />
+      <rect x="13" y="10" width="8" height="8" rx="1" />
+      <rect x="8" y="3" width="8" height="7" rx="1" />
+    </svg>
+  );
+}
+
+export function IconTruck({ className, style }: IconProps) {
+  return (
+    <svg className={className} style={style} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6">
+      <rect x="1" y="9" width="14" height="8" rx="1" />
+      <path d="M15 12h4l3 3v2h-7v-5Z" strokeLinejoin="round" />
+      <circle cx="6" cy="19" r="1.6" />
+      <circle cx="17" cy="19" r="1.6" />
+    </svg>
+  );
+}
+
+export function IconDeliveryVan({ className, style }: IconProps) {
+  return (
+    <svg className={className} style={style} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6">
+      <rect x="1.5" y="7" width="13" height="9" rx="1.5" />
+      <path d="M14.5 10.5H18l3.5 3v2.5h-7v-5.5Z" strokeLinejoin="round" />
+      <path d="M4.5 11.5h7" strokeLinecap="round" />
+      <circle cx="7" cy="18.5" r="1.7" />
+      <circle cx="17.5" cy="18.5" r="1.7" />
+    </svg>
+  );
+}
+
+export function IconWarehouse({ className, style }: IconProps) {
+  return (
+    <svg className={className} style={style} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6">
+      <path d="M3 9l9-6 9 6v11a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V9Z" strokeLinejoin="round" />
+      <path d="M9 20v-6h6v6" strokeLinecap="round" />
+    </svg>
+  );
+}
+
+export function IconStoreShelf({ className, style }: IconProps) {
+  return (
+    <svg className={className} style={style} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6">
+      <path d="M4 10V4h16v6M3 10h18l-1 10H4L3 10Z" strokeLinejoin="round" />
+      <path d="M9 14h6" strokeLinecap="round" />
+    </svg>
+  );
+}
