@@ -5,7 +5,7 @@ import styles from "./home.module.css";
 
 export function HomeFinalCta() {
   return (
-    <section className={styles.section} id="pricing">
+    <section className={styles.section}>
       <div className={styles.wrap}>
         <div className={styles.finalCta}>
           <div className={styles.finalCtaGrid}>
