@@ -1,21 +1,21 @@
 import styles from "@/components/marketing/home/home.module.css";
-import { IconChevronRight, IconCheckCircle, IconHousehold, IconWallet } from "@/components/marketing/home/icons";
+import { IconChevronRight, IconCheckCircle, IconShield, IconWallet } from "@/components/marketing/home/icons";
 
 const REASONS = [
   {
+    icon: IconShield,
+    title: "Diets always protected",
+    body: "Allergies and mandatory dietary needs are hard constraints — never traded away for a lower price.",
+  },
+  {
     icon: IconWallet,
-    title: "Buy direct, skip the markup",
-    body: "We buy direct from manufacturers and wholesalers, so you get better quality at lower prices.",
+    title: "Pricing shown before checkout",
+    body: "Product cost, delivery and any service fee are always broken out — nothing hidden in the total.",
   },
   {
     icon: IconCheckCircle,
-    title: "Agents check your pantry first",
-    body: "We scan what you already have to build plans you can actually cook and finish.",
-  },
-  {
-    icon: IconHousehold,
-    title: "Split fairly, see everything",
-    body: "Fair splits, full visibility, and shared receipts keep everyone aligned and accountable.",
+    title: "Cancel anytime",
+    body: "No lock-in, no retention calls. Free tools stay free even if you cancel Plus.",
   },
 ];
 

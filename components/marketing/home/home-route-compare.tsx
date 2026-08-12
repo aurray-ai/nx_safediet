@@ -1,6 +1,9 @@
+import Link from "next/link";
+
 import styles from "./home.module.css";
 import {
   IconCheckCircle,
+  IconCircleArrow,
   IconDeliveryVan,
   IconFactory,
   IconFarm,
@@ -144,6 +147,11 @@ export function HomeRouteCompare() {
             Illustrative example. Produce &amp; dairy: farm-direct · Pantry staples: manufacturer-direct · Bulk
             items: wholesaler-direct.
           </p>
+
+          <Link href="/how-it-works" className={styles.secondaryLink} style={{ marginTop: 20 }}>
+            See how it works, step by step
+            <IconCircleArrow />
+          </Link>
         </div>
       </div>
     </section>

@@ -2409,3 +2409,135 @@
   margin-top: 10px;
   color: var(--ink-soft);
 }
+
+/* ---------- how it works: illustrated steps ---------- */
+.hiwSteps { display: flex; flex-direction: column; }
+.hiwStep {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 72px; align-items: center;
+  padding: 64px 0; border-top: 1px solid var(--line);
+}
+.hiwSteps .hiwStep:first-child { border-top: none; }
+.hiwStepReverse .hiwStepCopy { order: 2; }
+.hiwStepReverse .hiwStepArt { order: 1; }
+@media (max-width: 900px) {
+  .hiwStep, .hiwStepReverse { grid-template-columns: 1fr; gap: 36px; }
+  .hiwStepReverse .hiwStepCopy, .hiwStepReverse .hiwStepArt { order: initial; }
+}
+
+.hiwStepNum {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 40px; height: 40px; border-radius: 50%;
+  background: var(--forest-tint); color: var(--forest);
+  font-family: var(--serif); font-size: 1.1rem; margin-bottom: 20px;
+}
+.hiwStepCopy h2 { font-family: var(--serif); font-weight: 500; font-size: clamp(1.5rem, 2.6vw, 2rem); color: var(--ink); }
+.hiwStepCopy p { margin-top: 16px; color: var(--ink-soft); font-size: 1.02rem; max-width: 46ch; }
+.hiwStepTag {
+  display: inline-flex; align-items: center; gap: 6px; margin-top: 20px;
+  font-size: 0.78rem; font-weight: 700; color: var(--forest);
+  background: var(--forest-tint); padding: 6px 13px; border-radius: 999px;
+}
+.hiwStepTag svg { width: 13px; height: 13px; }
+
+.hiwStepArt { display: flex; justify-content: center; }
+
+/* ---------- phone frame (illustrated screen) ---------- */
+.hiwPhoneIllustrated {
+  width: 252px; border-radius: 34px; padding: 8px;
+  background: var(--forest-deep);
+  box-shadow: 0 40px 70px -24px rgba(var(--shadow), 0.5);
+}
+.hiwPhoneNotch { width: 70px; height: 6px; border-radius: 999px; background: rgba(251,247,238,0.25); margin: 6px auto 8px; }
+.hiwPhoneScreen {
+  background: var(--surface); border-radius: 26px; overflow: hidden;
+  min-height: 380px; padding: 20px 16px;
+}
+.hiwScreenTitle { font-family: var(--serif); font-size: 1.05rem; margin-bottom: 4px; color: var(--ink); }
+.hiwScreenSub { font-size: 0.72rem; color: var(--ink-soft); margin-bottom: 16px; }
+
+/* step 1: onboarding */
+.hiwObRow { margin-bottom: 16px; }
+.hiwObLabel { font-size: 0.68rem; text-transform: uppercase; letter-spacing: 0.06em; color: var(--ink-soft); margin-bottom: 8px; display: block; }
+.hiwObBudget { font-family: var(--serif); font-size: 1.6rem; color: var(--forest); }
+.hiwObSlider { height: 6px; border-radius: 999px; background: var(--forest-tint); margin-top: 10px; position: relative; }
+.hiwObSliderFill { position: absolute; left: 0; top: 0; bottom: 0; width: 42%; background: var(--forest); border-radius: 999px; }
+.hiwObSliderFill::after { content: ""; position: absolute; right: -7px; top: 50%; transform: translateY(-50%); width: 16px; height: 16px; border-radius: 50%; background: var(--surface); border: 3px solid var(--forest); }
+.hiwObChips { display: flex; gap: 6px; flex-wrap: wrap; }
+.hiwObChip { font-size: 0.72rem; padding: 6px 10px; border-radius: 999px; border: 1px solid var(--line); color: var(--ink-soft); }
+.hiwObChipOn { background: var(--forest); color: var(--surface); border-color: var(--forest); }
+.hiwObStepper { display: flex; align-items: center; gap: 12px; margin-top: 8px; }
+.hiwObStepper button { width: 26px; height: 26px; border-radius: 50%; border: 1px solid var(--line); background: var(--surface); font-size: 0.9rem; cursor: pointer; }
+.hiwObStepper span { font-weight: 700; font-size: 0.9rem; }
+
+/* step 2: weekly plan */
+.hiwWpTabs { display: flex; gap: 5px; margin-bottom: 14px; }
+.hiwWpTab { font-size: 0.72rem; font-weight: 600; padding: 6px 10px; border-radius: 999px; border: 1px solid var(--line); color: var(--ink-soft); }
+.hiwWpTabOn { background: var(--forest); color: var(--surface); border-color: var(--forest); }
+.hiwWpRow { display: flex; align-items: center; gap: 10px; padding: 10px 0; border-bottom: 1px dashed var(--line); position: relative; }
+.hiwWpRow:last-of-type { border-bottom: none; }
+.hiwWpTime { font-size: 0.64rem; color: var(--gold); font-weight: 700; text-transform: uppercase; width: 46px; flex-shrink: 0; }
+.hiwWpName { flex: 1; font-size: 0.84rem; font-weight: 600; }
+.hiwWpKcal { font-size: 0.7rem; color: var(--ink-soft); font-weight: 400; }
+.hiwWpSwap { width: 22px; height: 22px; border-radius: 50%; background: var(--forest-tint); display: grid; place-items: center; flex-shrink: 0; }
+.hiwWpSwap svg { width: 11px; height: 11px; color: var(--forest); }
+.hiwWpBadge { margin-top: 14px; display: inline-flex; align-items: center; gap: 6px; font-size: 0.72rem; font-weight: 700; color: var(--forest); background: var(--forest-tint); padding: 5px 10px; border-radius: 999px; }
+.hiwWpBadge svg { width: 13px; height: 13px; }
+
+/* step 3: shopping list */
+.hiwSlProgressWrap { margin-bottom: 16px; }
+.hiwSlProgress { height: 6px; border-radius: 999px; background: var(--forest-tint); overflow: hidden; }
+.hiwSlProgressFill { height: 100%; width: 56%; background: var(--forest); }
+.hiwSlProgressLabel { font-size: 0.68rem; color: var(--ink-soft); margin-top: 6px; }
+.hiwSlRow { display: flex; align-items: center; gap: 10px; padding: 9px 0; border-bottom: 1px dashed var(--line); }
+.hiwSlRow:last-of-type { border-bottom: none; }
+.hiwSlDot { width: 8px; height: 8px; border-radius: 50%; background: var(--forest); flex-shrink: 0; }
+.hiwSlName { flex: 1; font-size: 0.82rem; font-weight: 600; }
+.hiwSlOld { font-size: 0.7rem; color: var(--ink-soft); text-decoration: line-through; margin-right: 6px; }
+.hiwSlNew { font-size: 0.78rem; font-weight: 700; color: var(--forest); }
+
+/* step 5: household + rewards */
+.hiwHhRow { display: flex; align-items: center; gap: 10px; padding: 9px 0; border-bottom: 1px dashed var(--line); }
+.hiwHhRow:last-of-type { border-bottom: none; }
+.hiwHhAvatar { width: 26px; height: 26px; border-radius: 50%; display: grid; place-items: center; font-size: 0.66rem; font-weight: 700; color: #fff; flex-shrink: 0; }
+.hiwHhName { flex: 1; font-size: 0.8rem; font-weight: 600; }
+.hiwHhStatus { font-size: 0.68rem; padding: 3px 8px; border-radius: 999px; font-weight: 700; }
+.hiwHhStatusOwed { background: var(--forest-tint); color: var(--forest); }
+.hiwHhStatusOwes { background: var(--gold-soft); color: #8a5c14; }
+.hiwHhStatusSettled { background: var(--forest-tint); color: var(--forest); }
+.hiwRewardStrip { margin-top: 16px; padding: 12px 14px; background: var(--forest-tint); border-radius: var(--radius-sm); display: flex; align-items: center; gap: 10px; }
+.hiwRewardStrip svg { width: 18px; height: 18px; color: var(--forest); flex-shrink: 0; }
+.hiwRewardText strong { display: block; font-size: 0.8rem; }
+.hiwRewardText span { font-size: 0.7rem; color: var(--ink-soft); }
+
+/* ---------- step 4: three-way fork ---------- */
+.hiwForkRow { display: flex; gap: 18px; justify-content: center; flex-wrap: wrap; }
+.hiwForkPhone { width: 168px; border-radius: 26px; padding: 6px; background: var(--forest-deep); box-shadow: 0 26px 46px -18px rgba(var(--shadow), 0.45); }
+.hiwForkScreen { background: var(--surface); border-radius: 20px; min-height: 260px; padding: 14px 12px; }
+.hiwForkIcon { width: 34px; height: 34px; border-radius: 50%; background: var(--icon-bg); display: grid; place-items: center; margin-bottom: 10px; }
+.hiwForkIcon svg { width: 16px; height: 16px; color: var(--forest); }
+.hiwForkTitle { font-size: 0.8rem; font-weight: 700; margin-bottom: 4px; }
+.hiwForkSub { font-size: 0.68rem; color: var(--ink-soft); line-height: 1.4; }
+.hiwForkDivider { margin: 10px 0; border-top: 1px dashed var(--line); }
+.hiwForkMiniRow { display: flex; justify-content: space-between; font-size: 0.68rem; color: var(--ink-soft); padding: 4px 0; }
+.hiwForkMiniAvatars { display: flex; margin-top: 8px; }
+.hiwForkMiniAvatars span { width: 20px; height: 20px; border-radius: 50%; border: 2px solid var(--surface); margin-left: -6px; display: grid; place-items: center; font-size: 0.55rem; font-weight: 700; color: #fff; }
+.hiwForkMiniAvatars span:first-child { margin-left: 0; }
+.hiwForkPill { display: inline-block; margin-top: 10px; font-size: 0.62rem; font-weight: 700; color: var(--forest); background: var(--forest-tint); padding: 3px 8px; border-radius: 999px; }
+
+/* ---------- pricing teaser ---------- */
+.pricingTeaser { padding: 20px 0 40px; }
+.pricingCard {
+  max-width: 460px; margin: 0 auto; background: var(--surface);
+  border: 1px solid var(--line); border-radius: var(--radius-lg);
+  padding: 40px; text-align: center;
+  box-shadow: 0 30px 60px -30px rgba(var(--shadow), 0.3);
+}
+.pricingCard .eyebrow { color: var(--gold); }
+.pricingCard h2 { margin-top: 10px; font-size: 1.6rem; font-family: var(--serif); font-weight: 500; }
+.pricingPrice { margin-top: 18px; font-family: var(--serif); font-size: 2.6rem; color: var(--forest); }
+.pricingPrice span { font-size: 1rem; font-weight: 400; color: var(--ink-soft); }
+.pricingList { list-style: none; margin: 28px 0 0; padding: 0; text-align: left; display: flex; flex-direction: column; gap: 16px; }
+.pricingList li { display: flex; gap: 12px; align-items: flex-start; font-size: 0.92rem; }
+.pricingList svg { width: 18px; height: 18px; color: var(--forest); flex-shrink: 0; margin-top: 2px; }
+.pricingCard .btn { width: 100%; margin-top: 30px; }
+.pricingNote { margin-top: 14px; font-size: 0.78rem; color: var(--ink-soft); }

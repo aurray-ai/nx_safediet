@@ -2,6 +2,7 @@ import { HomeFinalCta } from "@/components/marketing/home/home-final-cta";
 import { HomeFooter } from "@/components/marketing/home/home-footer";
 import { HomeNavbar } from "@/components/marketing/home/home-navbar";
 import styles from "@/components/marketing/home/home.module.css";
+import { PricingTeaser } from "@/components/marketing/home/pricing-teaser";
 import { getSession } from "@/lib/session";
 
 import { HowItWorksSteps } from "./how-it-works-steps";
@@ -27,17 +28,18 @@ export default async function HowItWorksPage() {
           <div className={styles.wrap}>
             <span className={styles.eyebrow}>How it works</span>
             <h1 className={styles.sharedBudgetTitle} style={{ textAlign: "center" }}>
-              Eat well, spend less — together.
+              From your weekly budget to your door, in five steps.
             </h1>
             <p className={styles.heroSub} style={{ margin: "18px auto 0", textAlign: "center" }}>
-              SAFEDIET agents plan your meals around your budget, you shop them at wholesale
-              prices, and your household tracks it together.
+              One connected system — tell it your budget once, and SAFEDIET plans, sources and
+              delivers the rest.
             </p>
           </div>
         </section>
 
         <HowItWorksSteps />
         <WhyItWorks />
+        <PricingTeaser />
         <HomeFinalCta />
       </main>
       <HomeFooter />
