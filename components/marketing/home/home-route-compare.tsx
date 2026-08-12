@@ -95,6 +95,7 @@ export function HomeRouteCompare() {
             <div className={styles.laneRow}>
               <RouteSources />
               <RouteMerge />
+              <FlowArrow />
               <div className={styles.routeStops}>
                 <div className={styles.hubNode}>
                   <div className={styles.hubIcon}>
