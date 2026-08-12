@@ -6,6 +6,7 @@ import styles from "@/components/marketing/home/home.module.css";
 import { HomeNavbar } from "@/components/marketing/home/home-navbar";
 import { HomeRouteCompare } from "@/components/marketing/home/home-route-compare";
 import { HomeSharedBudget } from "@/components/marketing/home/home-shared-budget";
+import { PricingTeaser } from "@/components/marketing/home/pricing-teaser";
 import { getSession } from "@/lib/session";
 
 export default async function HomePage() {
@@ -19,6 +20,7 @@ export default async function HomePage() {
         <HomeRouteCompare />
         <HomeSharedBudget />
         <HomeFeaturedMeals />
+        <PricingTeaser />
         <HomeFinalCta />
       </main>
       <HomeFooter />
