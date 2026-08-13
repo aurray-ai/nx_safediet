@@ -19,9 +19,23 @@ export function PricingTeaser() {
         <div className={styles.pricingCard}>
           <span className={styles.eyebrow}>SAFEDIET Plus</span>
           <h2>Everything above, unlocked.</h2>
-          <div className={styles.pricingPrice}>
-            £7.99 <span>/ month</span>
+
+          <div className={styles.pricingPlans}>
+            <div className={styles.pricingPlan}>
+              <span className={styles.pricingPlanLabel}>Students</span>
+              <div className={styles.pricingPlanPrice}>
+                &pound;7.99 <span>/ month</span>
+              </div>
+              <div className={styles.pricingPlanNote}>Verification required</div>
+            </div>
+            <div className={styles.pricingPlan}>
+              <span className={styles.pricingPlanLabel}>Professionals &amp; families</span>
+              <div className={styles.pricingPlanPrice}>
+                &pound;15.99 <span>/ month</span>
+              </div>
+            </div>
           </div>
+
           <ul className={styles.pricingList}>
             {FEATURES.map((feature) => (
               <li key={feature}>
