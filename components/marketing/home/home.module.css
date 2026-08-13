@@ -2543,6 +2543,18 @@
 .pricingCard h2 { margin-top: 10px; font-size: 1.6rem; font-family: var(--serif); font-weight: 500; }
 .pricingPrice { margin-top: 18px; font-family: var(--serif); font-size: 2.6rem; color: var(--forest); }
 .pricingPrice span { font-size: 1rem; font-weight: 400; color: var(--ink-soft); }
+.pricingPlans { margin-top: 22px; display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.pricingPlan { border: 1px solid var(--line); border-radius: var(--radius-md); padding: 16px 12px; }
+.pricingPlanLabel {
+  display: block; font-size: 0.68rem; font-weight: 700; letter-spacing: 0.06em;
+  text-transform: uppercase; color: var(--ink-soft);
+}
+.pricingPlanPrice { margin-top: 8px; font-family: var(--serif); font-size: 1.7rem; color: var(--forest); }
+.pricingPlanPrice span { font-size: 0.78rem; font-weight: 400; color: var(--ink-soft); }
+.pricingPlanNote { margin-top: 6px; font-size: 0.68rem; color: var(--ink-faint); }
+@media (max-width: 480px) {
+  .pricingPlans { grid-template-columns: 1fr; }
+}
 .pricingList { list-style: none; margin: 28px 0 0; padding: 0; text-align: left; display: flex; flex-direction: column; gap: 16px; }
 .pricingList li { display: flex; gap: 12px; align-items: flex-start; font-size: 0.92rem; }
 .pricingList svg { width: 18px; height: 18px; color: var(--forest); flex-shrink: 0; margin-top: 2px; }
