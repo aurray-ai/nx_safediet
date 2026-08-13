@@ -105,7 +105,7 @@ async function apiRequest<T>(path: string, options: RequestOptions = {}): Promis
   } catch (error) {
     const detail =
       error instanceof Error ? error.message : "Unknown network error.";
-    throw new Error(`Cannot reach the SafeDaet API at ${API_BASE_URL}. ${detail}`);
+    throw new Error(`Cannot reach the Safediet API at ${API_BASE_URL}. ${detail}`);
   }
 
   if (!response.ok) {

@@ -22,6 +22,15 @@ export function formatCurrencyMinor(amountMinor: number, currency: string) {
   }).format(amountMinor / 100);
 }
 
+export function formatCurrencyAmount(amount: number, currency: string) {
+  return new Intl.NumberFormat("en-GB", {
+    style: "currency",
+    currency,
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2,
+  }).format(amount);
+}
+
 export function formatNumber(value: number) {
   return new Intl.NumberFormat("en-GB").format(value);
 }

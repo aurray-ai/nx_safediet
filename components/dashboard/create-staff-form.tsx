@@ -74,7 +74,7 @@ export function CreateStaffForm({ role }: { role: string }) {
   }
 
   return (
-    <form className="app__admin-stack" onSubmit={handleSubmit}>
+    <form className="app__admin-teamForm" onSubmit={handleSubmit}>
       <label className="app__admin-field">
         <span>Name</span>
         <input
@@ -100,14 +100,12 @@ export function CreateStaffForm({ role }: { role: string }) {
 
       <div className="app__admin-field">
         <span>Roles</span>
-        <div className="app__admin-tagRow">
+        <div className="app__admin-teamRoleGroup">
           {ROLE_OPTIONS.map((option) => (
             <button
               key={option.value}
               type="button"
-              className={
-                selectedRoles.includes(option.value) ? "app__admin-primaryButton" : "app__admin-secondaryButton"
-              }
+              className={selectedRoles.includes(option.value) ? "app__admin-teamToggle is-active" : "app__admin-teamToggle"}
               onClick={() => toggleRole(option.value)}
             >
               {option.label}

@@ -152,7 +152,7 @@ export function SurveyCoreReports({ analytics, exportHref }: SurveyCoreReportPro
         <div>
           <p className="app__admin-eyebrow">Core reports</p>
           <h3>Strategy reporting from live survey responses</h3>
-          <p>These four views turn SafeDaet survey answers into decision-ready product insight.</p>
+          <p>These four views turn Safediet survey answers into decision-ready product insight.</p>
         </div>
         <a href={exportHref} className="app__admin-primaryButton">
           Export CSV

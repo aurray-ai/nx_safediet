@@ -90,7 +90,7 @@ export function HomeRouteCompare() {
           <div className={`${styles.lane} ${styles.laneSafediet}`}>
             <span className={styles.laneTag}>
               <IconCheckCircle />
-              SafeDiet route
+              Safediet route
             </span>
             <div className={styles.laneRow}>
               <RouteSources />
@@ -101,7 +101,7 @@ export function HomeRouteCompare() {
                   <div className={styles.hubIcon}>
                     <IconDeliveryVan />
                   </div>
-                  <div className={styles.flowLabel}>SafeDiet</div>
+                  <div className={styles.flowLabel}>Safediet</div>
                 </div>
               </div>
               <FlowArrow />

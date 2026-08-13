@@ -3,12 +3,12 @@
 import { type FormEvent, useState } from "react";
 import { useRouter } from "next/navigation";
 
-import type { AdminOrderItem, AdminProduct } from "@/lib/types";
+import type { AdminOrderItem, AdminProductListItem } from "@/lib/types";
 
 type SubstitutionFormProps = {
   orderId: string;
   item: AdminOrderItem;
-  productOptions: AdminProduct[];
+  productOptions: AdminProductListItem[];
 };
 
 export function SubstitutionForm({ orderId, item, productOptions }: SubstitutionFormProps) {

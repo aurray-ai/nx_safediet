@@ -3,7 +3,7 @@
 import { useCallback, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 
-import type { AdminProduct, AdminProductListResponse, GroceryCategory } from "@/lib/types";
+import type { AdminProductListItem, AdminProductListResponse, GroceryCategory } from "@/lib/types";
 
 const PAGE_SIZE = 20;
 
@@ -17,7 +17,7 @@ export function DiscountProductPicker({
   const router = useRouter();
   const [search, setSearch] = useState("");
   const [categoryId, setCategoryId] = useState("");
-  const [products, setProducts] = useState<AdminProduct[]>([]);
+  const [products, setProducts] = useState<AdminProductListItem[]>([]);
   const [total, setTotal] = useState(0);
   const [page, setPage] = useState(1);
   const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set());
