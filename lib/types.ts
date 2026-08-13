@@ -506,7 +506,9 @@ export type AdminOrder = {
 
 export type AdminOrderListResponse = {
   items: AdminOrder[];
-  next_cursor?: string | null;
+  total: number;
+  page: number;
+  page_size: number;
 };
 
 export type RefundLineItem = {

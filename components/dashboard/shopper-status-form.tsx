@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 
 import { AdminConfirmDialog } from "@/components/dashboard/admin-confirm-dialog";
 import { formatLabel } from "@/lib/admin-format";
+import { getShopperPickingStorageKey } from "@/lib/shopper-picking";
 import type { ShopperFulfillmentStatus } from "@/lib/types";
 
 const STATUS_OPTIONS: ShopperFulfillmentStatus[] = ["assigned", "shopping", "packed"];
@@ -38,6 +39,10 @@ export function ShopperStatusForm({
       const payload = (await response.json()) as { detail?: string };
       if (!response.ok) {
         throw new Error(payload.detail ?? "Unable to update status.");
+      }
+
+      if (status === "packed") {
+        window.localStorage.removeItem(getShopperPickingStorageKey(orderId));
       }
 
       setNote("");

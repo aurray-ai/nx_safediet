@@ -4741,9 +4741,243 @@ a {
   grid-column: 1 / -1;
 }
 
+.app__admin-pickingSheet {
+  display: grid;
+  gap: 1rem;
+}
+
+.app__admin-pickingSummary {
+  display: grid;
+  gap: 0.8rem;
+  padding: 1rem;
+  border: 1px solid var(--admin-line);
+  border-radius: var(--admin-radius-md);
+  background: rgba(252, 247, 239, 0.96);
+}
+
+.app__admin-pickingProgress {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.8rem;
+  flex-wrap: wrap;
+}
+
+.app__admin-pickingProgress span {
+  color: var(--admin-muted);
+  font-family: var(--font-alt);
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.app__admin-pickingProgress strong {
+  color: var(--admin-ink);
+  font-size: clamp(1rem, 2vw, 1.15rem);
+}
+
+.app__admin-pickingProgressBar {
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+  height: 10px;
+  border-radius: 999px;
+  background: rgba(166, 152, 129, 0.2);
+}
+
+.app__admin-pickingProgressBar span {
+  display: block;
+  height: 100%;
+  border-radius: inherit;
+  background: linear-gradient(90deg, #365948 0%, #527761 100%);
+}
+
+.app__admin-pickingRow {
+  display: grid;
+  grid-template-columns: minmax(180px, 220px) minmax(0, 1fr);
+  gap: 1rem;
+  align-items: center;
+  padding: 1rem;
+  border: 1px solid var(--admin-line);
+  border-radius: var(--admin-radius-md);
+  background: rgba(255, 255, 255, 0.92);
+}
+
+.app__admin-pickingRow.is-picked {
+  background: rgba(244, 250, 245, 0.96);
+}
+
+.app__admin-pickingCheck {
+  align-self: stretch;
+  padding: 0.95rem 1rem;
+  border: 1px solid var(--admin-line);
+  border-radius: var(--admin-radius-sm);
+  background: rgba(250, 245, 236, 0.88);
+}
+
 .app__admin-dataList {
   display: grid;
   gap: 0.8rem;
+}
+
+.app__admin-orderSummaryGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 0.75rem;
+  margin-bottom: 0.95rem;
+}
+
+.app__admin-orderSummaryCard {
+  display: grid;
+  gap: 0.3rem;
+  padding: 0.95rem 1rem;
+  border: 1px solid var(--admin-line);
+  border-radius: var(--admin-radius-lg);
+  background: rgba(249, 243, 234, 0.94);
+}
+
+.app__admin-orderSummaryCard span,
+.app__admin-orderMetric span {
+  color: var(--admin-muted);
+  font-family: var(--font-alt);
+  font-size: 0.74rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.app__admin-orderSummaryCard strong,
+.app__admin-orderMetric strong,
+.app__admin-orderTop strong {
+  color: var(--admin-ink);
+  font-family: var(--font-alt);
+}
+
+.app__admin-orderSummaryCard strong {
+  font-size: 1.45rem;
+  line-height: 1;
+}
+
+.app__admin-orderSummaryCard p {
+  margin: 0;
+  color: var(--admin-muted);
+  font-family: var(--font-alt);
+  font-size: 0.84rem;
+  line-height: 1.45;
+}
+
+.app__admin-orderFilterBar {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  flex-wrap: wrap;
+  margin-top: 0.95rem;
+}
+
+.app__admin-orderFilterChip {
+  display: inline-flex;
+  align-items: center;
+  min-height: 34px;
+  padding: 0 0.8rem;
+  border: 1px solid var(--admin-line);
+  border-radius: var(--admin-radius-sm);
+  background: rgba(255, 255, 255, 0.9);
+  color: var(--admin-muted-strong);
+  font-family: var(--font-alt);
+  font-size: 0.8rem;
+  font-weight: 700;
+  text-decoration: none;
+  transition:
+    transform 180ms ease,
+    border-color 180ms ease,
+    background-color 180ms ease,
+    color 180ms ease;
+}
+
+.app__admin-orderFilterChip:hover {
+  transform: translateY(-1px);
+}
+
+.app__admin-orderFilterChip.is-active {
+  border-color: rgba(31, 58, 46, 0.12);
+  background: var(--admin-accent);
+  color: #ffffff;
+}
+
+.app__admin-orderRow {
+  display: grid;
+  grid-template-columns: minmax(0, 1.35fr) minmax(260px, 0.95fr) minmax(148px, auto);
+  gap: 1rem;
+  align-items: start;
+  padding: 1rem 1.05rem;
+  border: 1px solid var(--admin-line);
+  border-radius: var(--admin-radius-xl);
+  background: rgba(255, 255, 255, 0.72);
+  box-shadow: 0 14px 28px rgba(65, 49, 31, 0.05);
+}
+
+.app__admin-orderMain {
+  display: grid;
+  gap: 0.7rem;
+  min-width: 0;
+}
+
+.app__admin-orderTop {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.app__admin-orderTop strong {
+  font-size: 1rem;
+  line-height: 1.2;
+  overflow-wrap: anywhere;
+}
+
+.app__admin-orderMeta {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem 0.75rem;
+  flex-wrap: wrap;
+  color: var(--admin-muted);
+  font-family: var(--font-alt);
+  font-size: 0.84rem;
+}
+
+.app__admin-orderMeta span {
+  display: inline-flex;
+  align-items: center;
+}
+
+.app__admin-orderMeta span:not(:last-child)::after {
+  content: "";
+  width: 4px;
+  height: 4px;
+  margin-left: 0.75rem;
+  border-radius: 999px;
+  background: rgba(99, 112, 95, 0.42);
+}
+
+.app__admin-orderMetrics {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.65rem;
+}
+
+.app__admin-orderMetric {
+  display: grid;
+  gap: 0.28rem;
+  padding: 0.9rem;
+  border: 1px solid var(--admin-line);
+  border-radius: var(--admin-radius-lg);
+  background: rgba(249, 243, 234, 0.94);
+}
+
+.app__admin-orderMetric strong {
+  font-size: 1rem;
+  line-height: 1.15;
 }
 
 .app__admin-dataRow {
@@ -5434,6 +5668,15 @@ a {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
+  .app__admin-orderRow {
+    grid-template-columns: minmax(0, 1fr) minmax(220px, 1fr);
+  }
+
+  .app__admin-orderRow > .app__admin-actionsWrap {
+    grid-column: 1 / -1;
+    justify-content: flex-start;
+  }
+
   .app__admin-dataRow {
     grid-template-columns: minmax(0, 1fr) minmax(220px, 1fr);
   }
@@ -5479,6 +5722,8 @@ a {
   }
 
   .app__admin-dataRow,
+  .app__admin-orderRow,
+  .app__admin-pickingRow,
   .app__admin-dataLead {
     grid-template-columns: minmax(0, 1fr);
     align-items: start;
@@ -5516,7 +5761,8 @@ a {
   }
 
   .app__admin-selectionToolbar,
-  .app__admin-dataStats {
+  .app__admin-dataStats,
+  .app__admin-orderMetrics {
     padding: 0.85rem 0.9rem;
   }
 
@@ -5658,7 +5904,8 @@ a {
   }
 
   .survey-listPage__filterBar,
-  .app__admin-groceriesSearch {
+  .app__admin-groceriesSearch,
+  .app__admin-orderMetrics {
     grid-template-columns: minmax(0, 1fr);
   }
 
@@ -5695,6 +5942,11 @@ a {
   }
 
   .app__admin-dataRow {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .app__admin-orderSummaryGrid,
+  .app__admin-orderMetrics {
     grid-template-columns: minmax(0, 1fr);
   }
 
