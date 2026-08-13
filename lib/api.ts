@@ -65,8 +65,8 @@ type AdminInventoryQuery = {
 
 type AdminOrderQuery = {
   status?: string;
-  before?: string;
-  limit?: number;
+  page?: number;
+  pageSize?: number;
 };
 
 type AdminSurveyQuery = {
@@ -383,8 +383,8 @@ export async function fetchAdminOrders(query: AdminOrderQuery = {}): Promise<Adm
 
   const queryString = buildQueryString([
     ["status", query.status],
-    ["before", query.before],
-    ["limit", query.limit ?? 20],
+    ["page", query.page ?? 1],
+    ["page_size", query.pageSize ?? 20],
   ]);
 
   try {

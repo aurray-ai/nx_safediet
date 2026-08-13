@@ -108,7 +108,7 @@ async function AdminDashboard({
   const [productsResult, inventoryResult, ordersResult, deliveryFeesResult] = await Promise.all([
     safeDashboardLoad("Catalog", () => fetchAdminProductsPage({ page: 1, pageSize: 100 })),
     safeDashboardLoad("Inventory", () => fetchAdminInventory({ page: 1, pageSize: 100 })),
-    safeDashboardLoad("Orders", () => fetchAdminOrders({ limit: 20 })),
+    safeDashboardLoad("Orders", () => fetchAdminOrders({ page: 1, pageSize: 20 })),
     safeDashboardLoad("Delivery fees", () => fetchDeliveryFeeRules()),
   ]);
 

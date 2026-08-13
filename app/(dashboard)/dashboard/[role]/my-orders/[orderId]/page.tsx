@@ -4,6 +4,7 @@ import { notFound } from "next/navigation";
 
 import { ChefPrepStatusForm } from "@/components/dashboard/chef-prep-status-form";
 import { DeclineOrderForm } from "@/components/dashboard/decline-order-form";
+import { ShopperPickingSheet } from "@/components/dashboard/shopper-picking-sheet";
 import { ShopperStatusForm } from "@/components/dashboard/shopper-status-form";
 import { fetchChefMealOrder, fetchShopperGroceryOrder } from "@/lib/api";
 import { formatCurrencyMinor, formatDate, formatLabel, formatNumber } from "@/lib/admin-format";
@@ -197,6 +198,25 @@ export default async function MyOrderDetailPage({
             ))}
           </div>
         </section>
+
+        {order.fulfillment_status === "shopping" ? (
+          <section className="app__admin-productSection">
+            <div className="app__admin-sectionHeader">
+              <div>
+                <p className="app__admin-eyebrow">Picking checklist</p>
+                <h2>Track picked items</h2>
+                <p className="app__admin-inlineMeta">Tick items here, then update the order status when you are done.</p>
+              </div>
+              <div className="app__admin-actionsWrap">
+                <Link href={`/dashboard/shopper/my-orders/${order.id}/picking` as Route} className="app__admin-secondaryButton">
+                  Open full sheet
+                </Link>
+              </div>
+            </div>
+
+            <ShopperPickingSheet orderId={order.id} items={order.items} />
+          </section>
+        ) : null}
 
         <section className="app__admin-productSection">
           <div className="app__admin-sectionHeader">
