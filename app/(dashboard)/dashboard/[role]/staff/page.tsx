@@ -37,22 +37,22 @@ export default async function StaffManagementPage({
 
   return (
     <section className="app__admin-groceries">
-      <section className="app__admin-groceriesHeader">
-        <div>
+      <section className="app__admin-groceriesHeader app__admin-groceriesHeader--compact">
+        <div className="app__admin-teamHeaderCopy">
           <p className="app__admin-eyebrow">Team</p>
-          <h2 className="app__admin-groceriesTitle">Staff management</h2>
-          <p>Find any account and grant or revoke chef and shopper access.</p>
+          <h2 className="app__admin-groceriesTitle">Staff</h2>
         </div>
 
-        <div className="app__admin-groceriesActions">
+        <div className="app__admin-groceriesActions app__admin-groceriesActions--compact">
+          <span className="app__admin-inlineMeta">{response.total} accounts</span>
           <Link href={`/dashboard/${params.role}/staff/new` as Route} className="app__admin-primaryButton">
             Add staff
           </Link>
         </div>
       </section>
 
-      <section className="app__admin-groceriesPanel">
-        <form className="app__admin-groceriesSearch" action={`/dashboard/${params.role}/staff`}>
+      <section className="app__admin-groceriesPanel app__admin-groceriesPanel--compact">
+        <form className="app__admin-teamToolbar app__admin-teamToolbar--staff" action={`/dashboard/${params.role}/staff`}>
           <label className="app__admin-field">
             <span>Search</span>
             <input
@@ -82,34 +82,45 @@ export default async function StaffManagementPage({
       {response.items.length === 0 ? (
         <section className="app__admin-emptyState">
           <p className="app__admin-eyebrow">No accounts</p>
-          <h2>No accounts match this filter</h2>
+          <h2>No staff found</h2>
         </section>
       ) : (
-        <section className="app__admin-productSection">
-          <div className="app__admin-dataList">
+        <section className="app__admin-productSection app__admin-productSection--compact">
+          <div className="app__admin-teamList app__admin-teamList--staff">
             {response.items.map((staffUser) => (
-              <article key={staffUser.id} className="app__admin-dataRow app__admin-dataRow--stacked">
-                <div className="app__admin-stack">
-                  <strong>{staffUser.name}</strong>
-                  <span>{staffUser.email}</span>
-                  <div className="app__admin-tagRow">
-                    {staffUser.user_types.map((userType) => (
-                      <span key={userType} className="app__admin-categoryPill">
-                        {formatLabel(userType)}
+              <article key={staffUser.id} className="app__admin-teamRow app__admin-teamRow--staff">
+                <div className="app__admin-teamIdentity">
+                  <div className="app__admin-teamAvatar">{staffUser.name.slice(0, 2).toUpperCase()}</div>
+                  <div className="app__admin-teamNameBlock">
+                    <div className="app__admin-teamTop">
+                      <strong>{staffUser.name}</strong>
+                      <span className="app__admin-tagPill">
+                        {staffUser.staff_type ? formatLabel(staffUser.staff_type) : "Unassigned"}
                       </span>
-                    ))}
-                    <span className="app__admin-tagPill">
-                      {staffUser.staff_type ? formatLabel(staffUser.staff_type) : "Not specified"}
-                    </span>
+                    </div>
+                    <span>{staffUser.email}</span>
+                    <div className="app__admin-tagRow">
+                      {staffUser.user_types.map((userType) => (
+                        <span key={userType} className="app__admin-categoryPill">
+                          {formatLabel(userType)}
+                        </span>
+                      ))}
+                    </div>
                   </div>
-                  <span className="app__admin-inlineMeta">Joined {formatDate(staffUser.created_at)}</span>
                 </div>
 
-                <StaffDetailsForm
-                  userId={staffUser.id}
-                  userTypes={staffUser.user_types}
-                  staffType={staffUser.staff_type}
-                />
+                <div className="app__admin-teamMeta">
+                  <span>Joined {formatDate(staffUser.created_at)}</span>
+                  <span>{staffUser.user_types.length} role{staffUser.user_types.length === 1 ? "" : "s"}</span>
+                </div>
+
+                <div className="app__admin-teamControls app__admin-teamControls--staff">
+                  <StaffDetailsForm
+                    userId={staffUser.id}
+                    userTypes={staffUser.user_types}
+                    staffType={staffUser.staff_type}
+                  />
+                </div>
               </article>
             ))}
           </div>

@@ -29,7 +29,7 @@ export function HomeHero() {
 
         <div className={styles.heroGrid}>
         <div>
-          <span className={styles.eyebrowPill}>Budget-First Meal Planning Using AI</span>
+          <span className={styles.eyebrowPill}>Students Friendly</span>
           <h1 className={styles.heroTitle}>
             Smarter meals.
             <br />

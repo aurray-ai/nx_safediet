@@ -27,16 +27,19 @@ export default async function ShoppersRosterPage({
 
   return (
     <section className="app__admin-groceries">
-      <section className="app__admin-groceriesHeader">
-        <div>
+      <section className="app__admin-groceriesHeader app__admin-groceriesHeader--compact">
+        <div className="app__admin-teamHeaderCopy">
           <p className="app__admin-eyebrow">Team</p>
-          <h2 className="app__admin-groceriesTitle">Shoppers roster</h2>
-          <p>Everyone with shopper access, and how much work is on their plate this week.</p>
+          <h2 className="app__admin-groceriesTitle">Shoppers</h2>
+        </div>
+
+        <div className="app__admin-groceriesActions app__admin-groceriesActions--compact">
+          <span className="app__admin-inlineMeta">{formatNumber(response.total)} shoppers</span>
         </div>
       </section>
 
-      <section className="app__admin-groceriesPanel">
-        <form className="app__admin-groceriesSearch" action={`/dashboard/${params.role}/shoppers`}>
+      <section className="app__admin-groceriesPanel app__admin-groceriesPanel--compact">
+        <form className="app__admin-teamToolbar" action={`/dashboard/${params.role}/shoppers`}>
           <label className="app__admin-field">
             <span>Search</span>
             <input
@@ -46,10 +49,6 @@ export default async function ShoppersRosterPage({
               className="app__admin-input"
             />
           </label>
-          <div className="app__admin-field">
-            <span>Total shoppers</span>
-            <input className="app__admin-input" value={`${response.total}`} readOnly />
-          </div>
           <button type="submit" className="app__admin-filterButton">
             Search
           </button>
@@ -59,21 +58,33 @@ export default async function ShoppersRosterPage({
       {response.items.length === 0 ? (
         <section className="app__admin-emptyState">
           <p className="app__admin-eyebrow">No shoppers</p>
-          <h2>No shoppers match this search</h2>
+          <h2>No shoppers found</h2>
         </section>
       ) : (
-        <section className="app__admin-productSection">
-          <div className="app__admin-dataList">
+        <section className="app__admin-productSection app__admin-productSection--compact">
+          <div className="app__admin-teamList">
             {response.items.map((shopper) => (
-              <article key={shopper.id} className="app__admin-dataRow">
-                <div className="app__admin-stack">
-                  <strong>{shopper.name}</strong>
-                  <span>{shopper.email}</span>
+              <article key={shopper.id} className="app__admin-teamRow">
+                <div className="app__admin-teamIdentity">
+                  <div className="app__admin-teamAvatar">{shopper.name.slice(0, 2).toUpperCase()}</div>
+                  <div className="app__admin-teamNameBlock">
+                    <div className="app__admin-teamTop">
+                      <strong>{shopper.name}</strong>
+                      <span className="app__admin-categoryPill">Shopper</span>
+                    </div>
+                    <span>{shopper.email}</span>
+                  </div>
                 </div>
 
-                <div className="app__admin-dataStats">
-                  <span>Active orders: {formatNumber(shopper.active_count)}</span>
-                  <span>Completed this week: {formatNumber(shopper.completed_this_week)}</span>
+                <div className="app__admin-teamMetrics">
+                  <div className="app__admin-teamMetric">
+                    <span>Active</span>
+                    <strong>{formatNumber(shopper.active_count)}</strong>
+                  </div>
+                  <div className="app__admin-teamMetric">
+                    <span>Completed</span>
+                    <strong>{formatNumber(shopper.completed_this_week)}</strong>
+                  </div>
                 </div>
               </article>
             ))}

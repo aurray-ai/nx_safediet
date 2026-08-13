@@ -56,18 +56,18 @@ export function StaffDetailsForm({
   }
 
   return (
-    <form className="app__admin-stack" onSubmit={handleSubmit}>
-      <div className="app__admin-tagRow">
+    <form className="app__admin-teamForm" onSubmit={handleSubmit}>
+      <div className="app__admin-teamRoleGroup">
         <button
           type="button"
-          className={isChef ? "app__admin-primaryButton" : "app__admin-secondaryButton"}
+          className={isChef ? "app__admin-teamToggle is-active" : "app__admin-teamToggle"}
           onClick={() => setIsChef((current) => !current)}
         >
           Chef
         </button>
         <button
           type="button"
-          className={isShopper ? "app__admin-primaryButton" : "app__admin-secondaryButton"}
+          className={isShopper ? "app__admin-teamToggle is-active" : "app__admin-teamToggle"}
           onClick={() => setIsShopper((current) => !current)}
         >
           Shopper
@@ -91,7 +91,7 @@ export function StaffDetailsForm({
 
       <div className="app__admin-submitRow">
         {error ? <p className="app__admin-formError">{error}</p> : <span />}
-        <button type="submit" className="app__admin-filterButton" disabled={isSubmitting}>
+        <button type="submit" className="app__admin-secondaryButton" disabled={isSubmitting}>
           {isSubmitting ? "Saving..." : "Save changes"}
         </button>
       </div>

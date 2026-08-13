@@ -8,9 +8,9 @@ export default function NewStaffPage({ params }: { params: { role: string } }) {
     <section className="app__admin-groceries">
       <section className="app__admin-groceriesHeader">
         <div>
-          <p className="app__admin-eyebrow">Staff</p>
+          <p className="app__admin-eyebrow">Team</p>
           <h2 className="app__admin-groceriesTitle">Add staff</h2>
-          <p>Create an account and send an email invite so they can set their own password.</p>
+          <p>Invite a team member and set their initial access.</p>
         </div>
 
         <div className="app__admin-groceriesActions">

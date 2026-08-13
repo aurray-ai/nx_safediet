@@ -27,16 +27,19 @@ export default async function ChefsRosterPage({
 
   return (
     <section className="app__admin-groceries">
-      <section className="app__admin-groceriesHeader">
-        <div>
+      <section className="app__admin-groceriesHeader app__admin-groceriesHeader--compact">
+        <div className="app__admin-teamHeaderCopy">
           <p className="app__admin-eyebrow">Team</p>
-          <h2 className="app__admin-groceriesTitle">Chefs roster</h2>
-          <p>Everyone with chef access, and how much work is on their plate this week.</p>
+          <h2 className="app__admin-groceriesTitle">Chefs</h2>
+        </div>
+
+        <div className="app__admin-groceriesActions app__admin-groceriesActions--compact">
+          <span className="app__admin-inlineMeta">{formatNumber(response.total)} chefs</span>
         </div>
       </section>
 
-      <section className="app__admin-groceriesPanel">
-        <form className="app__admin-groceriesSearch" action={`/dashboard/${params.role}/chefs`}>
+      <section className="app__admin-groceriesPanel app__admin-groceriesPanel--compact">
+        <form className="app__admin-teamToolbar" action={`/dashboard/${params.role}/chefs`}>
           <label className="app__admin-field">
             <span>Search</span>
             <input
@@ -46,10 +49,6 @@ export default async function ChefsRosterPage({
               className="app__admin-input"
             />
           </label>
-          <div className="app__admin-field">
-            <span>Total chefs</span>
-            <input className="app__admin-input" value={`${response.total}`} readOnly />
-          </div>
           <button type="submit" className="app__admin-filterButton">
             Search
           </button>
@@ -59,21 +58,33 @@ export default async function ChefsRosterPage({
       {response.items.length === 0 ? (
         <section className="app__admin-emptyState">
           <p className="app__admin-eyebrow">No chefs</p>
-          <h2>No chefs match this search</h2>
+          <h2>No chefs found</h2>
         </section>
       ) : (
-        <section className="app__admin-productSection">
-          <div className="app__admin-dataList">
+        <section className="app__admin-productSection app__admin-productSection--compact">
+          <div className="app__admin-teamList">
             {response.items.map((chef) => (
-              <article key={chef.id} className="app__admin-dataRow">
-                <div className="app__admin-stack">
-                  <strong>{chef.name}</strong>
-                  <span>{chef.email}</span>
+              <article key={chef.id} className="app__admin-teamRow">
+                <div className="app__admin-teamIdentity">
+                  <div className="app__admin-teamAvatar">{chef.name.slice(0, 2).toUpperCase()}</div>
+                  <div className="app__admin-teamNameBlock">
+                    <div className="app__admin-teamTop">
+                      <strong>{chef.name}</strong>
+                      <span className="app__admin-categoryPill">Chef</span>
+                    </div>
+                    <span>{chef.email}</span>
+                  </div>
                 </div>
 
-                <div className="app__admin-dataStats">
-                  <span>Active orders: {formatNumber(chef.active_count)}</span>
-                  <span>Completed this week: {formatNumber(chef.completed_this_week)}</span>
+                <div className="app__admin-teamMetrics">
+                  <div className="app__admin-teamMetric">
+                    <span>Active</span>
+                    <strong>{formatNumber(chef.active_count)}</strong>
+                  </div>
+                  <div className="app__admin-teamMetric">
+                    <span>Completed</span>
+                    <strong>{formatNumber(chef.completed_this_week)}</strong>
+                  </div>
                 </div>
               </article>
             ))}

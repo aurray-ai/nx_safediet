@@ -4,10 +4,12 @@ import styles from "./home.module.css";
 import { IconCheckCircle } from "./icons";
 
 const FEATURES = [
-  "Unlimited AI meal planning",
-  "Save up to 30% buying direct from wholesalers",
-  "Doorstep delivery, groceries or prepared meals",
-  "Personal chef requests",
+  "Save up to 30% on every grocery order",
+  "Unlimited AI meal planning & smart recommendations",
+  "Free doorstep grocery & meal delivery",
+  "Access to verified Professional Personal Chef",
+  "Calorie tracking & AI meal scanner",
+  "Household budgeting & split expenses",
 ];
 
 export function PricingTeaser() {

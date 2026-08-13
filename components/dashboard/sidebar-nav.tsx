@@ -3,7 +3,7 @@
 import type { Route } from "next";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import { getRoleConfig, type DashboardNavItem, type DashboardRole } from "@/lib/roles";
 
@@ -34,23 +34,24 @@ function isItemActive(pathname: string, href: string): boolean {
   return pathname === href || pathname.startsWith(`${href}/`);
 }
 
+function getActiveGroup(pathname: string, buckets: NavBucket[]) {
+  const activeBucket = buckets.find((bucket) => bucket.group && bucket.items.some((item) => isItemActive(pathname, item.href)));
+  return activeBucket?.group ?? null;
+}
+
 export function SidebarNav({ role }: SidebarNavProps) {
   const roleConfig = getRoleConfig(role);
   const pathname = usePathname();
   const buckets = groupNavItems(roleConfig.navItems);
 
-  const [openGroups, setOpenGroups] = useState<Record<string, boolean>>(() => {
-    const initial: Record<string, boolean> = {};
-    for (const bucket of buckets) {
-      if (bucket.group && bucket.items.some((item) => isItemActive(pathname, item.href))) {
-        initial[bucket.group] = true;
-      }
-    }
-    return initial;
-  });
+  const [openGroup, setOpenGroup] = useState<string | null>(() => getActiveGroup(pathname, buckets));
+
+  useEffect(() => {
+    setOpenGroup(getActiveGroup(pathname, buckets));
+  }, [pathname, role]);
 
   function toggleGroup(group: string) {
-    setOpenGroups((current) => ({ ...current, [group]: !current[group] }));
+    setOpenGroup((current) => (current === group ? null : group));
   }
 
   let runningIndex = 0;
@@ -77,7 +78,7 @@ export function SidebarNav({ role }: SidebarNavProps) {
         }
 
         const group = bucket.group;
-        const isOpen = Boolean(openGroups[group]);
+        const isOpen = openGroup === group;
         const startIndex = runningIndex;
         runningIndex += bucket.items.length;
 

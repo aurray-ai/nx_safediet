@@ -207,8 +207,22 @@ export type AdminProduct = {
   updated_at: string;
 };
 
+export type AdminProductListItem = {
+  id: string;
+  category_id: string;
+  category_name: string;
+  img_url: string;
+  product: string;
+  price: {
+    currency_code: string;
+    amount: number;
+    price_unit: string;
+  } | null;
+  is_active: boolean;
+};
+
 export type AdminProductListResponse = {
-  items: AdminProduct[];
+  items: AdminProductListItem[];
   total: number;
   page: number;
   page_size: number;
@@ -248,8 +262,24 @@ export type AdminMeal = {
   updated_at: string;
 };
 
+export type AdminMealListItem = {
+  id: string;
+  name: string;
+  hero_image_url: string;
+  meal_type: string;
+  category_ids: string[];
+  prep_time_minutes: number;
+  cook_time_minutes: number;
+  servings: number;
+  estimated_cost: {
+    currency_code: string;
+    amount: number;
+  } | null;
+  is_active: boolean;
+};
+
 export type AdminMealListResponse = {
-  items: AdminMeal[];
+  items: AdminMealListItem[];
   total: number;
   page: number;
   page_size: number;
@@ -873,13 +903,18 @@ export type MealOrderFulfillmentListResponse = {
 export type GroceryOrderFulfillmentItem = {
   id: string;
   product_id: string;
+  category_id: string;
   product_name: string;
   img_url: string;
   quantity: number;
   unit_label: string;
+  unit_weight_grams: number;
   unit_price_minor: number;
   line_total_minor: number;
   currency: string;
+  allow_substitutions: boolean;
+  substitution_resolution: string;
+  substituted_product_id?: string | null;
   source_meal_id?: string | null;
 };
 

@@ -83,7 +83,7 @@ export default async function OrderDetailPage({
               </div>
             </div>
 
-            <OrderStatusForm orderId={order.id} currentStatus={order.status} />
+            <OrderStatusForm orderId={order.id} orderNumber={order.order_number} currentStatus={order.status} />
           </article>
         </section>
 

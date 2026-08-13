@@ -5,11 +5,11 @@ import type { Route } from "next";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 
-import { formatLabel } from "@/lib/admin-format";
-import type { AdminMeal, AdminMealBulkDeleteResponse, AdminMealMetadata } from "@/lib/types";
+import { formatCurrencyAmount, formatLabel } from "@/lib/admin-format";
+import type { AdminMealBulkDeleteResponse, AdminMealListItem, AdminMealMetadata } from "@/lib/types";
 
 type MealsCatalogManagerProps = {
-  items: AdminMeal[];
+  items: AdminMealListItem[];
   total: number;
   activeCount: number;
   role: string;
@@ -212,71 +212,43 @@ export function MealsCatalogManager({
           <p>Try another search term or create the first meal for the catalog.</p>
         </section>
       ) : (
-        <section className="app__admin-mealCatalogGrid">
+        <section className="app__admin-productList">
           {items.map((meal) => {
-            const estimate = meal.estimated_costs[0];
             const typeLabel = typeMap.get(meal.meal_type) ?? formatLabel(meal.meal_type);
             const visibleTags = [
               ...meal.category_ids.slice(0, 2).map((categoryId) => categoryMap.get(categoryId) ?? categoryId),
-              ...meal.culture_tags.slice(0, 1).map((culture) => formatLabel(culture)),
-              ...meal.diet_rules_supported.slice(0, 1).map((rule) => formatLabel(rule)),
             ];
             const isSelected = selectedMealIds.includes(meal.id);
 
             return (
               <article
                 key={meal.id}
-                className={`app__admin-mealCard app__admin-mealCardSelectable ${isSelected ? "is-selected" : ""}`}
+                className={`app__admin-productListItem ${isSelected ? "is-selected" : ""}`}
               >
-                <div className="app__admin-productCardSelection">
+                <div className="app__admin-productListSelection">
                   <label className="app__admin-checkbox app__admin-checkbox--inline">
                     <input type="checkbox" checked={isSelected} onChange={() => toggleSelection(meal.id)} />
                   </label>
                 </div>
 
-                <Link href={`/dashboard/${role}/meals/${meal.id}` as Route} className="app__admin-mealCardLink">
-                  <div
-                    className="app__admin-mealCardHero"
-                    style={
-                      meal.hero_image_url
-                        ? {
-                            backgroundImage: `linear-gradient(180deg, rgba(23,17,13,0.06) 0%, rgba(23,17,13,0.24) 100%), url("${meal.hero_image_url}")`,
-                          }
-                        : undefined
-                    }
-                  >
-                    <div className="app__admin-mealCardHeroBadge">
+                <Link href={`/dashboard/${role}/meals/${meal.id}` as Route} className="app__admin-productListRow">
+                  <div className="app__admin-productThumb app__admin-productThumb--small">
+                    {meal.hero_image_url ? (
+                      <img src={meal.hero_image_url} alt={meal.name} />
+                    ) : (
+                      <div className="app__admin-fallback">{meal.name.slice(0, 2).toUpperCase()}</div>
+                    )}
+                  </div>
+
+                  <div className="app__admin-productListMain">
+                    <div className="app__admin-productCardTop">
                       <span className="app__admin-categoryPill">{typeLabel}</span>
                       <span className={`app__admin-statusPill ${meal.is_active ? "" : "is-inactive"}`}>
                         {meal.is_active ? "Active" : "Inactive"}
                       </span>
                     </div>
 
-                    {!meal.hero_image_url ? (
-                      <div className="app__admin-mealCardFallback">{meal.name.slice(0, 2).toUpperCase()}</div>
-                    ) : null}
-                  </div>
-
-                  <div className="app__admin-mealCardBody">
-                    <div className="app__admin-mealCardIntro">
-                      <h3 className="app__admin-productName">{meal.name}</h3>
-                      <p>{meal.description || "No description yet."}</p>
-                    </div>
-
-                    <div className="app__admin-mealCardStats">
-                      <div className="app__admin-mealCardStat">
-                        <strong>{meal.prep_time_minutes + meal.cook_time_minutes} min</strong>
-                        <span>Total time</span>
-                      </div>
-                      <div className="app__admin-mealCardStat">
-                        <strong>{meal.servings}</strong>
-                        <span>Servings</span>
-                      </div>
-                      <div className="app__admin-mealCardStat">
-                        <strong>{estimate ? `${estimate.currency_code} ${estimate.amount}` : "Pending"}</strong>
-                        <span>Primary cost</span>
-                      </div>
-                    </div>
+                    <h3 className="app__admin-productName">{meal.name}</h3>
 
                     <div className="app__admin-tagRow">
                       {visibleTags.map((tag) => (
@@ -285,6 +257,16 @@ export function MealsCatalogManager({
                         </span>
                       ))}
                     </div>
+                  </div>
+
+                  <div className="app__admin-productListValue">
+                    <strong>
+                      {meal.estimated_cost
+                        ? formatCurrencyAmount(meal.estimated_cost.amount, meal.estimated_cost.currency_code)
+                        : "Cost pending"}
+                    </strong>
+                    <span>{meal.prep_time_minutes + meal.cook_time_minutes} min</span>
+                    <span>{meal.servings} servings</span>
                   </div>
                 </Link>
               </article>

@@ -5,10 +5,11 @@ import type { Route } from "next";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 
-import type { AdminProduct, AdminProductBulkDeleteResponse } from "@/lib/types";
+import { formatCurrencyAmount } from "@/lib/admin-format";
+import type { AdminProductBulkDeleteResponse, AdminProductListItem } from "@/lib/types";
 
 type ProductsCatalogManagerProps = {
-  items: AdminProduct[];
+  items: AdminProductListItem[];
   total: number;
   activeCount: number;
   role: string;
@@ -213,17 +214,16 @@ export function ProductsCatalogManager({
           <h2>No groceries found</h2>
         </section>
       ) : (
-        <section className="app__admin-productCatalogGrid">
+        <section className="app__admin-productList">
           {items.map((product) => {
-            const leadPrice = product.prices?.[0];
             const isSelected = selectedProductIds.includes(product.id);
 
             return (
               <article
                 key={product.id}
-                className={`app__admin-productCard app__admin-productCardSelectable ${isSelected ? "is-selected" : ""}`}
+                className={`app__admin-productListItem ${isSelected ? "is-selected" : ""}`}
               >
-                <div className="app__admin-productCardSelection">
+                <div className="app__admin-productListSelection">
                   <label className="app__admin-checkbox app__admin-checkbox--inline">
                     <input
                       type="checkbox"
@@ -235,9 +235,9 @@ export function ProductsCatalogManager({
 
                 <Link
                   href={`/dashboard/${role}/products/${product.id}` as Route}
-                  className="app__admin-productCardLink"
+                  className="app__admin-productListRow"
                 >
-                  <div className="app__admin-productThumb">
+                  <div className="app__admin-productThumb app__admin-productThumb--small">
                     {product.img_url ? (
                       <img src={product.img_url} alt={product.product} />
                     ) : (
@@ -245,38 +245,24 @@ export function ProductsCatalogManager({
                     )}
                   </div>
 
-                  <div>
+                  <div className="app__admin-productListMain">
                     <div className="app__admin-productCardTop">
-                      <span className="app__admin-categoryPill">{product.category_id}</span>
+                      <span className="app__admin-categoryPill">{product.category_name}</span>
                       <span className={`app__admin-statusPill ${product.is_active ? "" : "is-inactive"}`}>
                         {product.is_active ? "Active" : "Inactive"}
                       </span>
                     </div>
 
                     <h3 className="app__admin-productName">{product.product}</h3>
-                    <p>{product.description || "No description"}</p>
+                  </div>
 
-                    <div className="app__admin-productMeta">
-                      <span>{leadPrice?.currency_code || "Market"}</span>
-                      <span>
-                        {leadPrice
-                          ? `${leadPrice.amount} ${leadPrice.price_unit || ""}`.trim()
-                          : "Price pending"}
-                      </span>
-                    </div>
-
-                    <div className="app__admin-tagRow">
-                      {(product.culture_tags || []).slice(0, 2).map((tag) => (
-                        <span key={tag} className="app__admin-tagPill is-culture">
-                          {tag.replaceAll("_", " ")}
-                        </span>
-                      ))}
-                      {(product.product_tags || []).slice(0, 3).map((tag) => (
-                        <span key={tag} className="app__admin-tagPill">
-                          {tag}
-                        </span>
-                      ))}
-                    </div>
+                  <div className="app__admin-productListValue">
+                    <strong>
+                      {product.price
+                        ? formatCurrencyAmount(product.price.amount, product.price.currency_code)
+                        : "Price pending"}
+                    </strong>
+                    <span>{product.price?.price_unit ?? "No unit"}</span>
                   </div>
                 </Link>
               </article>
