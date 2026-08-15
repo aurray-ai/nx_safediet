@@ -149,10 +149,16 @@ export function HomeRouteCompare() {
             items: wholesaler-direct.
           </p>
 
-          <Link href="/how-it-works" className={styles.secondaryLink} style={{ marginTop: 20 }}>
-            See how it works, step by step
-            <IconCircleArrow />
-          </Link>
+          <div style={{ display: "flex", gap: 24, flexWrap: "wrap", marginTop: 20 }}>
+            <Link href="/how-it-works" className={styles.secondaryLink}>
+              See how it works, step by step
+              <IconCircleArrow />
+            </Link>
+            <Link href="/grocery-delivery" className={styles.secondaryLink}>
+              How direct sourcing works
+              <IconCircleArrow />
+            </Link>
+          </div>
         </div>
       </div>
     </section>

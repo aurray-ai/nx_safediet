@@ -95,6 +95,10 @@ export function HomeSharedBudget() {
                 Learn how it works
                 <IconCircleArrow />
               </Link>
+              <Link href="/split-grocery-bills" className={styles.secondaryLink}>
+                How bill splitting works
+                <IconCircleArrow />
+              </Link>
             </div>
           </div>
 
