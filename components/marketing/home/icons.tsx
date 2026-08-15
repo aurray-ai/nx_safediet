@@ -291,3 +291,96 @@ export function IconStoreShelf({ className, style }: IconProps) {
     </svg>
   );
 }
+
+/* ---------- two-tone feature icons (fixed brand colors, not currentColor) ---------- */
+
+export function IconPlanMealsFeature({ className, style }: IconProps) {
+  return (
+    <svg className={className} style={style} viewBox="0 0 64 48" fill="none">
+      {/* fork, left */}
+      <g stroke="#d9a43d" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" fill="none">
+        <path d="M7 8v9" />
+        <path d="M4.4 8v6.4" />
+        <path d="M9.6 8v6.4" />
+        <path d="M4.4 14.4c0 1.6 1.2 2.6 2.6 2.6s2.6-1 2.6-2.6" />
+        <path d="M7 17v22" />
+      </g>
+      {/* knife, right */}
+      <g stroke="#d9a43d" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" fill="none">
+        <path d="M57 8c3.4 1.6 3.4 9 0 10.6-1.4.6-2.6 0-2.6-1.4V9.4c0-1.4 1.2-2 2.6-1.4Z" />
+        <path d="M55.6 18.6V39" />
+      </g>
+      {/* plate */}
+      <ellipse cx="32" cy="26" rx="18" ry="15.5" fill="#f3e3bc" stroke="#d9a43d" strokeWidth="1.6" />
+      <ellipse cx="32" cy="26" rx="11.5" ry="9.8" fill="none" stroke="#d9a43d" strokeWidth="1.1" opacity="0.75" />
+      {/* broccoli, upper-left of plate */}
+      <g fill="#6f9b5c">
+        <circle cx="27.5" cy="19.5" r="3.6" />
+        <circle cx="24.4" cy="21.8" r="2.8" />
+        <circle cx="30.6" cy="22" r="2.8" />
+      </g>
+      <rect x="26.6" y="21.5" width="1.8" height="5" rx="0.7" fill="#4d6b3f" />
+      {/* egg / cherry-tomato slices, lower-right of plate */}
+      <circle cx="36.5" cy="29.5" r="3" fill="#f4c86b" stroke="#d9a43d" strokeWidth="0.8" />
+      <circle cx="36.5" cy="29.5" r="1.1" fill="#e0862f" />
+      <circle cx="31" cy="32" r="2.2" fill="#e0862f" />
+    </svg>
+  );
+}
+
+export function IconBuyDirectFeature({ className, style }: IconProps) {
+  return (
+    <svg className={className} style={style} viewBox="0 0 64 48" fill="none">
+      {/* wheat stalks, right */}
+      <g stroke="#6f9b5c" strokeWidth="1.4" strokeLinecap="round" fill="none">
+        <path d="M47 8v20" />
+        <path d="M47 10c-3 1-4.4 3-4.4 6M47 10c3 1 4.4 3 4.4 6" />
+        <path d="M47 16.5c-3 1-4.4 3-4.4 6M47 16.5c3 1 4.4 3 4.4 6" />
+      </g>
+      {/* vegetable tops peeking over crate */}
+      <circle cx="19" cy="17" r="5.4" fill="#6f9b5c" />
+      <circle cx="26" cy="14.5" r="4.2" fill="#8bb473" />
+      <circle cx="13.5" cy="20" r="3.6" fill="#4d6b3f" />
+      {/* crate */}
+      <rect x="8" y="23" width="36" height="18" rx="2.4" fill="#f3e3bc" stroke="#335444" strokeWidth="1.6" />
+      <path d="M8 29h36M8 35h36" stroke="#335444" strokeWidth="1" opacity="0.55" />
+      <path d="M16 23v18M32 23v18" stroke="#335444" strokeWidth="1" opacity="0.55" />
+      <path d="M8 23h36" stroke="#335444" strokeWidth="1.6" />
+    </svg>
+  );
+}
+
+export function IconStockPantryFeature({ className, style }: IconProps) {
+  return (
+    <svg className={className} style={style} viewBox="0 0 64 48" fill="none">
+      {/* shelf */}
+      <path d="M6 13v27M58 13v27" stroke="#335444" strokeWidth="1.5" strokeLinecap="round" />
+      <path d="M4 40h56" stroke="#335444" strokeWidth="1.7" strokeLinecap="round" />
+      {/* left jar - taller, green lid */}
+      <rect x="16" y="15" width="14" height="24" rx="3.4" fill="#f3e3bc" stroke="#335444" strokeWidth="1.5" />
+      <rect x="18.6" y="9.6" width="8.8" height="6.4" rx="1.8" fill="#335444" />
+      <path d="M20.2 26c1.6-2.2 4.4-2.2 6 0s1.6 5.6 0 7.8" stroke="#6f9b5c" strokeWidth="1.4" fill="none" strokeLinecap="round" />
+      {/* right jar - shorter, gold lid */}
+      <rect x="34" y="20" width="14" height="19" rx="3.4" fill="#f3e3bc" stroke="#d9a43d" strokeWidth="1.5" />
+      <rect x="36.6" y="14.6" width="8.8" height="6.4" rx="1.8" fill="#d9a43d" />
+      <circle cx="41" cy="30" r="2" fill="#e0862f" />
+    </svg>
+  );
+}
+
+export function IconShareSaveFeature({ className, style }: IconProps) {
+  return (
+    <svg className={className} style={style} viewBox="0 0 64 48" fill="none">
+      {/* left person, larger, forest outline */}
+      <circle cx="24" cy="14" r="6.4" fill="none" stroke="#335444" strokeWidth="1.6" />
+      <path d="M10 39c0-7.4 6-12.6 14-12.6s14 5.2 14 12.6" stroke="#335444" strokeWidth="1.6" strokeLinecap="round" fill="none" />
+      {/* right person, smaller, gold outline, offset back-right */}
+      <circle cx="44" cy="17.5" r="4.8" fill="none" stroke="#d9a43d" strokeWidth="1.5" />
+      <path d="M33 39c0-5.8 4.6-10 11-10s11 4.2 11 10" stroke="#d9a43d" strokeWidth="1.5" strokeLinecap="round" fill="none" />
+      {/* wallet overlapping both */}
+      <rect x="21" y="32" width="18" height="12.4" rx="2.6" fill="#d9a43d" stroke="#335444" strokeWidth="1.3" />
+      <path d="M21 37.4h18" stroke="#335444" strokeWidth="0.9" opacity="0.5" />
+      <circle cx="34" cy="38.2" r="1.6" fill="#f3e3bc" />
+    </svg>
+  );
+}

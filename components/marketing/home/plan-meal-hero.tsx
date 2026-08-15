@@ -18,9 +18,19 @@ import { weekPlan } from "./plan-data";
 
 const STARS = [0, 1, 2, 3, 4];
 
-export function HomeHero() {
+/// Most people don't eat a planned breakfast every day, so these four days show an
+/// empty "add a meal" slot instead of a real breakfast entry, for a more realistic plan.
+const SKIP_BREAKFAST_DAYS = new Set(["Tue", "Thu", "Sat"]);
+const TOTAL_MEAL_SLOTS = weekPlan.length * 3;
+const PLANNED_MEAL_SLOTS = TOTAL_MEAL_SLOTS - SKIP_BREAKFAST_DAYS.size;
+const PLANNED_MEAL_PERCENT = Math.round((PLANNED_MEAL_SLOTS / TOTAL_MEAL_SLOTS) * 100);
+
+export function PlanMealHero() {
   return (
     <section className={styles.hero} id="home">
+      <svg className={styles.heroWaveTop} viewBox="0 0 1440 90" fill="none" preserveAspectRatio="none" aria-hidden="true">
+        <path d="M0 44C240 4 480 84 720 64S1200 4 1440 44V90H0V44Z" fill="var(--cream)" />
+      </svg>
       <div className={styles.wrap}>
         <div className={styles.heroDecor} aria-hidden="true">
           <SwirlRing style={{ position: "absolute", right: "2%", top: "-160px", width: 440, height: 440, opacity: 0.5 }} />
@@ -50,7 +60,7 @@ export function HomeHero() {
             </Link>
           </div>
 
-          <div className={styles.heroProof}>
+          {/* <div className={styles.heroProof}>
             <div className={styles.avatarStack}>
               <span style={{ background: "#3E6B52" }}>A</span>
               <span style={{ background: "#D9A43D" }}>M</span>
@@ -67,7 +77,7 @@ export function HomeHero() {
             <span className={styles.proofText}>
               <strong>4.8/5</strong> from 2,347+ users
             </span>
-          </div>
+          </div> */}
 
           <div className={styles.trustLine}>
             <span className={styles.trustHeading}>Trusted by students, professionals &amp; families</span>
@@ -114,8 +124,8 @@ export function HomeHero() {
                 <IconLeaf />
                 Meals Planned
               </span>
-              <div className={styles.statValue}>21 / 21</div>
-              <div className={styles.statMeta}>100% complete</div>
+              <div className={styles.statValue}>{PLANNED_MEAL_SLOTS} / {TOTAL_MEAL_SLOTS}</div>
+              <div className={styles.statMeta}>{PLANNED_MEAL_PERCENT}% complete</div>
             </div>
             <div className={styles.statTile}>
               <span className={styles.statLabel}>
@@ -137,20 +147,37 @@ export function HomeHero() {
 
           <div className={styles.miniGrid}>
             <div className={styles.miniGridInner}>
-              {weekPlan.map((day) => (
-                <div className={styles.miniDayCol} key={day.day}>
-                  <div className={styles.miniDayLabel}>{day.day}</div>
-                  {[day.breakfast, day.lunch, day.dinner].map((meal) => (
-                    <div className={styles.miniMealCell} key={meal.name}>
-                      <div className={styles.miniPlate}>
-                        <Image src={meal.image} alt={meal.name} fill sizes="34px" style={{ objectFit: "cover" }} />
-                      </div>
-                      <span className={styles.miniMealName}>{meal.name}</span>
-                      <span className={styles.miniMealKcal}>{meal.kcal} kcal</span>
-                    </div>
-                  ))}
-                </div>
-              ))}
+              {weekPlan.map((day) => {
+                const meals = [
+                  SKIP_BREAKFAST_DAYS.has(day.day) ? null : day.breakfast,
+                  day.lunch,
+                  day.dinner,
+                ];
+                return (
+                  <div className={styles.miniDayCol} key={day.day}>
+                    <div className={styles.miniDayLabel}>{day.day}</div>
+                    {meals.map((meal, index) =>
+                      meal ? (
+                        <div className={styles.miniMealCell} key={meal.name}>
+                          <div className={styles.miniPlate}>
+                            <Image src={meal.image} alt={meal.name} fill sizes="34px" style={{ objectFit: "cover" }} />
+                          </div>
+                          <span className={styles.miniMealName}>{meal.name}</span>
+                          <span className={styles.miniMealKcal}>{meal.kcal} kcal</span>
+                        </div>
+                      ) : (
+                        <div className={styles.miniMealCell} key={`${day.day}-empty-${index}`}>
+                          <div className={styles.miniPlateEmpty}>
+                            <span className={styles.miniPlateQuestion}>?</span>
+                          </div>
+                          <span className={styles.miniMealName}>No breakfast</span>
+                          <span className={styles.miniMealKcal}>Add meal</span>
+                        </div>
+                      )
+                    )}
+                  </div>
+                );
+              })}
             </div>
           </div>
 

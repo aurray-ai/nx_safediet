@@ -1,5 +1,5 @@
 import styles from "@/components/marketing/home/home.module.css";
-import { IconHousehold, IconPallet, IconShield, IconWand } from "@/components/marketing/home/icons";
+import { IconHousehold, IconPallet, IconShield, IconStoreShelf, IconWand } from "@/components/marketing/home/icons";
 
 export function HowItWorksSteps() {
   return (
@@ -280,6 +280,66 @@ export function HowItWorksSteps() {
         <div className={styles.hiwStep}>
           <div className={styles.hiwStepCopy}>
             <span className={styles.hiwStepNum}>5</span>
+            <h2>Smart Kitchen keeps track for you</h2>
+            <p>
+              The moment your order arrives, import it into Smart Kitchen with one tap. It logs exactly what
+              you have on hand, matches it against what your meal plan needs, and flags what&apos;s running low
+              &mdash; so nothing goes to waste and nothing gets forgotten.
+            </p>
+            <span className={styles.hiwStepTag}>
+              <IconStoreShelf />
+              Automatic pantry tracking
+            </span>
+          </div>
+          <div className={styles.hiwStepArt}>
+            <div className={styles.hiwPhoneIllustrated}>
+              <div className={styles.hiwPhoneNotch} />
+              <div className={styles.hiwPhoneScreen}>
+                <div className={styles.hiwScreenTitle}>Smart Kitchen</div>
+                <div className={styles.hiwScreenSub}>Your pantry, kept up to date</div>
+
+                <div className={styles.hiwSkBanner}>
+                  <span className={styles.hiwSkBannerIcon}>
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8">
+                      <path d="M3 9l9-6 9 6v11a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V9Z" strokeLinejoin="round" />
+                      <path d="M9 20v-6h6v6" strokeLinecap="round" />
+                    </svg>
+                  </span>
+                  <span className={styles.hiwSkBannerText}>
+                    <strong>18 items imported</strong>
+                    <span>From today&apos;s delivery</span>
+                  </span>
+                </div>
+
+                <div className={styles.hiwSkRow}>
+                  <span className={styles.hiwSkName}>Broccoli</span>
+                  <span className={styles.hiwSkQty}>1 head</span>
+                  <span className={`${styles.hiwSkStatus} ${styles.hiwSkStatusGood}`}>Good</span>
+                </div>
+                <div className={styles.hiwSkRow}>
+                  <span className={styles.hiwSkName}>Milk</span>
+                  <span className={styles.hiwSkQty}>1.2L</span>
+                  <span className={`${styles.hiwSkStatus} ${styles.hiwSkStatusLow}`}>Low</span>
+                </div>
+                <div className={styles.hiwSkRow}>
+                  <span className={styles.hiwSkName}>Chicken Breast</span>
+                  <span className={styles.hiwSkQty}>500g</span>
+                  <span className={`${styles.hiwSkStatus} ${styles.hiwSkStatusGood}`}>Good</span>
+                </div>
+                <div className={styles.hiwSkRow}>
+                  <span className={styles.hiwSkName}>Basmati Rice</span>
+                  <span className={styles.hiwSkQty}>1 item</span>
+                  <span className={`${styles.hiwSkStatus} ${styles.hiwSkStatusLow}`}>Low</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* STEP 6 */}
+        <div className={styles.hiwStep}>
+          <div className={styles.hiwStepCopy}>
+            <span className={styles.hiwStepNum}>6</span>
             <h2>Stay in sync, keep saving</h2>
             <p>
               Household balances update automatically &mdash; everyone can see who&apos;s contributed and who

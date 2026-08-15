@@ -28,7 +28,7 @@ export default async function HowItWorksPage() {
           <div className={styles.wrap}>
             <span className={styles.eyebrow}>How it works</span>
             <h1 className={styles.sharedBudgetTitle} style={{ textAlign: "center" }}>
-              From your weekly budget to your door, in five steps.
+              From your weekly budget to your door, in six steps.
             </h1>
             <p className={styles.heroSub} style={{ margin: "18px auto 0", textAlign: "center" }}>
               One connected system — tell it your budget once, and SAFEDIET plans, sources and

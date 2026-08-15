@@ -90,7 +90,7 @@ export function HomeRouteCompare() {
           <div className={`${styles.lane} ${styles.laneSafediet}`}>
             <span className={styles.laneTag}>
               <IconCheckCircle />
-              Safediet route
+              <span className={styles.laneTagText}>Safediet route</span>
             </span>
             <div className={styles.laneRow}>
               <RouteSources />
