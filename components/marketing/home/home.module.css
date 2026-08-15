@@ -283,6 +283,7 @@
 
 /* ---------- hero ---------- */
 .hero {
+  position: relative;
   padding: 64px 0 88px;
 }
 
@@ -583,6 +584,23 @@
 .miniPlate span {
   position: absolute;
   border-radius: 50%;
+}
+
+.miniPlateEmpty {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  background: var(--icon-bg);
+  border: 1.5px dashed var(--gold);
+}
+
+.miniPlateQuestion {
+  font-family: var(--serif);
+  font-weight: 700;
+  font-size: 1rem;
+  color: var(--gold);
 }
 
 .miniMealName {
@@ -2084,6 +2102,20 @@
   background: var(--cream);
 }
 
+.laneTagText {
+  white-space: nowrap;
+}
+
+@media (max-width: 720px) {
+  .laneTagText {
+    display: block;
+    max-width: 58px;
+    white-space: normal;
+    line-height: 1.25;
+    text-align: left;
+  }
+}
+
 .laneRow {
   display: flex;
   align-items: stretch;
@@ -2095,6 +2127,27 @@
     flex-direction: column;
     align-items: center;
     gap: 18px;
+  }
+
+  /* Safediet route keeps its sources → van → you flow on one horizontal line,
+     scrollable if needed, instead of stacking like the supermarket route does. */
+  .laneSafediet .laneRow {
+    flex-direction: row;
+    align-items: stretch;
+    gap: 0;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    padding-bottom: 8px;
+  }
+
+  .laneSafediet .routeSources {
+    width: 178px;
+    flex-shrink: 0;
+  }
+
+  .laneSafediet .routeStops {
+    flex: 0 0 auto;
+    min-width: max-content;
   }
 }
 
@@ -2516,6 +2569,19 @@
 .hiwRewardText strong { display: block; font-size: 0.8rem; }
 .hiwRewardText span { font-size: 0.7rem; color: var(--ink-soft); }
 
+.hiwSkBanner { margin-bottom: 14px; padding: 12px 14px; background: var(--forest-tint); border-radius: var(--radius-sm); display: flex; align-items: center; gap: 10px; }
+.hiwSkBannerIcon { width: 30px; height: 30px; border-radius: 50%; background: var(--surface); display: grid; place-items: center; flex-shrink: 0; }
+.hiwSkBannerIcon svg { width: 16px; height: 16px; color: var(--forest); }
+.hiwSkBannerText strong { display: block; font-size: 0.8rem; }
+.hiwSkBannerText span { font-size: 0.7rem; color: var(--ink-soft); }
+.hiwSkRow { display: flex; align-items: center; gap: 10px; padding: 9px 0; border-bottom: 1px dashed var(--line); }
+.hiwSkRow:last-of-type { border-bottom: none; }
+.hiwSkName { flex: 1; font-size: 0.82rem; font-weight: 600; }
+.hiwSkQty { font-size: 0.72rem; color: var(--ink-soft); }
+.hiwSkStatus { font-size: 0.66rem; padding: 3px 8px; border-radius: 999px; font-weight: 700; }
+.hiwSkStatusGood { background: var(--forest-tint); color: var(--forest); }
+.hiwSkStatusLow { background: rgba(217, 164, 61, 0.16); color: #8a5c14; }
+
 /* ---------- step 4: three-way fork ---------- */
 .hiwForkRow { display: flex; gap: 18px; justify-content: center; flex-wrap: wrap; }
 .hiwForkPhone { width: 168px; border-radius: 26px; padding: 6px; background: var(--forest-deep); box-shadow: 0 26px 46px -18px rgba(var(--shadow), 0.45); }
@@ -2560,3 +2626,137 @@
 .pricingList svg { width: 18px; height: 18px; color: var(--forest); flex-shrink: 0; margin-top: 2px; }
 .pricingCard .btn { width: 100%; margin-top: 30px; }
 .pricingNote { margin-top: 14px; font-size: 0.78rem; color: var(--ink-soft); }
+
+/* ---------- main hero (top of page) ---------- */
+.mainHero {
+  position: relative;
+  background: var(--surface);
+  padding: 128px 0 108px;
+  min-height: 84vh;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+}
+
+.mainHero > .wrap {
+  width: 100%;
+}
+
+.mainHeroDecor {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  color: var(--gold);
+}
+
+.mainHeroContent {
+  position: relative;
+  z-index: 1;
+  max-width: 900px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.mainHeroTitle {
+  font-family: var(--serif);
+  font-weight: 600;
+  font-size: clamp(1.9rem, 3vw, 2.6rem);
+  line-height: 1.28;
+  letter-spacing: -0.01em;
+  margin: 0;
+  color: var(--forest-deep);
+  text-wrap: balance;
+}
+
+.mainHeroDot {
+  color: var(--gold);
+}
+
+.mainHeroUnderline {
+  display: block;
+  width: 170px;
+  height: 14px;
+  margin: 14px auto 0;
+}
+
+.mainHeroSub {
+  margin: 26px auto 0;
+  max-width: 46ch;
+  color: var(--ink-soft);
+  font-size: 1.1rem;
+}
+
+.mainHeroProof {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  margin: 24px auto 0;
+}
+
+.mainHeroCards {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 20px;
+  margin: 44px auto 0;
+  max-width: 740px;
+}
+
+@media (max-width: 720px) {
+  .mainHeroCards {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+.mainHeroCard {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  padding: 34px 14px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-lg);
+  background: var(--surface);
+  transition: transform 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease;
+}
+
+.mainHeroCard:hover {
+  transform: translateY(-3px);
+  border-color: var(--forest);
+  box-shadow: 0 14px 28px -20px rgba(var(--shadow), 0.5);
+}
+
+.mainHeroCardIcon {
+  width: 60px;
+  height: 45px;
+}
+
+.mainHeroCardLabel {
+  font-family: var(--serif);
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--forest-deep);
+}
+
+@media (max-width: 720px) {
+  .mainHero {
+    padding: 64px 0 32px;
+    min-height: 0;
+  }
+
+  .mainHeroDecor {
+    display: none;
+  }
+}
+
+.heroWaveTop {
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 56px;
+  transform: translateY(-99%);
+  z-index: 2;
+}

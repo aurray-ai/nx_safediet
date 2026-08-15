@@ -7,6 +7,7 @@ const FEATURES = [
   "Save up to 30% on every grocery order",
   "Unlimited AI meal planning & smart recommendations",
   "Free doorstep grocery & meal delivery",
+  "Smart Kitchen automatic pantry tracking",
   "Access to verified Professional Personal Chef",
   "Calorie tracking & AI meal scanner",
   "Household budgeting & split expenses",

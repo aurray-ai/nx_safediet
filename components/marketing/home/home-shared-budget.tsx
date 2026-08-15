@@ -68,8 +68,8 @@ export function HomeSharedBudget() {
               <em>Everyone on track.</em>
             </h2>
             <p className={styles.sharedBudgetSub}>
-              Invite your partner, family or housemates into one shared meal plan. We keep everyone&apos;s grocery
-              spending connected to a shared weekly budget so there are no surprises.
+              Invite your partner, family or housemates into one budget plan. 
+              We help make contributions fair and transparent so there are no surprises
             </p>
 
             <div className={styles.featureList}>
