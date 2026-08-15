@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 import { DashedHeartDoodle, DashedLeafDoodle } from "./decor";
 import styles from "./home.module.css";
 import {
@@ -7,13 +9,11 @@ import {
   IconStockPantryFeature,
 } from "./icons";
 
-const STARS = [0, 1, 2, 3, 4];
-
 const FEATURE_CARDS = [
-  { icon: IconPlanMealsFeature, label: "Plan Meals" },
-  { icon: IconBuyDirectFeature, label: "Buy Direct" },
-  { icon: IconStockPantryFeature, label: "Stock Pantry" },
-  { icon: IconShareSaveFeature, label: "Share & Save" },
+  { icon: IconPlanMealsFeature, label: "Plan Meals", href: "/ai-meal-planning" },
+  { icon: IconBuyDirectFeature, label: "Buy Direct", href: "/grocery-delivery" },
+  { icon: IconStockPantryFeature, label: "Stock Pantry", href: "/kitchen-pantry-tracker" },
+  { icon: IconShareSaveFeature, label: "Share & Save", href: "/split-grocery-bills" },
 ] as const;
 
 function Clause({ children }: { children: string }) {
@@ -50,31 +50,12 @@ export function HomeMainHero() {
             together.
           </p>
 
-          <div className={styles.mainHeroProof}>
-            <div className={styles.avatarStack}>
-              <span style={{ background: "#3E6B52" }}>A</span>
-              <span style={{ background: "#D9A43D" }}>M</span>
-              <span style={{ background: "#8C5B6B" }}>J</span>
-              <span style={{ background: "#B3624A" }}>R</span>
-            </div>
-            <span className={styles.stars} aria-hidden="true">
-              {STARS.map((i) => (
-                <svg key={i} viewBox="0 0 20 20" fill="currentColor">
-                  <path d="M10 1.5l2.6 5.4 5.9.7-4.3 4.1 1.1 5.9L10 14.7l-5.3 2.9 1.1-5.9L1.5 7.6l5.9-.7L10 1.5Z" />
-                </svg>
-              ))}
-            </span>
-            <span className={styles.proofText}>
-              <strong>4.8/5</strong> from 2,347+ users
-            </span>
-          </div>
-
           <div className={styles.mainHeroCards}>
-            {FEATURE_CARDS.map(({ icon: Icon, label }) => (
-              <div className={styles.mainHeroCard} key={label}>
+            {FEATURE_CARDS.map(({ icon: Icon, label, href }) => (
+              <Link className={styles.mainHeroCard} key={label} href={href}>
                 <Icon className={styles.mainHeroCardIcon} />
                 <span className={styles.mainHeroCardLabel}>{label}</span>
-              </div>
+              </Link>
             ))}
           </div>
         </div>

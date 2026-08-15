@@ -22,6 +22,14 @@ export function HomeFooter() {
             <Link href="/how-it-works">How It Works</Link>
             <Link href="/meals">Meals</Link>
             <Link href="/#pricing">Pricing</Link>
+            <Link href="/guides">Guides</Link>
+          </div>
+          <div className={styles.footerCol}>
+            <h4>Features</h4>
+            <Link href="/ai-meal-planning">AI Meal Planning</Link>
+            <Link href="/grocery-delivery">Grocery Delivery</Link>
+            <Link href="/kitchen-pantry-tracker">Kitchen &amp; Pantry</Link>
+            <Link href="/split-grocery-bills">Split Grocery Bills</Link>
           </div>
           <div className={styles.footerCol}>
             <h4>Account</h4>
